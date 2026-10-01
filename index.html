@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Interface Pantalla Completa (PC & Móvil)</title>
+  <title>Mobile Legends Interface Doom</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700;800&family=Share+Tech+Mono&family=Teko:wght@600;700&display=swap" rel="stylesheet">
   <style>
     /* =========================================
-       RESET Y PANTALLA COMPLETA TOTAL (PC Y MÓVIL)
+       RESET Y PANTALLA COMPLETA TOTAL
     ========================================= */
     * {
       box-sizing: border-box;
@@ -28,7 +28,6 @@
       overflow: hidden;
     }
 
-    /* Ocupa el 100% de la pantalla en cualquier dispositivo */
     .game-viewport {
       position: relative;
       width: 100vw;
@@ -37,7 +36,6 @@
       overflow: hidden;
     }
 
-    /* Control de Pantallas */
     .screen {
       position: absolute;
       inset: 0;
@@ -45,7 +43,7 @@
       height: 100%;
       opacity: 0;
       pointer-events: none;
-      transition: opacity 0.5s ease;
+      transition: opacity 0.4s ease;
       background-size: cover;
       background-position: center;
     }
@@ -64,7 +62,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: flex-end;
-      padding-bottom: 60px;
+      padding-bottom: 50px;
       overflow: hidden;
     }
 
@@ -93,21 +91,10 @@
     }
 
     @keyframes bgGlitch {
-      0%, 88%, 100% {
-        transform: translate(0, 0);
-        filter: saturate(0.22) contrast(1.3) brightness(0.6);
-      }
-      89% {
-        transform: translate(-4px, 2px);
-        filter: saturate(0.1) contrast(1.6) brightness(0.85) drop-shadow(4px 0 #00ffff);
-      }
-      91% {
-        transform: translate(4px, -2px);
-        filter: saturate(0.35) contrast(1.4) brightness(0.5) drop-shadow(-4px 0 #ff0055);
-      }
-      93% {
-        transform: translate(-2px, 0);
-      }
+      0%, 88%, 100% { transform: translate(0, 0); filter: saturate(0.22) contrast(1.3) brightness(0.6); }
+      89% { transform: translate(-4px, 2px); filter: saturate(0.1) contrast(1.6) brightness(0.85) drop-shadow(4px 0 #00ffff); }
+      91% { transform: translate(4px, -2px); filter: saturate(0.35) contrast(1.4) brightness(0.5) drop-shadow(-4px 0 #ff0055); }
+      93% { transform: translate(-2px, 0); }
     }
 
     .logo-container {
@@ -119,63 +106,46 @@
 
     .logo-container .anniversary-number {
       font-family: 'Teko', sans-serif;
-      font-size: clamp(4.5rem, 10vw, 8.5rem);
+      font-size: clamp(3.8rem, 8vw, 7.5rem);
       line-height: 0.85;
       letter-spacing: 4px;
       color: #e5f6ff;
       text-shadow: 0 0 20px rgba(0, 240, 255, 0.65), 0 0 45px rgba(0, 150, 255, 0.4);
-      animation: textGlitch 3.8s infinite;
-    }
-
-    @keyframes textGlitch {
-      0%, 92%, 100% {
-        transform: skew(0deg);
-        text-shadow: 0 0 20px rgba(0, 240, 255, 0.65);
-      }
-      93% {
-        transform: skew(-4deg);
-        text-shadow: -4px 0 #00f0ff, 4px 0 #ff0055;
-      }
-      95% {
-        transform: skew(3deg);
-        text-shadow: 4px 0 #00f0ff, -4px 0 #ff0055;
-      }
     }
 
     .logo-container .subtitle {
       font-family: 'Share Tech Mono', monospace;
-      font-size: clamp(0.85rem, 1.4vw, 1.25rem);
-      letter-spacing: 6px;
+      font-size: clamp(0.75rem, 1.2vw, 1.1rem);
+      letter-spacing: 5px;
       color: #7da5c9;
       text-transform: uppercase;
       opacity: 0.85;
-      margin-top: 8px;
+      margin-top: 6px;
     }
 
     .loading-box {
-      width: min(550px, 86%);
+      width: min(480px, 82%);
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
       z-index: 5;
     }
 
     .progress-bar-bg {
       width: 100%;
-      height: 5px;
+      height: 4px;
       background: rgba(0, 240, 255, 0.12);
-      border-radius: 3px;
+      border-radius: 2px;
       overflow: hidden;
       border: 1px solid rgba(0, 240, 255, 0.35);
-      box-shadow: 0 0 10px rgba(0, 240, 255, 0.2);
     }
 
     .progress-bar-fill {
       width: 0%;
       height: 100%;
       background: linear-gradient(90deg, #0099ff, #00ffc4);
-      box-shadow: 0 0 12px #00ffc4;
+      box-shadow: 0 0 10px #00ffc4;
       transition: width 0.15s ease-out;
     }
 
@@ -184,68 +154,33 @@
       display: flex;
       justify-content: space-between;
       font-family: 'Share Tech Mono', monospace;
-      font-size: clamp(0.7rem, 1vw, 0.85rem);
+      font-size: clamp(0.65rem, 0.9vw, 0.8rem);
       color: rgba(180, 220, 240, 0.7);
-      letter-spacing: 1px;
     }
 
-    /* BOTÓN DIGITAL "PRESS" */
     .btn-start {
       display: none;
       position: relative;
       z-index: 10;
-      padding: 12px 48px;
-      background: rgba(4, 16, 26, 0.88);
+      padding: 10px 42px;
+      background: rgba(4, 16, 26, 0.9);
       border: 1px solid #00f0ff;
       clip-path: polygon(12% 0, 100% 0, 88% 100%, 0% 100%);
       color: #00f0ff;
       font-family: 'Share Tech Mono', monospace;
-      font-size: clamp(1rem, 2vw, 1.4rem);
+      font-size: clamp(0.95rem, 1.8vw, 1.3rem);
       font-weight: 700;
-      letter-spacing: 5px;
-      text-transform: uppercase;
+      letter-spacing: 4px;
       cursor: pointer;
-      box-shadow: 0 0 25px rgba(0, 240, 255, 0.35), inset 0 0 15px rgba(0, 240, 255, 0.15);
+      box-shadow: 0 0 25px rgba(0, 240, 255, 0.35);
       transition: all 0.2s ease;
-      outline: none;
-    }
-
-    .btn-start::before {
-      content: '//';
-      position: absolute;
-      left: 12px;
-      font-size: 0.85em;
-      opacity: 0.6;
-    }
-
-    .btn-start::after {
-      content: '';
-      position: absolute;
-      bottom: 2px;
-      left: 20%;
-      width: 60%;
-      height: 2px;
-      background: #00ffc4;
-      box-shadow: 0 0 8px #00ffc4;
     }
 
     .btn-start:hover {
       background: #00f0ff;
       color: #04101a;
-      box-shadow: 0 0 40px rgba(0, 240, 255, 0.9), 0 0 15px #00ffc4;
-      transform: scale(1.06);
-      animation: btnGlitch 0.25s infinite;
-    }
-
-    .btn-start:hover::before {
-      color: #04101a;
-    }
-
-    @keyframes btnGlitch {
-      0% { transform: scale(1.06) translate(0); }
-      30% { transform: scale(1.06) translate(-2px, 1px); }
-      70% { transform: scale(1.06) translate(2px, -1px); }
-      100% { transform: scale(1.06) translate(0); }
+      box-shadow: 0 0 40px rgba(0, 240, 255, 0.9);
+      transform: scale(1.05);
     }
 
     /* =========================================
@@ -258,14 +193,13 @@
       background-position: center;
     }
 
-    /* PERSONAJE CON GLOW, NOISE Y GLITCH */
     .character-stand {
       position: absolute;
       bottom: 0;
       left: 50%;
       transform: translateX(-50%);
-      width: min(580px, 90vw);
-      height: 85vh;
+      width: min(540px, 85vw);
+      height: 84vh;
       background-image: url('https://i.postimg.cc/C5t84576/dr-doom-png-dr-doom-first-official-look-by-harisx99-dkioxko-414w-2x-png-token-ey-J0e-XAi-Oi-JKV1Qi-L.png');
       background-size: contain;
       background-repeat: no-repeat;
@@ -289,63 +223,44 @@
     }
 
     @keyframes pngAuraPulse {
-      0% {
-        filter: drop-shadow(0 0 15px rgba(0, 255, 170, 0.35))
-                drop-shadow(0 0 30px rgba(0, 160, 255, 0.25))
-                drop-shadow(0 15px 30px rgba(0, 0, 0, 0.95));
-      }
-      100% {
-        filter: drop-shadow(0 0 28px rgba(0, 255, 170, 0.65))
-                drop-shadow(0 0 45px rgba(0, 200, 255, 0.45))
-                drop-shadow(0 15px 30px rgba(0, 0, 0, 0.95));
-      }
+      0% { filter: drop-shadow(0 0 15px rgba(0, 255, 170, 0.35)) drop-shadow(0 0 30px rgba(0, 160, 255, 0.25)); }
+      100% { filter: drop-shadow(0 0 28px rgba(0, 255, 170, 0.65)) drop-shadow(0 0 45px rgba(0, 200, 255, 0.45)); }
     }
 
     @keyframes pngGlitch {
-      0%, 94%, 100% {
-        transform: translateX(-50%) translate(0, 0);
-      }
-      95% {
-        transform: translateX(-50%) translate(-3px, 1px);
-        filter: drop-shadow(-4px 0 #ff0055) drop-shadow(4px 0 #00ffff);
-      }
-      96% {
-        transform: translateX(-50%) translate(3px, -2px);
-      }
-      97% {
-        transform: translateX(-50%) translate(0, 0);
-      }
+      0%, 94%, 100% { transform: translateX(-50%) translate(0, 0); }
+      95% { transform: translateX(-50%) translate(-3px, 1px); filter: drop-shadow(-4px 0 #ff0055) drop-shadow(4px 0 #00ffff); }
+      96% { transform: translateX(-50%) translate(3px, -2px); }
+      97% { transform: translateX(-50%) translate(0, 0); }
     }
 
-    /* Barra Superior */
     .top-bar {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
-      height: 60px;
+      height: 56px;
       background: linear-gradient(180deg, rgba(7, 15, 30, 0.95) 0%, rgba(7, 15, 30, 0.4) 80%, transparent 100%);
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 0 24px;
+      padding: 0 20px;
       z-index: 10;
     }
 
     .user-profile {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
     }
 
     .avatar-wrapper {
       position: relative;
-      width: 40px;
-      height: 40px;
+      width: 36px;
+      height: 36px;
       border: 2px solid #ecd38c;
       border-radius: 4px;
       overflow: hidden;
-      box-shadow: 0 0 8px rgba(0,0,0,0.5);
     }
 
     .avatar-wrapper img {
@@ -355,48 +270,47 @@
     }
 
     .user-info-text .username {
-      font-size: 1.05rem;
+      font-size: 0.95rem;
       font-weight: 700;
       color: #fff;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
     }
 
     .user-level-badge {
-      font-size: 0.7rem;
+      font-size: 0.65rem;
       background: #3972bb;
-      padding: 2px 6px;
+      padding: 1px 5px;
       border-radius: 3px;
-      color: #fff;
     }
 
     .resources-group {
       display: flex;
       align-items: center;
-      gap: 16px;
+      gap: 12px;
     }
 
     .resource-chip {
       background: rgba(14, 25, 45, 0.8);
       border: 1px solid rgba(82, 137, 206, 0.4);
-      padding: 4px 12px 4px 8px;
-      border-radius: 14px;
+      padding: 3px 10px 3px 6px;
+      border-radius: 12px;
       display: flex;
       align-items: center;
-      gap: 6px;
-      font-size: 0.85rem;
+      gap: 5px;
+      font-size: 0.8rem;
       font-weight: 700;
       color: #e5f1ff;
     }
 
     .resource-icon {
-      width: 18px;
-      height: 18px;
+      width: 16px;
+      height: 16px;
       border-radius: 50%;
       display: grid;
       place-content: center;
-      font-size: 0.75rem;
+      font-size: 0.7rem;
     }
 
     .gold-icon { background: #e09f19; color: #3e2600; }
@@ -405,27 +319,23 @@
     .system-icons {
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 12px;
     }
 
     .sys-btn {
       background: transparent;
       border: none;
       color: #92b1db;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       font-weight: 700;
       display: flex;
       flex-direction: column;
       align-items: center;
       cursor: pointer;
-      transition: color 0.2s;
     }
 
-    .sys-btn:hover {
-      color: #ffde6b;
-    }
+    .sys-btn:hover { color: #ffde6b; }
 
-    /* Diálogo / Speech bubble */
     .speech-bubble {
       position: absolute;
       top: 15%;
@@ -433,31 +343,21 @@
       background: rgba(230, 240, 255, 0.92);
       color: #273746;
       border-radius: 12px;
-      padding: 12px 18px;
-      max-width: 280px;
-      font-size: 0.85rem;
+      padding: 10px 16px;
+      max-width: 250px;
+      font-size: 0.8rem;
       font-weight: 600;
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
       z-index: 5;
     }
 
-    .speech-bubble::before {
-      content: "";
-      position: absolute;
-      left: -8px;
-      top: 40%;
-      border-width: 6px 8px 6px 0;
-      border-style: solid;
-      border-color: transparent rgba(230, 240, 255, 0.92) transparent transparent;
-    }
-
     .lobby-sidebar-left {
       position: absolute;
-      left: 20px;
+      left: 18px;
       top: 25%;
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 12px;
       z-index: 10;
     }
 
@@ -465,64 +365,51 @@
       background: rgba(16, 27, 49, 0.8);
       border: 1px solid rgba(82, 137, 206, 0.5);
       border-radius: 8px;
-      padding: 8px 12px;
+      padding: 6px 10px;
       color: #c9e0ff;
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       font-weight: 700;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 4px;
+      gap: 3px;
       cursor: pointer;
-      transition: all 0.2s;
     }
 
-    .side-action-btn:hover {
-      background: rgba(30, 60, 110, 0.9);
-      border-color: #ffd043;
-      color: #fff;
-      transform: translateX(4px);
-    }
-
-    /* Barra Inferior */
     .bottom-bar {
       position: absolute;
       bottom: 0;
       left: 0;
       width: 100%;
-      height: 70px;
+      height: 64px;
       background: linear-gradient(0deg, rgba(5, 11, 23, 0.95) 0%, rgba(5, 11, 23, 0.4) 75%, transparent 100%);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 24px;
+      padding: 0 20px;
       z-index: 10;
     }
 
     .bottom-nav-links {
       display: flex;
       align-items: center;
-      gap: 24px;
+      gap: 20px;
     }
 
     .nav-item {
       color: #9ab4d6;
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       font-weight: 700;
       letter-spacing: 0.5px;
       cursor: pointer;
       display: flex;
       align-items: center;
       gap: 6px;
-      transition: color 0.2s, transform 0.2s;
+      transition: color 0.2s;
     }
 
-    .nav-item:hover {
-      color: #ffd043;
-      transform: translateY(-2px);
-    }
+    .nav-item:hover { color: #ffd043; }
 
-    /* Botón ABOUT */
     .classic-btn-container {
       position: relative;
       cursor: pointer;
@@ -531,49 +418,30 @@
     .classic-btn {
       position: relative;
       background: linear-gradient(135deg, #ffe277 0%, #e0a31b 45%, #b37305 100%);
-      padding: 10px 42px 10px 30px;
+      padding: 8px 36px 8px 24px;
       border: none;
       clip-path: polygon(15% 0, 100% 0, 85% 100%, 0% 100%);
-      box-shadow: 0 0 25px rgba(235, 172, 33, 0.5);
+      box-shadow: 0 0 20px rgba(235, 172, 33, 0.5);
       cursor: pointer;
-      transition: all 0.25s ease;
       display: flex;
       align-items: center;
-      gap: 12px;
-    }
-
-    .classic-btn::after {
-      content: '';
-      position: absolute;
-      top: 2px;
-      left: 2px;
-      right: 2px;
-      bottom: 2px;
-      clip-path: polygon(15% 0, 100% 0, 85% 100%, 0% 100%);
-      border: 1px solid rgba(255, 255, 255, 0.6);
-      pointer-events: none;
-    }
-
-    .classic-btn:hover {
-      transform: scale(1.04);
-      filter: brightness(1.1);
-      box-shadow: 0 0 35px rgba(255, 196, 0, 0.8);
+      gap: 10px;
     }
 
     .classic-btn .icon-mode {
-      width: 24px;
-      height: 24px;
+      width: 20px;
+      height: 20px;
       background: #623e00;
       border-radius: 4px;
       display: grid;
       place-content: center;
       color: #ffd752;
-      font-size: 0.95rem;
+      font-size: 0.85rem;
     }
 
     .classic-btn .label {
       font-family: 'Teko', sans-serif;
-      font-size: 1.8rem;
+      font-size: 1.6rem;
       font-weight: 700;
       color: #2e1700;
       letter-spacing: 2px;
@@ -581,7 +449,353 @@
     }
 
     /* =========================================
-       PANTALLA 3: LINKS
+       MODAL: FULLSCREEN OVERLAY
+    ========================================= */
+    .game-modal {
+      position: absolute;
+      inset: 0;
+      background: rgba(3, 7, 14, 0.88);
+      backdrop-filter: blur(10px);
+      z-index: 99;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .game-modal.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* =========================================
+       MODAL 1: PREPARATION -> MUSIC (ESTILO HISTORIA/PERDIÇÃO)
+    ========================================= */
+    .story-frame {
+      width: min(380px, 92vw);
+      height: min(640px, 86vh);
+      border-radius: 16px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 16px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.9), 0 0 25px rgba(0, 240, 255, 0.15);
+      background: #000;
+    }
+
+    .story-bg {
+      position: absolute;
+      inset: 0;
+      background: url('https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=1000&auto=format&fit=crop') center/cover no-repeat;
+      filter: grayscale(100%) brightness(0.5);
+      z-index: 1;
+    }
+
+    .story-inner {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      justify-content: space-between;
+    }
+
+    .progress-bar-container {
+      width: 100%;
+      height: 3px;
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 3px;
+      overflow: hidden;
+      margin-bottom: 12px;
+    }
+
+    .story-progress-bar {
+      width: 0%;
+      height: 100%;
+      background: #fff;
+    }
+
+    .story-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .story-author {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .story-author img {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .story-author-name {
+      font-size: 0.85rem;
+      font-weight: 700;
+    }
+
+    .story-close-btn {
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 1.6rem;
+      cursor: pointer;
+      line-height: 1;
+    }
+
+    .music-player-widget {
+      align-self: center;
+      width: 220px;
+      height: 220px;
+      position: relative;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+      display: flex;
+      align-items: flex-end;
+      margin: auto 0;
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+
+    .music-artwork {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: grayscale(100%);
+    }
+
+    .music-overlay {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      background: linear-gradient(to top, rgba(0,0,0,0.92), transparent);
+      padding: 12px;
+      text-align: center;
+    }
+
+    .song-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+    }
+
+    .song-artist {
+      font-size: 0.75rem;
+      color: #ccc;
+      margin-bottom: 6px;
+    }
+
+    .play-pause-btn {
+      background: white;
+      color: black;
+      border: none;
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      font-size: 0.9rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0 auto;
+      cursor: pointer;
+    }
+
+    .story-footer {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .story-input {
+      flex-grow: 1;
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      padding: 8px 14px;
+      border-radius: 20px;
+      color: #fff;
+      font-size: 0.8rem;
+      outline: none;
+    }
+
+    /* =========================================
+       MODAL 2: HEROES -> FRIENDS (SELECCIÓN MLBB)
+    ========================================= */
+    .heroes-modal-box {
+      width: min(920px, 96vw);
+      height: min(580px, 90vh);
+      background: linear-gradient(180deg, #091a32 0%, #061120 100%);
+      border: 1px solid rgba(82, 137, 206, 0.4);
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 0 35px rgba(0, 0, 0, 0.95), 0 0 15px rgba(0, 160, 255, 0.2);
+    }
+
+    .heroes-top-bar {
+      height: 48px;
+      background: rgba(5, 14, 28, 0.95);
+      border-bottom: 1px solid rgba(82, 137, 206, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+    }
+
+    .heroes-title-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .heroes-back-btn {
+      background: none;
+      border: none;
+      color: #ecd38c;
+      font-size: 1.4rem;
+      cursor: pointer;
+    }
+
+    .heroes-title-row h3 {
+      font-family: 'Teko', sans-serif;
+      font-size: 1.8rem;
+      color: #fff;
+      letter-spacing: 2px;
+      line-height: 1;
+    }
+
+    .heroes-filters {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .filter-select {
+      background: #0c1c34;
+      border: 1px solid rgba(82, 137, 206, 0.5);
+      color: #8fb6e5;
+      font-size: 0.75rem;
+      padding: 3px 8px;
+      border-radius: 2px;
+      outline: none;
+    }
+
+    .heroes-body-layout {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 130px 1fr;
+      overflow: hidden;
+    }
+
+    .roles-sidebar {
+      background: rgba(4, 10, 22, 0.85);
+      border-right: 1px solid rgba(82, 137, 206, 0.25);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .role-btn {
+      background: transparent;
+      border: none;
+      color: #7b9cc4;
+      padding: 10px 14px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .role-btn.active {
+      background: linear-gradient(90deg, #18529d 0%, rgba(24, 82, 157, 0.1) 100%);
+      color: #fff;
+      border-left: 3px solid #00f0ff;
+    }
+
+    .heroes-grid-container {
+      padding: 16px;
+      overflow-y: auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(115px, 1fr));
+      gap: 14px;
+    }
+
+    .hero-card {
+      position: relative;
+      aspect-ratio: 3/4;
+      border-radius: 4px;
+      overflow: hidden;
+      border: 1px solid rgba(82, 137, 206, 0.35);
+      background: #050c18;
+      cursor: pointer;
+      text-decoration: none;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+      transition: transform 0.2s, border-color 0.2s;
+    }
+
+    .hero-card:hover {
+      transform: translateY(-4px);
+      border-color: #00f0ff;
+      box-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
+    }
+
+    .hero-card img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .badge-gratis {
+      position: absolute;
+      top: 6px;
+      left: -22px;
+      background: #00bb55;
+      color: #fff;
+      font-size: 0.55rem;
+      font-weight: 800;
+      padding: 2px 22px;
+      transform: rotate(-45deg);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+      letter-spacing: 0.5px;
+    }
+
+    .hero-bottom-info {
+      position: relative;
+      z-index: 2;
+      background: linear-gradient(to top, #020813 0%, rgba(2, 8, 19, 0.7) 70%, transparent 100%);
+      padding: 6px 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .hero-name {
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .hero-icon-class {
+      font-size: 0.65rem;
+      color: #00ffc4;
+    }
+
+    /* =========================================
+       PANTALLA 3: ABOUT / ENLACES
     ========================================= */
     #screen-3 {
       background: radial-gradient(circle at 60% 50%, rgba(10, 25, 55, 0.4) 0%, rgba(3, 7, 15, 0.9) 100%),
@@ -595,7 +809,7 @@
       height: 100%;
       display: flex;
       justify-content: space-between;
-      padding: 40px;
+      padding: 35px;
     }
 
     .hero-view-panel {
@@ -607,16 +821,14 @@
 
     .match-header h2 {
       font-family: 'Teko', sans-serif;
-      font-size: clamp(3rem, 5vw, 4.5rem);
+      font-size: clamp(2.8rem, 5vw, 4.2rem);
       color: #ffd043;
-      letter-spacing: 2px;
       line-height: 1;
     }
 
     .match-header p {
-      font-size: 1.05rem;
+      font-size: 0.95rem;
       color: #92b8ea;
-      margin-top: 4px;
     }
 
     .btn-back {
@@ -624,34 +836,19 @@
       background: rgba(18, 32, 59, 0.85);
       border: 1px solid rgba(82, 137, 206, 0.5);
       color: #c9e0ff;
-      padding: 8px 24px;
+      padding: 6px 20px;
       border-radius: 4px;
-      font-size: 1rem;
+      font-size: 0.95rem;
       font-weight: 700;
       cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .btn-back:hover {
-      background: #1e3a68;
-      color: #ffd043;
     }
 
     .links-column {
       width: 48%;
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 12px;
       overflow-y: auto;
-      padding-right: 8px;
-    }
-
-    .links-column::-webkit-scrollbar {
-      width: 4px;
-    }
-    .links-column::-webkit-scrollbar-thumb {
-      background: #3c6596;
-      border-radius: 4px;
     }
 
     .link-card {
@@ -661,241 +858,110 @@
       background: linear-gradient(90deg, rgba(16, 29, 53, 0.85) 0%, rgba(22, 42, 79, 0.6) 100%);
       border: 1px solid rgba(82, 137, 206, 0.35);
       border-radius: 6px;
-      padding: 14px 20px;
+      padding: 12px 18px;
       text-decoration: none;
       color: #fff;
-      transition: all 0.25s ease;
     }
 
-    .link-card:hover {
-      transform: translateX(-6px);
-      border-color: #ffd043;
-      background: linear-gradient(90deg, rgba(22, 43, 80, 0.95) 0%, rgba(35, 68, 128, 0.8) 100%);
-      box-shadow: 0 0 15px rgba(255, 208, 67, 0.3);
-    }
-
-    .link-card .title {
-      font-size: 1.05rem;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-    }
-
-    .link-card .desc {
-      font-size: 0.85rem;
-      color: #92b8ea;
-      margin-top: 2px;
-    }
-
+    .link-card .title { font-size: 1rem; font-weight: 700; }
+    .link-card .desc { font-size: 0.8rem; color: #92b8ea; }
     .link-card .btn-tag {
       background: #ffd043;
       color: #1e1300;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       font-weight: 800;
-      padding: 4px 12px;
+      padding: 3px 10px;
       border-radius: 4px;
-      text-transform: uppercase;
     }
 
     /* =========================================================
-       MODO MÓVIL EXACTO Y PROPORCIONADO (PORTRAIT / < 768px)
+       MODO MÓVIL EXACTO Y COMPACTO (< 768px / PORTRAIT)
        ========================================================= */
     @media (max-width: 768px), (orientation: portrait) {
-      /* Pantalla 1 móvil */
-      #screen-1 {
-        padding-bottom: 35px;
-      }
+      #screen-1 { padding-bottom: 25px; }
+      .logo-container { top: 12%; }
+      .logo-container .anniversary-number { font-size: 3.4rem; }
+      .logo-container .subtitle { font-size: 0.72rem; letter-spacing: 3px; }
+      .loading-box { width: 78%; }
+      .btn-start { padding: 8px 30px; font-size: 0.95rem; }
 
-      .logo-container {
-        top: 15%;
-      }
-
-      .logo-container .anniversary-number {
-        font-size: 4rem;
-        line-height: 1;
-      }
-
-      .logo-container .subtitle {
-        font-size: 0.8rem;
-        letter-spacing: 4px;
-      }
-
-      .loading-box {
-        width: 80%;
-        gap: 8px;
-      }
-
-      .btn-start {
-        padding: 10px 36px;
-        font-size: 1rem;
-        letter-spacing: 3px;
-        clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%);
-      }
-
-      .btn-start::before {
-        display: none;
-      }
-
-      /* Pantalla 2 móvil: Personaje a escala perfecta */
+      /* Personaje reducido a 42vh para que no tape la UI */
       .character-stand {
-        bottom: 60px;
-        width: 85vw;
-        height: 52vh;
+        bottom: 48px;
+        width: 75vw;
+        height: 42vh;
         background-size: contain;
         background-position: center bottom;
       }
 
-      .top-bar {
-        height: 48px;
-        padding: 0 12px;
-      }
+      .top-bar { height: 42px; padding: 0 10px; }
+      .avatar-wrapper { width: 28px; height: 28px; }
+      .user-info-text .username { font-size: 0.8rem; }
+      .resource-chip { font-size: 0.68rem; padding: 2px 6px; }
 
-      .avatar-wrapper {
-        width: 32px;
-        height: 32px;
-      }
+      .system-icons, .lobby-sidebar-left { display: none; }
 
-      .user-info-text .username {
-        font-size: 0.85rem;
-      }
-
-      .user-level-badge {
-        font-size: 0.6rem;
-        padding: 1px 4px;
-      }
-
-      .resources-group {
-        gap: 6px;
-      }
-
-      .resource-chip {
-        font-size: 0.72rem;
-        padding: 2px 7px;
-      }
-
-      .resource-icon {
-        width: 14px;
-        height: 14px;
-        font-size: 0.65rem;
-      }
-
-      /* Oculta barras de utilidad secundarias para limpiar la pantalla */
-      .system-icons,
-      .lobby-sidebar-left,
-      .bottom-nav-links {
-        display: none;
-      }
-
-      /* Diálogo centrado y translúcido */
       .speech-bubble {
-        top: 60px;
+        top: 48px;
         left: 50%;
         transform: translateX(-50%);
-        width: 85%;
-        max-width: 300px;
-        font-size: 0.8rem;
-        padding: 7px 12px;
+        width: 82%;
+        font-size: 0.72rem;
+        padding: 5px 10px;
         text-align: center;
         background: rgba(230, 240, 255, 0.85);
-        backdrop-filter: blur(6px);
       }
 
-      .speech-bubble::before {
-        display: none;
-      }
-
-      /* Barra inferior compacta */
       .bottom-bar {
-        height: 64px;
-        padding: 0 16px 10px 16px;
-        justify-content: center;
+        height: 52px;
+        padding: 0 12px 6px 12px;
+        justify-content: space-between;
       }
 
-      .classic-btn-container {
-        width: 90%;
-        max-width: 320px;
-      }
+      .bottom-nav-links { gap: 10px; }
+      .nav-item { font-size: 0.7rem; }
 
       .classic-btn {
-        width: 100%;
-        justify-content: center;
-        padding: 8px 16px;
-        clip-path: none;
-        border-radius: 6px;
-      }
-
-      .classic-btn::after {
+        padding: 6px 12px;
         clip-path: none;
         border-radius: 4px;
       }
+      .classic-btn .icon-mode { width: 16px; height: 16px; font-size: 0.7rem; }
+      .classic-btn .label { font-size: 1.1rem; }
 
-      .classic-btn .icon-mode {
-        width: 20px;
-        height: 20px;
-        font-size: 0.8rem;
+      /* Modal de Héroes en Móvil */
+      .heroes-modal-box {
+        width: 96vw;
+        height: 84vh;
+      }
+      .heroes-body-layout {
+        grid-template-columns: 85px 1fr;
+      }
+      .role-btn {
+        padding: 8px 8px;
+        font-size: 0.72rem;
+      }
+      .heroes-grid-container {
+        padding: 8px;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
       }
 
-      .classic-btn .label {
-        font-size: 1.4rem;
-        letter-spacing: 1.5px;
-      }
-
-      /* Pantalla 3 móvil: Contenedor fluido sin romper */
       .screen-3-container {
         flex-direction: column;
-        gap: 14px;
-        padding: 20px 14px;
-        overflow-y: auto;
+        padding: 16px 12px;
+        gap: 12px;
       }
-
-      .hero-view-panel {
-        width: 100%;
-        height: auto;
-        gap: 8px;
-      }
-
-      .match-header h2 {
-        font-size: 2.2rem;
-      }
-
-      .match-header p {
-        font-size: 0.85rem;
-      }
-
-      .btn-back {
-        padding: 6px 16px;
-        font-size: 0.85rem;
-      }
-
-      .links-column {
-        width: 100%;
-        height: auto;
-        overflow-y: visible;
-        gap: 8px;
-        padding-right: 0;
-      }
-
-      .link-card {
-        padding: 10px 14px;
-      }
-
-      .link-card .title {
-        font-size: 0.9rem;
-      }
-
-      .link-card .desc {
-        font-size: 0.75rem;
-      }
-
-      .link-card .btn-tag {
-        font-size: 0.75rem;
-        padding: 3px 8px;
-      }
+      .match-header h2 { font-size: 1.8rem; }
+      .links-column { width: 100%; }
+      .link-card { padding: 8px 12px; }
+      .link-card .title { font-size: 0.85rem; }
+      .link-card .desc { font-size: 0.7rem; }
     }
   </style>
 </head>
 <body>
 
-  <!-- VIEWPORT QUE CUBRE EL 100% DE PC Y MÓVIL -->
   <main class="game-viewport">
 
     <!-- ==============================================
@@ -910,7 +976,6 @@
         <div class="subtitle">ᚠ ᚢ ᚦ ᚨ ᚱ ᚲ ᚷ ᚹ ᚺ ᛃ ᛇ ᛈ ᛉ ᛋ ᛏ</div>
       </div>
 
-      <!-- Barra de progreso -->
       <div class="loading-box" id="loading-box">
         <div class="progress-bar-bg">
           <div class="progress-bar-fill" id="progress-fill"></div>
@@ -921,21 +986,17 @@
         </div>
       </div>
 
-      <!-- Botón Iniciar Digital -->
       <button class="btn-start" id="btn-start" onclick="goToScreen(2)">
         PRESS
       </button>
     </section>
 
-
     <!-- ==============================================
          PANTALLA 2: LOBBY PRINCIPAL
     ============================================== -->
     <section id="screen-2" class="screen">
-      <!-- Personaje PNG con Resplandor, Ruido y Glitch -->
       <div class="character-stand"></div>
 
-      <!-- Barra Superior -->
       <header class="top-bar">
         <div class="user-profile">
           <div class="avatar-wrapper">
@@ -960,35 +1021,28 @@
         </div>
 
         <div class="system-icons">
-          <button class="sys-btn" title="Ranking">🏆 MPL</button>
-          <button class="sys-btn" title="Amigos">👥 Chat</button>
-          <button class="sys-btn" title="Correo">✉️ Mail</button>
-          <button class="sys-btn" title="Configuración">⚙️ Settings</button>
+          <button class="sys-btn">🏆 MPL</button>
+          <button class="sys-btn" onclick="openModal('modal-heroes-friends')">👥 Chat</button>
+          <button class="sys-btn">✉️ Mail</button>
+          <button class="sys-btn">⚙ Settings</button>
         </div>
       </header>
 
-      <!-- Bocadillo interactivo -->
       <div class="speech-bubble">
         “El infierno me obedece, pues yo soy Doom.”
       </div>
 
-      <!-- Menú lateral izquierdo -->
       <aside class="lobby-sidebar-left">
-        <button class="side-action-btn">
-          <span>⚖️️</span>
-          <span>Shop</span>
-        </button>
-        <button class="side-action-btn">
-          <span>🚩</span>
-          <span>Events</span>
-        </button>
+        <button class="side-action-btn"><span>⚖</span><span>Shop</span></button>
+        <button class="side-action-btn"><span>🚩</span><span>Events</span></button>
       </aside>
 
-      <!-- Barra Inferior -->
       <footer class="bottom-bar">
         <nav class="bottom-nav-links">
-          <div class="nav-item">🛡️ Preparation</div>
-          <div class="nav-item">⚔️ Heroes</div>
+          <!-- PREPARATION -> ABRE LA VENTANA DE MÚSICA HISTORIA -->
+          <div class="nav-item" onclick="openModal('modal-music-story')">🛡️ Preparation</div>
+          <!-- HEROES -> ABRE LA VENTANA DE SELECCIÓN DE HÉROES / FRIENDS -->
+          <div class="nav-item" onclick="openModal('modal-heroes-friends')">⚔️ Heroes</div>
           <div class="nav-item">🎨 Collection</div>
           <div class="nav-item">🎒 Inventory</div>
         </nav>
@@ -1000,18 +1054,174 @@
           </button>
         </div>
       </footer>
+
+      <!-- ==============================================
+           MODAL 1: PREPARATION -> VENTANA DE MÚSICA ESTILO HISTORIA
+      ============================================== -->
+      <div class="game-modal" id="modal-music-story">
+        <div class="story-frame">
+          <div class="story-bg"></div>
+
+          <div class="story-inner">
+            <div>
+              <div class="progress-bar-container">
+                <div class="story-progress-bar" id="storyProgressBar"></div>
+              </div>
+              
+              <div class="story-header">
+                <div class="story-author">
+                  <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200&auto=format&fit=crop" alt="salvi_caa">
+                  <span class="story-author-name">salvi_caa · 6 min</span>
+                </div>
+                <button class="story-close-btn" onclick="closeModal('modal-music-story')">&times;</button>
+              </div>
+            </div>
+
+            <!-- Sticker Central con Perdição L7NNON -->
+            <div class="music-player-widget">
+              <img class="music-artwork" src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=500&auto=format&fit=crop" alt="Perdição">
+              <div class="music-overlay">
+                <div class="song-title">Perdição</div>
+                <div class="song-artist">L7NNON</div>
+                <button class="play-pause-btn" id="modalPlayBtn">❚❚</button>
+              </div>
+            </div>
+
+            <div class="story-footer">
+              <input type="text" class="story-input" placeholder="Enviar mensagem...">
+              <span>❤️</span>
+              <span>✈️</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==============================================
+           MODAL 2: HEROES -> VENTANA DE SELECCIÓN DE HÉROES / FRIENDS
+      ============================================== -->
+      <div class="game-modal" id="modal-heroes-friends">
+        <div class="heroes-modal-box">
+          
+          <div class="heroes-top-bar">
+            <div class="heroes-title-row">
+              <button class="heroes-back-btn" onclick="closeModal('modal-heroes-friends')">←</button>
+              <h3>HÉROES</h3>
+            </div>
+            <div class="heroes-filters">
+              <select class="filter-select"><option>Todas las Líneas</option></select>
+              <select class="filter-select"><option>Por defecto</option></select>
+              <span style="color: #ffd043; cursor:pointer;" onclick="closeModal('modal-heroes-friends')">&times;</span>
+            </div>
+          </div>
+
+          <div class="heroes-body-layout">
+            <!-- Roles laterales -->
+            <div class="roles-sidebar">
+              <button class="role-btn active">Todos</button>
+              <button class="role-btn">Tanque</button>
+              <button class="role-btn">Combatiente</button>
+              <button class="role-btn">Asesino</button>
+              <button class="role-btn">Mago</button>
+              <button class="role-btn">Tirador</button>
+              <button class="role-btn">Apoyo</button>
+            </div>
+
+            <!-- Cuadrícula de héroes con sus enlaces -->
+            <div class="heroes-grid-container">
+              
+              <!-- Eudora -->
+              <a href="https://tusitio.com/amigo1" target="_blank" class="hero-card">
+                <span class="badge-gratis">GRATIS</span>
+                <img src="https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?q=80&w=400&auto=format&fit=crop" alt="Eudora">
+                <div class="hero-bottom-info">
+                  <span class="hero-name">Eudora</span>
+                  <span class="hero-icon-class">◆</span>
+                </div>
+              </a>
+
+              <!-- Zilong -->
+              <a href="https://tusitio.com/amigo2" target="_blank" class="hero-card">
+                <span class="badge-gratis">GRATIS</span>
+                <img src="https://images.unsplash.com/photo-1563089145-599997674d42?q=80&w=400&auto=format&fit=crop" alt="Zilong">
+                <div class="hero-bottom-info">
+                  <span class="hero-name">Zilong</span>
+                  <span class="hero-icon-class">◆</span>
+                </div>
+              </a>
+
+              <!-- Layla -->
+              <a href="https://tusitio.com/amigo3" target="_blank" class="hero-card">
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=400&auto=format&fit=crop" alt="Layla">
+                <div class="hero-bottom-info">
+                  <span class="hero-name">Layla</span>
+                  <span class="hero-icon-class">◆</span>
+                </div>
+              </a>
+
+              <!-- Alice -->
+              <a href="https://tusitio.com/amigo4" target="_blank" class="hero-card">
+                <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=400&auto=format&fit=crop" alt="Alice">
+                <div class="hero-bottom-info">
+                  <span class="hero-name">Alice</span>
+                  <span class="hero-icon-class">◆</span>
+                </div>
+              </a>
+
+              <!-- Miya -->
+              <a href="https://tusitio.com/amigo5" target="_blank" class="hero-card">
+                <span class="badge-gratis">GRATIS</span>
+                <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=400&auto=format&fit=crop" alt="Miya">
+                <div class="hero-bottom-info">
+                  <span class="hero-name">Miya</span>
+                  <span class="hero-icon-class">◆</span>
+                </div>
+              </a>
+
+              <!-- Balmond -->
+              <a href="https://tusitio.com/amigo6" target="_blank" class="hero-card">
+                <span class="badge-gratis">GRATIS</span>
+                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400&auto=format&fit=crop" alt="Balmond">
+                <div class="hero-bottom-info">
+                  <span class="hero-name">Balmond</span>
+                  <span class="hero-icon-class">◆</span>
+                </div>
+              </a>
+
+              <!-- Saber -->
+              <a href="https://tusitio.com/amigo7" target="_blank" class="hero-card">
+                <span class="badge-gratis">GRATIS</span>
+                <img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=400&auto=format&fit=crop" alt="Saber">
+                <div class="hero-bottom-info">
+                  <span class="hero-name">Saber</span>
+                  <span class="hero-icon-class">◆</span>
+                </div>
+              </a>
+
+              <!-- Alucard -->
+              <a href="https://tusitio.com/amigo8" target="_blank" class="hero-card">
+                <span class="badge-gratis">GRATIS</span>
+                <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=400&auto=format&fit=crop" alt="Alucard">
+                <div class="hero-bottom-info">
+                  <span class="hero-name">Alucard</span>
+                  <span class="hero-icon-class">◆</span>
+                </div>
+              </a>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
     </section>
 
-
     <!-- ==============================================
-         PANTALLA 3: LINKS Y ENLACES
+         PANTALLA 3: LINKS / ABOUT
     ============================================== -->
     <section id="screen-3" class="screen">
       <div class="screen-3-container">
-        
         <div class="hero-view-panel">
           <div class="match-header">
-            <h2>FRIENDS</h2>
+            <h2>ABOUT</h2>
             <p>Selecciona un enlace o canal de destino</p>
           </div>
           <button class="btn-back" onclick="goToScreen(2)">
@@ -1020,7 +1230,7 @@
         </div>
 
         <div class="links-column">
-          <a href="https://tusitio.com/enlace1" target="_blank" rel="noopener noreferrer" class="link-card">
+          <a href="https://tusitio.com/enlace1" target="_blank" class="link-card">
             <div>
               <div class="title">Canal de Discord / Comunidad</div>
               <div class="desc">Únete a nuestra sala principal de juego</div>
@@ -1028,7 +1238,7 @@
             <span class="btn-tag">Entrar</span>
           </a>
 
-          <a href="https://tusitio.com/enlace2" target="_blank" rel="noopener noreferrer" class="link-card">
+          <a href="https://tusitio.com/enlace2" target="_blank" class="link-card">
             <div>
               <div class="title">Guías y Builds de Layla</div>
               <div class="desc">Equipamiento, emblemas y mejores estrategias</div>
@@ -1036,7 +1246,7 @@
             <span class="btn-tag">Ver</span>
           </a>
 
-          <a href="https://tusitio.com/enlace3" target="_blank" rel="noopener noreferrer" class="link-card">
+          <a href="https://tusitio.com/enlace3" target="_blank" class="link-card">
             <div>
               <div class="title">Canal de YouTube / Streams</div>
               <div class="desc">Transmisiones en vivo y partidas clasificatorias</div>
@@ -1044,7 +1254,7 @@
             <span class="btn-tag">Visitar</span>
           </a>
 
-          <a href="https://tusitio.com/enlace4" target="_blank" rel="noopener noreferrer" class="link-card">
+          <a href="https://tusitio.com/enlace4" target="_blank" class="link-card">
             <div>
               <div class="title">Perfil de Instagram / X</div>
               <div class="desc">Novedades y contenido diario</div>
@@ -1052,16 +1262,25 @@
             <span class="btn-tag">Seguir</span>
           </a>
         </div>
-
       </div>
     </section>
 
   </main>
 
+  <!-- ELEMENTO DE AUDIO DROPBOX (?raw=1) -->
+  <audio id="bgMusic" preload="auto">
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+  </audio>
+
   <!-- ==============================================
-       LÓGICA JS (TRANSICIONES Y CARGA)
+       LÓGICA JS
   ============================================== -->
   <script>
+    const audio = document.getElementById('bgMusic');
+    const modalPlayBtn = document.getElementById('modalPlayBtn');
+    const storyProgressBar = document.getElementById('storyProgressBar');
+
+    // Carga de Pantalla 1
     window.addEventListener('DOMContentLoaded', () => {
       const fill = document.getElementById('progress-fill');
       const text = document.getElementById('loading-percentage');
@@ -1074,7 +1293,6 @@
         if (progress >= 100) {
           progress = 100;
           clearInterval(interval);
-          
           loadBox.style.display = 'none';
           btnStart.style.display = 'inline-block';
         }
@@ -1083,13 +1301,52 @@
       }, 50);
     });
 
+    // Control de pantallas
     function goToScreen(screenNumber) {
       document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
       const target = document.getElementById(`screen-${screenNumber}`);
-      if (target) {
-        target.classList.add('active');
+      if (target) target.classList.add('active');
+
+      if (screenNumber === 2 && audio.paused) {
+        audio.play().catch(err => console.log('Audio en espera:', err));
+        modalPlayBtn.innerText = '❚❚';
       }
     }
+
+    // Control de Modales
+    function openModal(id) {
+      const modal = document.getElementById(id);
+      if (modal) modal.classList.add('active');
+    }
+
+    function closeModal(id) {
+      const modal = document.getElementById(id);
+      if (modal) modal.classList.remove('active');
+    }
+
+    document.querySelectorAll('.game-modal').forEach(modal => {
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) modal.classList.remove('active');
+      });
+    });
+
+    // Control de Audio
+    modalPlayBtn.addEventListener('click', () => {
+      if (audio.paused) {
+        audio.play();
+        modalPlayBtn.innerText = '❚❚';
+      } else {
+        audio.pause();
+        modalPlayBtn.innerText = '▶';
+      }
+    });
+
+    audio.addEventListener('timeupdate', () => {
+      if (audio.duration) {
+        const percent = (audio.currentTime / audio.duration) * 100;
+        storyProgressBar.style.width = percent + '%';
+      }
+    });
   </script>
 </body>
 </html>
