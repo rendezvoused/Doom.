@@ -249,7 +249,7 @@
     }
 
     /* =========================================
-       PANTALLA 2: LOBBY (COMPLETO EN PC Y MÓVIL)
+       PANTALLA 2: LOBBY
     ========================================= */
     #screen-2 {
       background: radial-gradient(circle at 50% 50%, rgba(20, 40, 80, 0.2) 0%, rgba(5, 10, 20, 0.7) 100%),
@@ -522,7 +522,7 @@
       transform: translateY(-2px);
     }
 
-    /* Botón ABOUT / CLASSIC */
+    /* Botón ABOUT */
     .classic-btn-container {
       position: relative;
       cursor: pointer;
@@ -697,34 +697,37 @@
     }
 
     /* =========================================================
-       MODO MÓVIL AUTOMÁTICO (PORTRAIT / PANTALLAS MENORES A 768px)
+       MODO MÓVIL EXACTO Y PROPORCIONADO (PORTRAIT / < 768px)
        ========================================================= */
     @media (max-width: 768px), (orientation: portrait) {
-      /* Pantalla 1 en Móvil */
+      /* Pantalla 1 móvil */
       #screen-1 {
-        padding-bottom: 70px;
+        padding-bottom: 35px;
       }
 
       .logo-container {
-        top: 14%;
+        top: 15%;
       }
 
       .logo-container .anniversary-number {
-        font-size: 22vw;
+        font-size: 4rem;
+        line-height: 1;
       }
 
       .logo-container .subtitle {
-        font-size: 3.5vw;
+        font-size: 0.8rem;
         letter-spacing: 4px;
       }
 
       .loading-box {
-        width: 86%;
+        width: 80%;
+        gap: 8px;
       }
 
       .btn-start {
-        padding: 14px 44px;
-        font-size: 1.25rem;
+        padding: 10px 36px;
+        font-size: 1rem;
+        letter-spacing: 3px;
         clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%);
       }
 
@@ -732,87 +735,160 @@
         display: none;
       }
 
-      /* Pantalla 2 en Móvil: Personaje centrado verticalmente */
+      /* Pantalla 2 móvil: Personaje a escala perfecta */
       .character-stand {
-        bottom: 20px;
-        width: 100%;
-        height: 72vh;
+        bottom: 60px;
+        width: 85vw;
+        height: 52vh;
+        background-size: contain;
+        background-position: center bottom;
       }
 
       .top-bar {
-        padding: 0 14px;
+        height: 48px;
+        padding: 0 12px;
       }
 
-      /* Oculta barras de utilidad secundarias para no tapar al personaje */
+      .avatar-wrapper {
+        width: 32px;
+        height: 32px;
+      }
+
+      .user-info-text .username {
+        font-size: 0.85rem;
+      }
+
+      .user-level-badge {
+        font-size: 0.6rem;
+        padding: 1px 4px;
+      }
+
+      .resources-group {
+        gap: 6px;
+      }
+
+      .resource-chip {
+        font-size: 0.72rem;
+        padding: 2px 7px;
+      }
+
+      .resource-icon {
+        width: 14px;
+        height: 14px;
+        font-size: 0.65rem;
+      }
+
+      /* Oculta barras de utilidad secundarias para limpiar la pantalla */
       .system-icons,
       .lobby-sidebar-left,
       .bottom-nav-links {
         display: none;
       }
 
+      /* Diálogo centrado y translúcido */
       .speech-bubble {
-        top: 20%;
-        left: 8%;
-        max-width: 84%;
-        font-size: 0.95rem;
-        padding: 10px 14px;
+        top: 60px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 85%;
+        max-width: 300px;
+        font-size: 0.8rem;
+        padding: 7px 12px;
+        text-align: center;
+        background: rgba(230, 240, 255, 0.85);
+        backdrop-filter: blur(6px);
       }
 
       .speech-bubble::before {
         display: none;
       }
 
+      /* Barra inferior compacta */
       .bottom-bar {
-        height: 80px;
-        padding: 0 16px 16px 16px;
+        height: 64px;
+        padding: 0 16px 10px 16px;
         justify-content: center;
       }
 
       .classic-btn-container {
-        width: 100%;
+        width: 90%;
+        max-width: 320px;
       }
 
       .classic-btn {
         width: 100%;
         justify-content: center;
-        padding: 14px 20px;
-        clip-path: none;
-        border-radius: 8px;
-      }
-
-      .classic-btn::after {
+        padding: 8px 16px;
         clip-path: none;
         border-radius: 6px;
       }
 
-      .classic-btn .label {
-        font-size: 1.9rem;
+      .classic-btn::after {
+        clip-path: none;
+        border-radius: 4px;
       }
 
-      /* Pantalla 3 en Móvil: Formato vertical scrolleable */
+      .classic-btn .icon-mode {
+        width: 20px;
+        height: 20px;
+        font-size: 0.8rem;
+      }
+
+      .classic-btn .label {
+        font-size: 1.4rem;
+        letter-spacing: 1.5px;
+      }
+
+      /* Pantalla 3 móvil: Contenedor fluido sin romper */
       .screen-3-container {
         flex-direction: column;
-        gap: 20px;
-        padding: 24px 16px;
+        gap: 14px;
+        padding: 20px 14px;
         overflow-y: auto;
       }
 
       .hero-view-panel {
         width: 100%;
         height: auto;
-        gap: 14px;
+        gap: 8px;
       }
 
       .match-header h2 {
-        font-size: 2.8rem;
+        font-size: 2.2rem;
+      }
+
+      .match-header p {
+        font-size: 0.85rem;
+      }
+
+      .btn-back {
+        padding: 6px 16px;
+        font-size: 0.85rem;
       }
 
       .links-column {
         width: 100%;
         height: auto;
         overflow-y: visible;
-        gap: 12px;
+        gap: 8px;
         padding-right: 0;
+      }
+
+      .link-card {
+        padding: 10px 14px;
+      }
+
+      .link-card .title {
+        font-size: 0.9rem;
+      }
+
+      .link-card .desc {
+        font-size: 0.75rem;
+      }
+
+      .link-card .btn-tag {
+        font-size: 0.75rem;
+        padding: 3px 8px;
       }
     }
   </style>
@@ -899,7 +975,7 @@
       <!-- Menú lateral izquierdo -->
       <aside class="lobby-sidebar-left">
         <button class="side-action-btn">
-          <span>⚖️</span>
+          <span>⚖️️</span>
           <span>Shop</span>
         </button>
         <button class="side-action-btn">
