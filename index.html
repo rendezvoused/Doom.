@@ -1,0 +1,1437 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Mobile Legends Interface</title>
+  <!-- Fuentes de estilo futurista, gaming y digital -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=Rajdhani:wght@500;600;700;800&family=Teko:wght@600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    /* =========================================
+       RESET Y CONTENEDOR ESCALABLE (16:9)
+    ========================================= */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: #03060c;
+      font-family: 'Rajdhani', sans-serif;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+
+    /* Marco que mantiene la proporción 16:9 sin deformarse */
+    .game-viewport {
+      position: relative;
+      width: 100vw;
+      height: 56.25vw; /* 16:9 */
+      max-height: 100vh;
+      max-width: 177.78vh;
+      background: #080d16;
+      box-shadow: 0 0 60px rgba(0, 0, 0, 0.95);
+      overflow: hidden;
+    }
+
+    /* Control de Pantallas */
+    .screen {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.5s ease;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .screen.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* ========================================================
+       PANTALLA 1: CARGA + EFECTO GLITCH + BAJA SATURACIÓN
+    ======================================================== */
+    #screen-1 {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      padding-bottom: 5%;
+      overflow: hidden;
+    }
+
+    .glitch-backdrop {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      overflow: hidden;
+      background-color: #050a12;
+    }
+
+    .glitch-layer {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 50% 40%, rgba(20, 45, 80, 0.35) 0%, rgba(3, 6, 12, 0.92) 100%),
+                  url('https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/af8ed861-a1e7-4979-9745-4a3618ed836c/dmn976s-1511ea17-4084-4659-84bb-8833b934b77a.png/v1/fill/w_1191,h_671,q_70,strp/doctor_doom_wallpaper_6_by_vib16_dmn976s-pre.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiIvZi9hZjhlZDg2MS1hMWU3LTQ5NzktOTc0NS00YTM2MThlZDgzNmMvZG1uOTc2cy0xNTExZWExNy00MDg0LTQ2NTktODRiYi04ODMzYjkzNGI3N2EucG5nIiwiaGVpZ2h0IjoiPD03MjEiLCJ3aWR0aCI6Ijw9MTI4MCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS53YXRlcm1hcmsiXSwid21rIjp7InBhdGgiOiIvd20vYWY4ZWQ4NjEtYTFlNy00OTc5LTk3NDUtNGEzNjE4ZWQ4MzZjL3ZpYjE2LTQucG5nIiwib3BhY2l0eSI6OTUsInByb3BvcnRpb25zIjowLjQ1LCJncmF2aXR5IjoiY2VudGVyIn19.DCILEcPCeuQ6JGK2Jaf3hyRgOJcGU67tBJtNBFcp2QU');
+      background-size: cover;
+      background-position: center;
+      filter: saturate(0.18) contrast(1.2) brightness(0.68);
+    }
+
+    .glitch-layer.layer-cyan {
+      opacity: 0.55;
+      mix-blend-mode: screen;
+      filter: saturate(0.2) contrast(1.4) drop-shadow(-4px 0 #00ffff) brightness(0.75);
+      animation: bgGlitchCyan 3.2s infinite steps(2, start);
+    }
+
+    .glitch-layer.layer-red {
+      opacity: 0.45;
+      mix-blend-mode: screen;
+      filter: saturate(0.2) contrast(1.4) drop-shadow(4px 0 #ff0055) brightness(0.75);
+      animation: bgGlitchRed 3.8s infinite steps(2, start);
+    }
+
+    .glitch-scanlines {
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0) 0px,
+        rgba(255, 255, 255, 0) 2px,
+        rgba(0, 0, 0, 0.3) 3px,
+        rgba(0, 0, 0, 0.3) 4px
+      );
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    @keyframes bgGlitchCyan {
+      0%, 100% { clip-path: inset(0 0 0 0); transform: translate(0); }
+      14% { clip-path: inset(18% 0 68% 0); transform: translate(-4px, 2px); }
+      16% { clip-path: inset(80% 0 6% 0); transform: translate(3px, -2px); }
+      24% { clip-path: inset(0 0 0 0); transform: translate(0); }
+      62% { clip-path: inset(42% 0 40% 0); transform: translate(-5px, 1px); }
+      64% { clip-path: inset(0 0 0 0); transform: translate(0); }
+      88% { clip-path: inset(70% 0 12% 0); transform: translate(4px, 1px); }
+      90% { clip-path: inset(0 0 0 0); transform: translate(0); }
+    }
+
+    @keyframes bgGlitchRed {
+      0%, 100% { clip-path: inset(0 0 0 0); transform: translate(0); }
+      19% { clip-path: inset(62% 0 22% 0); transform: translate(4px, -2px); }
+      21% { clip-path: inset(8% 0 78% 0); transform: translate(-3px, 2px); }
+      32% { clip-path: inset(0 0 0 0); transform: translate(0); }
+      74% { clip-path: inset(28% 0 52% 0); transform: translate(4px, 3px); }
+      76% { clip-path: inset(0 0 0 0); transform: translate(0); }
+    }
+
+    .logo-container {
+      position: absolute;
+      top: 22%;
+      text-align: center;
+      z-index: 3;
+    }
+
+    .logo-container .anniversary-number {
+      font-family: 'Teko', sans-serif;
+      font-size: 8vw;
+      line-height: 0.8;
+      letter-spacing: 2px;
+      background: linear-gradient(180deg, #ffffff 0%, #b8e2ff 45%, #2a94f3 65%, #104e9c 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 0 20px rgba(42, 148, 243, 0.8));
+    }
+
+    .logo-container .subtitle {
+      font-size: 1.6vw;
+      letter-spacing: 4px;
+      color: #9fe2ff;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    .loading-box {
+      width: 55%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      z-index: 3;
+    }
+
+    .progress-bar-bg {
+      width: 100%;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: 4px;
+      overflow: hidden;
+      border: 1px solid rgba(0, 255, 255, 0.25);
+    }
+
+    .progress-bar-fill {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, #00ffff, #0088ff);
+      box-shadow: 0 0 12px #00ffff;
+      transition: width 0.15s ease-out;
+    }
+
+    .loading-info {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85vw;
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .btn-start {
+      display: none;
+      position: relative;
+      z-index: 10;
+      padding: 0.75vw 3.2vw;
+      background: linear-gradient(135deg, rgba(0, 255, 200, 0.12) 0%, rgba(0, 40, 80, 0.85) 100%);
+      color: #00ffff;
+      font-family: 'Orbitron', monospace;
+      font-size: 1.3vw;
+      font-weight: 900;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      cursor: pointer;
+      border: 1px solid #00ffff;
+      outline: none;
+      clip-path: polygon(14px 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%, 0 14px);
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.35), inset 0 0 15px rgba(0, 255, 255, 0.2);
+      transition: all 0.25s ease;
+      animation: digitalGlitchPulse 3.5s infinite;
+    }
+
+    .btn-start::before {
+      content: "";
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      width: 8px;
+      height: 8px;
+      border-top: 2px solid #fff;
+      border-left: 2px solid #fff;
+    }
+
+    .btn-start::after {
+      content: "";
+      position: absolute;
+      bottom: -2px;
+      right: -2px;
+      width: 8px;
+      height: 8px;
+      border-bottom: 2px solid #fff;
+      border-right: 2px solid #fff;
+    }
+
+    .btn-start:hover {
+      background: linear-gradient(135deg, rgba(0, 255, 200, 0.3) 0%, rgba(0, 120, 220, 0.95) 100%);
+      color: #ffffff;
+      transform: scale(1.06);
+      box-shadow: 0 0 35px rgba(0, 255, 255, 0.8), inset 0 0 20px rgba(0, 255, 255, 0.5);
+      border-color: #ffffff;
+    }
+
+    @keyframes digitalGlitchPulse {
+      0%, 88%, 100% {
+        transform: translate(0);
+        text-shadow: 0 0 8px #00ffff;
+      }
+      90% {
+        transform: translate(-3px, 1px);
+        text-shadow: -2px 0 #ff0055, 2px 0 #00ffff;
+      }
+      92% {
+        transform: translate(3px, -1px);
+        text-shadow: 2px 0 #ff0055, -2px 0 #00ffff;
+      }
+      94% {
+        transform: translate(0);
+        text-shadow: 0 0 8px #00ffff;
+      }
+    }
+
+    /* ========================================================
+       PANTALLA 2: LOBBY PRINCIPAL (MLBB)
+    ======================================================== */
+    #screen-2 {
+      background: radial-gradient(circle at 50% 50%, rgba(20, 40, 80, 0.2) 0%, rgba(5, 10, 20, 0.7) 35%),
+                  url('https://images.wallpapersden.com/image/download/doctor-doom-4k_a2xtZ2eUmZqaraWkpJRobWlmrWdma2Y.jpg');
+      background-size: cover;
+      background-position: center;
+    }
+
+    .character-stand {
+      position: absolute;
+      bottom: -0%;
+      left: 36%;
+      width: 25%;
+      height: 150%;
+      background-image: url('https://i.postimg.cc/C5t84576/dr-doom-png-dr-doom-first-official-look-by-harisx99-dkioxko-414w-2x-png-token-ey-J0e-XAi-Oi-JKV1Qi-L.png');
+      background-size: 150%;
+      background-repeat: no-repeat;
+      background-position: bottom center;
+      pointer-events: none;
+      z-index: 2;
+      filter: drop-shadow(0 0 20px rgba(43, 216, 120, 0.65))
+              drop-shadow(0 0 45px rgba(22, 140, 75, 0.45))
+              drop-shadow(0 15px 30px rgba(0, 0, 0, 0.9));
+      animation: floatDoom 4.2s ease-in-out infinite alternate;
+      will-change: transform, filter;
+    }
+
+    @keyframes floatDoom {
+      0% {
+        transform: translateY(0px) rotate(0deg);
+        filter: drop-shadow(0 0 16px rgba(43, 216, 120, 0.5))
+                drop-shadow(0 0 35px rgba(22, 140, 75, 0.35))
+                drop-shadow(0 15px 30px rgba(0, 0, 0, 0.9));
+      }
+      50% {
+        filter: drop-shadow(0 0 28px rgba(43, 255, 140, 0.85))
+                drop-shadow(0 0 60px rgba(22, 180, 95, 0.55))
+                drop-shadow(0 20px 40px rgba(0, 0, 0, 0.95));
+      }
+      100% {
+        transform: translateY(-16px) rotate(0.4deg);
+        filter: drop-shadow(0 0 22px rgba(43, 216, 120, 0.65))
+                drop-shadow(0 0 45px rgba(22, 140, 75, 0.45))
+                drop-shadow(0 25px 45px rgba(0, 0, 0, 0.9));
+      }
+    }
+
+    .top-bar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 9%;
+      background: linear-gradient(180deg, rgba(7, 15, 30, 0.95) 0%, rgba(7, 15, 30, 0.3) 80%, transparent 100%);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 2%;
+      z-index: 10;
+    }
+
+    .user-profile {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .avatar-wrapper {
+      position: relative;
+      width: 2.8vw;
+      height: 2.8vw;
+      border: 2px solid #ecd38c;
+      border-radius: 4px;
+      overflow: hidden;
+      box-shadow: 0 0 8px rgba(0,0,0,0.5);
+    }
+
+    .avatar-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .user-info-text .username {
+      font-size: 1vw;
+      font-weight: 700;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .user-level-badge {
+      font-size: 0.65vw;
+      background: #3972bb;
+      padding: 1px 4px;
+      border-radius: 3px;
+      color: #fff;
+    }
+
+    .resources-group {
+      display: flex;
+      align-items: center;
+      gap: 1.2vw;
+    }
+
+    .resource-chip {
+      background: rgba(14, 25, 45, 0.75);
+      border: 1px solid rgba(82, 137, 206, 0.4);
+      padding: 3px 12px 3px 6px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.85vw;
+      font-weight: 700;
+      color: #e5f1ff;
+    }
+
+    .resource-icon {
+      width: 1.1vw;
+      height: 1.1vw;
+      border-radius: 50%;
+      display: grid;
+      place-content: center;
+      font-size: 0.7vw;
+    }
+
+    .gold-icon { background: #e09f19; color: #3e2600; }
+    .diamond-icon { background: #00c3ff; color: #00364d; }
+
+    .system-icons {
+      display: flex;
+      align-items: center;
+      gap: 1vw;
+    }
+
+    .sys-btn {
+      background: transparent;
+      border: none;
+      color: #92b1db;
+      font-size: 0.9vw;
+      font-weight: 700;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+
+    .sys-btn:hover {
+      color: #ffde6b;
+    }
+
+    .speech-bubble {
+      position: absolute;
+      top: 19%;
+      left: 68%;
+      background: rgba(230, 240, 255, 0.92);
+      color: #273746;
+      border-radius: 12px;
+      padding: 0.8vw 1.2vw;
+      max-width: 20vw;
+      font-size: 0.8vw;
+      font-weight: 600;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      z-index: 5;
+    }
+
+    .speech-bubble::before {
+      content: "";
+      position: absolute;
+      left: -8px;
+      top: 40%;
+      border-width: 6px 8px 6px 0;
+      border-style: solid;
+      border-color: transparent rgba(230, 240, 255, 0.92) transparent transparent;
+    }
+
+    .lobby-sidebar-left {
+      position: absolute;
+      left: 1.2%;
+      top: 25%;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5vh;
+      z-index: 10;
+    }
+
+    .side-action-btn {
+      background: rgba(16, 27, 49, 0.75);
+      border: 1px solid rgba(82, 137, 206, 0.5);
+      border-radius: 8px;
+      padding: 0.5vw 0.8vw;
+      color: #c9e0ff;
+      font-size: 0.75vw;
+      font-weight: 700;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .side-action-btn:hover {
+      background: rgba(30, 60, 110, 0.9);
+      border-color: #ffd043;
+      color: #fff;
+      transform: translateX(4px);
+    }
+
+    .bottom-bar {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 12%;
+      background: linear-gradient(0deg, rgba(5, 11, 23, 0.95) 0%, rgba(5, 11, 23, 0.4) 75%, transparent 100%);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2%;
+      z-index: 10;
+    }
+
+    .bottom-nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1.5vw;
+    }
+
+    .nav-item {
+      color: #9ab4d6;
+      font-size: 0.95vw;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.2s, transform 0.2s;
+    }
+
+    .nav-item:hover {
+      color: #ffd043;
+      transform: translateY(-2px);
+    }
+
+    .classic-btn-container {
+      position: relative;
+      cursor: pointer;
+    }
+
+    .classic-btn {
+      position: relative;
+      background: linear-gradient(135deg, #ffe277 0%, #e0a31b 45%, #b37305 100%);
+      padding: 0.9vw 3.5vw 0.9vw 2.5vw;
+      border: none;
+      clip-path: polygon(15% 0, 100% 0, 85% 100%, 0% 100%);
+      box-shadow: 0 0 25px rgba(235, 172, 33, 0.5);
+      cursor: pointer;
+      transition: all 0.25s ease;
+      display: flex;
+      align-items: center;
+      gap: 1vw;
+    }
+
+    .classic-btn::after {
+      content: '';
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      right: 2px;
+      bottom: 2px;
+      clip-path: polygon(15% 0, 100% 0, 85% 100%, 0% 100%);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      pointer-events: none;
+    }
+
+    .classic-btn:hover {
+      transform: scale(1.04);
+      filter: brightness(1.1);
+      box-shadow: 0 0 35px rgba(255, 196, 0, 0.8);
+    }
+
+    .classic-btn .icon-mode {
+      width: 1.8vw;
+      height: 1.8vw;
+      background: #623e00;
+      border-radius: 4px;
+      display: grid;
+      place-content: center;
+      color: #ffd752;
+      font-size: 1vw;
+    }
+
+    .classic-btn .label {
+      font-family: 'Teko', sans-serif;
+      font-size: 2.2vw;
+      font-weight: 700;
+      color: #2e1700;
+      letter-spacing: 2px;
+      line-height: 1;
+    }
+
+    /* ========================================================
+       PANTALLA 4: SECCIÓN "FRIENDS" (SELECTOR DE HÉROES MLBB)
+    ======================================================== */
+    #screen-4 {
+      background: linear-gradient(180deg, #091a32 0%, #060e1d 100%);
+      display: flex;
+      flex-direction: column;
+      padding: 1.2vw 1.8vw;
+    }
+
+    .friends-topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 7%;
+      margin-bottom: 1.5%;
+    }
+
+    .friends-left-title {
+      display: flex;
+      align-items: center;
+      gap: 1.2vw;
+    }
+
+    .friends-back-btn {
+      background: rgba(14, 30, 58, 0.8);
+      border: 1px solid #3d6a9e;
+      color: #aed1ff;
+      border-radius: 5px;
+      padding: 0.35vw 0.9vw;
+      cursor: pointer;
+      font-size: 0.9vw;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .friends-back-btn:hover {
+      background: #1f4780;
+      color: #ffd043;
+      border-color: #ffd043;
+    }
+
+    .friends-title-text {
+      font-family: 'Teko', sans-serif;
+      font-size: 2.2vw;
+      letter-spacing: 2px;
+      color: #ffd043;
+      line-height: 1;
+    }
+
+    .friends-filters {
+      display: flex;
+      gap: 1vw;
+    }
+
+    .filter-pill {
+      background: rgba(13, 27, 50, 0.85);
+      border: 1px solid #2f5685;
+      padding: 0.3vw 1vw;
+      border-radius: 4px;
+      font-size: 0.8vw;
+      color: #8fb6e5;
+    }
+
+    .friends-main-area {
+      display: flex;
+      height: 90%;
+      gap: 1.5vw;
+    }
+
+    .roles-sidebar {
+      width: 11%;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6vh;
+    }
+
+    .role-btn {
+      background: rgba(13, 26, 48, 0.7);
+      border: 1px solid rgba(64, 114, 180, 0.35);
+      color: #8cb1df;
+      padding: 0.8vh 0.6vw;
+      font-size: 0.85vw;
+      font-weight: 700;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: center;
+    }
+
+    .role-btn.active, .role-btn:hover {
+      background: linear-gradient(90deg, #1c4b8b 0%, #102e56 100%);
+      border-color: #00d4ff;
+      color: #fff;
+      box-shadow: inset 0 0 10px rgba(0, 212, 255, 0.4);
+    }
+
+    .heroes-grid {
+      flex: 1;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      grid-template-rows: repeat(2, 1fr);
+      gap: 0.9vw;
+      overflow: hidden;
+    }
+
+    .hero-card {
+      position: relative;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1.5px solid rgba(75, 130, 200, 0.35);
+      background: #091322;
+      text-decoration: none;
+      display: block;
+      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+      cursor: pointer;
+    }
+
+    .hero-card:hover {
+      transform: translateY(-4px) scale(1.02);
+      border-color: #00ffff;
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.45);
+    }
+
+    .hero-thumb {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: filter 0.3s ease, transform 0.3s ease;
+    }
+
+    .hero-card:hover .hero-thumb {
+      filter: blur(4px) brightness(0.65);
+      transform: scale(1.08);
+    }
+
+    .badge-corner {
+      position: absolute;
+      top: 0;
+      left: 0;
+      background: linear-gradient(135deg, #12a647 0%, #0d7030 100%);
+      color: #fff;
+      font-size: 0.65vw;
+      font-weight: 800;
+      padding: 0.15vw 1.2vw 0.15vw 0.5vw;
+      clip-path: polygon(0 0, 100% 0, 75% 100%, 0% 100%);
+      z-index: 3;
+      letter-spacing: 0.5px;
+    }
+
+    .hero-name-bar {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: linear-gradient(180deg, transparent 0%, rgba(4, 9, 18, 0.95) 75%);
+      padding: 0.5vw 0.6vw;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 3;
+      transition: opacity 0.2s ease;
+    }
+
+    .hero-name-bar span {
+      font-size: 0.85vw;
+      font-weight: 700;
+      color: #e5f1ff;
+      letter-spacing: 0.5px;
+    }
+
+    .hero-icon-class {
+      width: 1vw;
+      height: 1vw;
+      background: #00c3ff;
+      border-radius: 2px;
+      display: grid;
+      place-content: center;
+      font-size: 0.65vw;
+      color: #031326;
+      font-weight: 900;
+    }
+
+    .hero-hover-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6vh;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: 4;
+      background: rgba(3, 10, 20, 0.4);
+      padding: 0.8vw;
+      text-align: center;
+    }
+
+    .hero-card:hover .hero-hover-overlay {
+      opacity: 1;
+    }
+
+    .hero-hover-overlay .action-title {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.8vw;
+      color: #00ffff;
+      font-weight: 800;
+      letter-spacing: 1px;
+    }
+
+    .hero-hover-overlay .action-btn {
+      background: linear-gradient(135deg, #ffd043 0%, #d49514 100%);
+      color: #171000;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.75vw;
+      font-weight: 800;
+      padding: 0.2vw 0.8vw;
+      border-radius: 3px;
+      text-transform: uppercase;
+      box-shadow: 0 0 10px rgba(255, 208, 67, 0.6);
+    }
+
+    /* ========================================================
+       PANTALLA 5: SECCIÓN "MUSIC" (REPRODUCTOR CYBERNETIC)
+    ======================================================== */
+    #screen-5 {
+      background: radial-gradient(circle at 50% 50%, rgba(10, 35, 60, 0.4) 0%, #040810 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2vw;
+      position: relative;
+    }
+
+    .music-player-hud {
+      width: 60%;
+      background: rgba(7, 15, 30, 0.88);
+      border: 1px solid rgba(0, 255, 255, 0.35);
+      border-radius: 12px;
+      padding: 1.8vw 2.2vw;
+      box-shadow: 0 0 40px rgba(0, 255, 255, 0.25), inset 0 0 25px rgba(0, 255, 255, 0.08);
+      display: flex;
+      flex-direction: column;
+      gap: 1.4vh;
+      backdrop-filter: blur(12px);
+      position: relative;
+    }
+
+    .music-hud-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+      padding-bottom: 0.8vh;
+    }
+
+    .music-title-group h3 {
+      font-family: 'Orbitron', monospace;
+      font-size: 1.2vw;
+      color: #00ffff;
+      letter-spacing: 2px;
+    }
+
+    .music-title-group span {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.75vw;
+      color: #7ba2cf;
+    }
+
+    .music-close-btn {
+      background: rgba(0, 255, 255, 0.1);
+      border: 1px solid #00ffff;
+      color: #00ffff;
+      font-size: 1vw;
+      padding: 0.2vw 0.8vw;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .music-close-btn:hover {
+      background: #00ffff;
+      color: #000;
+    }
+
+    .cyber-visualizer {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      height: 70px;
+      gap: 4px;
+      padding: 8px 0;
+    }
+
+    .v-bar {
+      flex: 1;
+      background: linear-gradient(180deg, #00ffff 0%, #1565c0 100%);
+      border-radius: 2px;
+      height: 15%;
+      transition: height 0.15s ease;
+    }
+
+    .playing .v-bar:nth-child(2n) { animation: soundWaves 0.9s infinite alternate; }
+    .playing .v-bar:nth-child(3n) { animation: soundWaves 0.7s infinite alternate 0.2s; }
+    .playing .v-bar:nth-child(5n) { animation: soundWaves 1.1s infinite alternate 0.4s; }
+    .playing .v-bar:nth-child(7n) { animation: soundWaves 0.6s infinite alternate 0.1s; }
+
+    @keyframes soundWaves {
+      0% { height: 15%; }
+      50% { height: 95%; }
+      100% { height: 35%; }
+    }
+
+    .music-progress-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .music-progress-bar {
+      width: 100%;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: 3px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .music-progress-current {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, #00ffff, #0088ff);
+      box-shadow: 0 0 10px #00ffff;
+    }
+
+    .music-time-stamps {
+      display: flex;
+      justify-content: space-between;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7vw;
+      color: #7296c4;
+    }
+
+    .music-controls-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 2vw;
+      margin-top: 0.6vh;
+    }
+
+    .music-ctrl-btn {
+      background: transparent;
+      border: 1px solid rgba(0, 255, 255, 0.4);
+      color: #00ffff;
+      width: 2.8vw;
+      height: 2.8vw;
+      border-radius: 50%;
+      display: grid;
+      place-content: center;
+      cursor: pointer;
+      font-size: 1.1vw;
+      transition: all 0.2s;
+    }
+
+    .music-ctrl-btn:hover {
+      background: rgba(0, 255, 255, 0.2);
+      transform: scale(1.08);
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+    }
+
+    .music-ctrl-btn.play-pause-master {
+      width: 3.6vw;
+      height: 3.6vw;
+      background: #00ffff;
+      color: #000;
+      border: none;
+      font-size: 1.4vw;
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.7);
+    }
+
+    .music-ctrl-btn.play-pause-master:hover {
+      background: #ffffff;
+      transform: scale(1.1);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- VIEWPORT 16:9 FIJO -->
+  <main class="game-viewport">
+
+    <!-- ==============================================
+         PANTALLA 1: SPLASH & CARGA CON GLITCH Y DESATURACIÓN
+    ============================================== -->
+    <section id="screen-1" class="screen active">
+      <div class="glitch-backdrop">
+        <div class="glitch-layer"></div>
+        <div class="glitch-layer layer-cyan"></div>
+        <div class="glitch-layer layer-red"></div>
+        <div class="glitch-scanlines"></div>
+      </div>
+
+      <div class="logo-container">
+        <div class="anniversary-number">אֲבַדוֹן</div>
+        <div class="subtitle">ᚠ ᚢ ᚦ ᚨ ᚱ ᚲ ᚷ ᚹ ᚺ ᛃ ᛇ ᛈ ᛉ ᛋ ᛏ</div>
+      </div>
+
+      <div class="loading-box" id="loading-box">
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill" id="progress-fill"></div>
+        </div>
+        <div class="loading-info">
+          <span>I have read and agree to the Terms and Privacy Policy</span>
+          <span id="loading-percentage">0%</span>
+        </div>
+      </div>
+
+      <button class="btn-start" id="btn-start" onclick="goToScreen(2)">
+        PRESS
+      </button>
+    </section>
+
+
+    <!-- ==============================================
+         PANTALLA 2: LOBBY PRINCIPAL MLBB
+    ============================================== -->
+    <section id="screen-2" class="screen">
+      <div class="character-stand"></div>
+
+      <header class="top-bar">
+        <div class="user-profile">
+          <div class="avatar-wrapper">
+            <img src="https://i.pinimg.com/736x/ca/7b/6e/ca7b6e1cff7e339cb559d1d5de042056.jpg" alt="Avatar">
+          </div>
+          <div class="user-info-text">
+            <div class="username">
+              Doom <span class="user-level-badge">Lv. 30</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="resources-group">
+          <div class="resource-chip">
+            <span class="resource-icon gold-icon">🪙</span>
+            <span>398,045</span>
+          </div>
+          <div class="resource-chip">
+            <span class="resource-icon diamond-icon">💎</span>
+            <span>139</span>
+          </div>
+        </div>
+
+        <div class="system-icons">
+          <button class="sys-btn" title="Ranking">🏆 MPL</button>
+          <!-- Botón de Chat que abre Friends -->
+          <button class="sys-btn" title="Amigos" onclick="goToScreen(4)">👥 Chat</button>
+          <button class="sys-btn" title="Correo">✉️ Mail</button>
+          <button class="sys-btn" title="Configuración">⚙ Settings</button>
+        </div>
+      </header>
+
+      <div class="speech-bubble">
+        “El infierno me obedece, pues yo soy Doom.”
+      </div>
+
+      <aside class="lobby-sidebar-left">
+        <button class="side-action-btn">
+          <span>⚖️</span>
+          <span>Shop</span>
+        </button>
+        <button class="side-action-btn">
+          <span>🚩</span>
+          <span>Events</span>
+        </button>
+      </aside>
+
+      <footer class="bottom-bar">
+        <nav class="bottom-nav-links">
+          <!-- 1. PREPARATION: Abre la ventana de MUSIC (Pantalla 5) -->
+          <div class="nav-item" onclick="goToScreen(5)">🛡️ Music</div>
+          <!-- 2. HEROES: Abre la ventana de FRIENDS (Pantalla 4) -->
+          <div class="nav-item" onclick="goToScreen(4)">⚔ Friends</div>
+          <div class="nav-item">🎨 Collection</div>
+          <div class="nav-item">🎒 Inventory</div>
+        </nav>
+
+        <!-- Botón clásico inferior también vinculado a Music -->
+        <div class="classic-btn-container" onclick="goToScreen(5)">
+          <button class="classic-btn">
+            <div class="icon-mode">⚔</div>
+            <span class="label">MUSIC</span>
+          </button>
+        </div>
+      </footer>
+    </section>
+
+
+    <!-- ==============================================
+         PANTALLA 4: SECCIÓN "FRIENDS" (SELECTOR DE HÉROES)
+    ============================================== -->
+    <section id="screen-4" class="screen">
+      
+      <!-- Barra superior idéntica a MLBB -->
+      <div class="friends-topbar">
+        <div class="friends-left-title">
+          <!-- Botón de retorno al Lobby (Pantalla 2) -->
+          <button class="friends-back-btn" onclick="goToScreen(2)">
+            ← VOLVER
+          </button>
+          <div class="friends-title-text"> // FRIENDS</div>
+        </div>
+
+        <div class="friends-filters">
+          <div class="filter-pill">Todas las Líneas ▼</div>
+          <div class="filter-pill">Por defecto ▼</div>
+        </div>
+      </div>
+
+      <!-- Contenedor central -->
+      <div class="friends-main-area">
+        
+        <!-- Sidebar de Roles -->
+        <aside class="roles-sidebar">
+          <div class="role-btn active">Todos</div>
+          <div class="role-btn">Tanque</div>
+          <div class="role-btn">Combatiente</div>
+          <div class="role-btn">Asesino</div>
+          <div class="role-btn">Mago</div>
+          <div class="role-btn">Tirador</div>
+          <div class="role-btn">Apoyo</div>
+        </aside>
+
+        <!-- Cuadrícula de Cartas (Al pasar el mouse se desenfocan y muestran el enlace) -->
+        <div class="heroes-grid">
+          
+          <!-- HÉROE 1: EUDORA -->
+          <a href="https://xat.me/iLuguinhoo" target="_blank" rel="noopener noreferrer" class="hero-card">
+            <span class="badge-corner">GRATIS</span>
+            <img class="hero-thumb" src="https://wallpapercave.com/wp/wp13158615.jpg" alt="Eudora">
+            <div class="hero-name-bar">
+              <span>Lugo</span>
+              <div class="hero-icon-class">⚡</div>
+            </div>
+            <div class="hero-hover-overlay">
+              <span class="action-title">@LUGO</span>
+              <span class="action-btn">VISITAR PERFIL</span>
+            </div>
+          </a>
+
+          <!-- HÉROE 2: ZILONG -->
+          <a href="https://tusitio.com/amigo2" target="_blank" rel="noopener noreferrer" class="hero-card">
+            <span class="badge-corner">GRATIS</span>
+            <img class="hero-thumb" src="https://images.wallpapersden.com/image/download/zilong-mobile-legends-bang-bang_a2xqa2qUmZqaraWkpJRobWlmrWdma2Y.jpg" alt="Zilong">
+            <div class="hero-name-bar">
+              <span>Zilong</span>
+              <div class="hero-icon-class">⚔</div>
+            </div>
+            <div class="hero-hover-overlay">
+              <span class="action-title">@ESTELA</span>
+              <span class="action-btn">VISITAR PERFIL</span>
+            </div>
+          </a>
+
+          <!-- HÉROE 3: LAYLA -->
+          <a href="https://tusitio.com/amigo3" target="_blank" rel="noopener noreferrer" class="hero-card">
+            <span class="badge-corner">GRATIS</span>
+            <img class="hero-thumb" src="https://images.wallpapersden.com/image/download/layla-mobile-legends_a2pramyUmZqaraWkpJRobWlmrWdma2Y.jpg" alt="Layla">
+            <div class="hero-name-bar">
+              <span>Layla</span>
+              <div class="hero-icon-class">🎯</div>
+            </div>
+            <div class="hero-hover-overlay">
+              <span class="action-title">@MAR</span>
+              <span class="action-btn">VISITAR PERFIL</span>
+            </div>
+          </a>
+
+          <!-- HÉROE 4: ALICE -->
+          <a href="https://tusitio.com/amigo4" target="_blank" rel="noopener noreferrer" class="hero-card">
+            <span class="badge-corner">GRATIS</span>
+            <img class="hero-thumb" src="https://images.wallpapersden.com/image/download/alice-mobile-legends_a2pqbmeUmZqaraWkpJRobWlmrWdma2Y.jpg" alt="Alice">
+            <div class="hero-name-bar">
+              <span>Alice</span>
+              <div class="hero-icon-class">🦇</div>
+            </div>
+            <div class="hero-hover-overlay">
+              <span class="action-title">@GABI</span>
+              <span class="action-btn">VISITAR PERFIL</span>
+            </div>
+          </a>
+
+          <!-- HÉROE 5: MIYA -->
+          <a href="https://tusitio.com/amigo5" target="_blank" rel="noopener noreferrer" class="hero-card">
+            <span class="badge-corner">GRATIS</span>
+            <img class="hero-thumb" src="https://images.wallpapersden.com/image/download/miya-mobile-legends_a2tqaWiUmZqaraWkpJRobWlmrWdma2Y.jpg" alt="Miya">
+            <div class="hero-name-bar">
+              <span>Miya</span>
+              <div class="hero-icon-class">🏹</div>
+            </div>
+            <div class="hero-hover-overlay">
+              <span class="action-title">@MIYA</span>
+              <span class="action-btn">VISITAR PERFIL</span>
+            </div>
+          </a>
+
+          <!-- HÉROE 6: BALMOND -->
+          <a href="https://tusitio.com/amigo6" target="_blank" rel="noopener noreferrer" class="hero-card">
+            <span class="badge-corner">GRATIS</span>
+            <img class="hero-thumb" src="https://images.wallpapersden.com/image/download/balmond-mobile-legends_a2pqb2mUmZqaraWkpJRobWlmrWdma2Y.jpg" alt="Balmond">
+            <div class="hero-name-bar">
+              <span>Balmond</span>
+              <div class="hero-icon-class">🪓</div>
+            </div>
+            <div class="hero-hover-overlay">
+              <span class="action-title">@BALMOND</span>
+              <span class="action-btn">VISITAR PERFIL</span>
+            </div>
+          </a>
+
+          <!-- HÉROE 7: SABER -->
+          <a href="https://tusitio.com/amigo7" target="_blank" rel="noopener noreferrer" class="hero-card">
+            <span class="badge-corner">GRATIS</span>
+            <img class="hero-thumb" src="https://images.wallpapersden.com/image/download/saber-mobile-legends_a2pqb2qUmZqaraWkpJRobWlmrWdma2Y.jpg" alt="Saber">
+            <div class="hero-name-bar">
+              <span>Saber</span>
+              <div class="hero-icon-class">🗡</div>
+            </div>
+            <div class="hero-hover-overlay">
+              <span class="action-title">@SABER</span>
+              <span class="action-btn">VISITAR PERFIL</span>
+            </div>
+          </a>
+
+          <!-- HÉROE 8: ALUCARD -->
+          <a href="https://tusitio.com/amigo8" target="_blank" rel="noopener noreferrer" class="hero-card">
+            <span class="badge-corner">GRATIS</span>
+            <img class="hero-thumb" src="https://images.wallpapersden.com/image/download/alucard-mobile-legends_a2psaWaUmZqaraWkpJRobWlmrWdma2Y.jpg" alt="Alucard">
+            <div class="hero-name-bar">
+              <span>Alucard</span>
+              <div class="hero-icon-class">⚔</div>
+            </div>
+            <div class="hero-hover-overlay">
+              <span class="action-title">@ALUCARD</span>
+              <span class="action-btn">VISITAR PERFIL</span>
+            </div>
+          </a>
+
+          <!-- HÉROE 9: BRUNO -->
+          <a href="https://tusitio.com/amigo9" target="_blank" rel="noopener noreferrer" class="hero-card">
+            <span class="badge-corner">GRATIS</span>
+            <img class="hero-thumb" src="https://images.wallpapersden.com/image/download/bruno-mobile-legends_a2pqbmaUmZqaraWkpJRobWlmrWdma2Y.jpg" alt="Bruno">
+            <div class="hero-name-bar">
+              <span>Bruno</span>
+              <div class="hero-icon-class">⚽</div>
+            </div>
+            <div class="hero-hover-overlay">
+              <span class="action-title">@BRUNO</span>
+              <span class="action-btn">VISITAR PERFIL</span>
+            </div>
+          </a>
+
+          <!-- HÉROE 10: ALPHA -->
+          <a href="https://tusitio.com/amigo10" target="_blank" rel="noopener noreferrer" class="hero-card">
+            <span class="badge-corner">GRATIS</span>
+            <img class="hero-thumb" src="https://images.wallpapersden.com/image/download/alpha-mobile-legends_a2pqb2eUmZqaraWkpJRobWlmrWdma2Y.jpg" alt="Alpha">
+            <div class="hero-name-bar">
+              <span>Alpha</span>
+              <div class="hero-icon-class">🤖</div>
+            </div>
+            <div class="hero-hover-overlay">
+              <span class="action-title">@ALPHA</span>
+              <span class="action-btn">VISITAR PERFIL</span>
+            </div>
+          </a>
+
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ==============================================
+         PANTALLA 5: SECCIÓN "MUSIC" (REPRODUCTOR CYBERNETIC)
+    ============================================== -->
+    <section id="screen-5" class="screen">
+      
+      <div class="music-player-hud" id="hudContainer">
+        
+        <!-- Header del Reproductor -->
+        <div class="music-hud-header">
+          <div class="music-title-group">
+            <h3>CYBERNETIC AUDIO SYSTEM</h3>
+            <span id="musicTrackName">LATVERIA HYMN // DOOM THEME</span>
+          </div>
+          <!-- Botón de retorno al Lobby (Pantalla 2) -->
+          <button class="music-close-btn" onclick="goToScreen(2)">✕ CERRAR</button>
+        </div>
+
+        <!-- Visualizador Ecualizador de Audio -->
+        <div class="cyber-visualizer" id="equalizerBars">
+          <div class="v-bar"></div><div class="v-bar"></div><div class="v-bar"></div>
+          <div class="v-bar"></div><div class="v-bar"></div><div class="v-bar"></div>
+          <div class="v-bar"></div><div class="v-bar"></div><div class="v-bar"></div>
+          <div class="v-bar"></div><div class="v-bar"></div><div class="v-bar"></div>
+          <div class="v-bar"></div><div class="v-bar"></div><div class="v-bar"></div>
+          <div class="v-bar"></div><div class="v-bar"></div><div class="v-bar"></div>
+          <div class="v-bar"></div><div class="v-bar"></div><div class="v-bar"></div>
+        </div>
+
+        <!-- Barra de Progreso y Tiempo -->
+        <div class="music-progress-wrapper">
+          <div class="music-progress-bar" id="musicProgressBar">
+            <div class="music-progress-current" id="musicProgressFill"></div>
+          </div>
+          <div class="music-time-stamps">
+            <span id="currentTimeDisplay">00:00</span>
+            <span id="totalDurationDisplay">--:--</span>
+          </div>
+        </div>
+
+        <!-- Controles Digitales -->
+        <div class="music-controls-row">
+          <button class="music-ctrl-btn" title="Anterior" onclick="restartAudio()">⏮</button>
+          <button class="music-ctrl-btn play-pause-master" id="masterPlayBtn" onclick="togglePlayMusic()">▶</button>
+          <button class="music-ctrl-btn" title="Reiniciar" onclick="restartAudio()">⏭</button>
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- ELEMENTO DE AUDIO (REEMPLAZA EL SRC CON TU ENLACE DIRECTO DE DROPBOX ?raw=1) -->
+  <audio id="cyberAudio" preload="auto">
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- ==============================================
+       LÓGICA JS (TRANSICIONES, CARGA Y AUDIO)
+  ============================================== -->
+  <script>
+    // 1. Simulación de carga en Pantalla 1
+    window.addEventListener('DOMContentLoaded', () => {
+      const fill = document.getElementById('progress-fill');
+      const text = document.getElementById('loading-percentage');
+      const loadBox = document.getElementById('loading-box');
+      const btnStart = document.getElementById('btn-start');
+      
+      let progress = 0;
+      const interval = setInterval(() => {
+        progress += Math.floor(Math.random() * 5) + 2;
+        if (progress >= 100) {
+          progress = 100;
+          clearInterval(interval);
+          loadBox.style.display = 'none';
+          btnStart.style.display = 'inline-block';
+        }
+        fill.style.width = progress + '%';
+        text.innerText = progress + '%';
+      }, 50);
+    });
+
+    // 2. Navegador de pantallas
+    function goToScreen(screenNumber) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      const target = document.getElementById(`screen-${screenNumber}`);
+      if (target) {
+        target.classList.add('active');
+      }
+
+      // Si entra a la pantalla de Música (5), auto-reproduce el audio
+      if (screenNumber === 5) {
+        playAudio();
+      }
+    }
+
+    // 3. Lógica del Reproductor de Audio Cybernetic
+    const audio = document.getElementById('cyberAudio');
+    const masterPlayBtn = document.getElementById('masterPlayBtn');
+    const hudContainer = document.getElementById('hudContainer');
+    const progressFill = document.getElementById('musicProgressFill');
+    const progressBar = document.getElementById('musicProgressBar');
+    const currentTimeDisplay = document.getElementById('currentTimeDisplay');
+    const totalDurationDisplay = document.getElementById('totalDurationDisplay');
+
+    function formatTime(seconds) {
+      if (isNaN(seconds)) return "00:00";
+      const mins = Math.floor(seconds / 60);
+      const secs = Math.floor(seconds % 60);
+      return `${mins < 10 ? '0' : ''}${mins}:${secs < 10 ? '0' : ''}${secs}`;
+    }
+
+    function playAudio() {
+      audio.play().then(() => {
+        masterPlayBtn.innerText = '❚❚';
+        hudContainer.classList.add('playing');
+      }).catch(err => {
+        console.warn("Reproducción en espera de interacción:", err);
+      });
+    }
+
+    function pauseAudio() {
+      audio.pause();
+      masterPlayBtn.innerText = '▶';
+      hudContainer.classList.remove('playing');
+    }
+
+    function togglePlayMusic() {
+      if (audio.paused) {
+        playAudio();
+      } else {
+        pauseAudio();
+      }
+    }
+
+    function restartAudio() {
+      audio.currentTime = 0;
+      playAudio();
+    }
+
+    audio.addEventListener('timeupdate', () => {
+      if (audio.duration) {
+        const percent = (audio.currentTime / audio.duration) * 100;
+        progressFill.style.width = percent + '%';
+        currentTimeDisplay.innerText = formatTime(audio.currentTime);
+        totalDurationDisplay.innerText = formatTime(audio.duration);
+      }
+    });
+
+    // Click en la barra para cambiar el segundo de reproducción
+    progressBar.addEventListener('click', (e) => {
+      const rect = progressBar.getBoundingClientRect();
+      const pos = (e.clientX - rect.left) / rect.width;
+      if (audio.duration) {
+        audio.currentTime = pos * audio.duration;
+      }
+    });
+
+    audio.addEventListener('ended', () => {
+      pauseAudio();
+      progressFill.style.width = '0%';
+    });
+  </script>
+</body>
+</html>
