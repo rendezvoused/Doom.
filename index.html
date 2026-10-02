@@ -19,9 +19,18 @@
     }
 
     :root {
-      --cyan-glow: #00ffff;
-      --gold-accent: #ffd043;
-      --bg-dark: #03060c;
+      /* Paleta Doom: Acero, Gunmetal, Carbón y Verde Latveria */
+      --doom-steel-light: #d8e2ec;
+      --doom-steel: #8a9ba8;
+      --doom-steel-dark: #3a4550;
+      --doom-green-bright: #2bd878;
+      --doom-green-glow: rgba(43, 216, 120, 0.45);
+      --doom-green-dark: #123824;
+      --doom-green-deep: #091b12;
+      --charcoal-bg: #07090d;
+      --charcoal-panel: rgba(13, 16, 22, 0.94);
+      --charcoal-panel-border: rgba(90, 110, 125, 0.32);
+      --gold-accent: #e5b338;
       --safe-top: env(safe-area-inset-top, 0px);
       --safe-bottom: env(safe-area-inset-bottom, 0px);
       --safe-left: env(safe-area-inset-left, 0px);
@@ -33,9 +42,9 @@
       height: 100%;
       height: 100dvh;
       overflow: hidden;
-      background-color: var(--bg-dark);
+      background-color: var(--charcoal-bg);
       font-family: 'Rajdhani', sans-serif;
-      color: #fff;
+      color: #e2e8f0;
     }
 
     /* Contenedor que ocupa el 100% de la pantalla sin bandas negras */
@@ -44,7 +53,7 @@
       width: 100vw;
       height: 100vh;
       height: 100dvh;
-      background: #080d16;
+      background: #05070a;
       overflow: hidden;
     }
 
@@ -70,6 +79,9 @@
       transform: scale(1);
     }
 
+    /* ========================================================
+       PANTALLA 1: SPLASH & CARGA (ACERO Y VERDE OSCURO DOOM)
+    ======================================================== */
     #screen-1 {
       display: flex;
       flex-direction: column;
@@ -88,7 +100,7 @@
       height: 100%;
       z-index: 1;
       overflow: hidden;
-      background-color: #050a12;
+      background-color: #04070a;
     }
 
     .glitch-layer {
@@ -96,24 +108,24 @@
       inset: -5%;
       width: 110%;
       height: 110%;
-      background: radial-gradient(circle at 50% 45%, rgba(20, 45, 80, 0.4) 0%, rgba(3, 6, 12, 0.94) 95%),
+      background: radial-gradient(circle at 50% 45%, rgba(18, 56, 36, 0.35) 0%, rgba(4, 7, 10, 0.96) 95%),
                   url('https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/af8ed861-a1e7-4979-9745-4a3618ed836c/dmn976s-1511ea17-4084-4659-84bb-8833b934b77a.png/v1/fill/w_1191,h_671,q_70,strp/doctor_doom_wallpaper_6_by_vib16_dmn976s-pre.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiIvZi9hZjhlZDg2MS1hMWU3LTQ5NzktOTc0NS00YTM2MThlZDgzNmMvZG1uOTc2cy0xNTExZWExNy00MDg0LTQ2NTktODRiYi04ODMzYjkzNGI3N2EucG5nIiwiaGVpZ2h0IjoiPD03MjEiLCJ3aWR0aCI6Ijw9MTI4MCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS53YXRlcm1hcmsiXSwid21rIjp7InBhdGgiOiIvd20vYWY4ZWQ4NjEtYTFlNy00OTc5LTk3NDUtNGEzNjE4ZWQ4MzZjL3ZpYjE2LTQucG5nIiwib3BhY2l0eSI6OTUsInByb3BvcnRpb25zIjowLjQ1LCJncmF2aXR5IjoiY2VudGVyIn19.DCILEcPCeuQ6JGK2Jaf3hyRgOJcGU67tBJtNBFcp2QU');
       background-size: cover;
       background-position: center;
-      filter: saturate(0.2) contrast(1.2) brightness(0.7);
+      filter: saturate(0.18) contrast(1.25) brightness(0.65);
     }
 
     .glitch-layer.layer-cyan {
-      opacity: 0.55;
+      opacity: 0.5;
       mix-blend-mode: screen;
-      filter: saturate(0.2) contrast(1.4) drop-shadow(-4px 0 #00ffff) brightness(0.8);
+      filter: saturate(0.2) contrast(1.4) drop-shadow(-4px 0 #2bd878) brightness(0.75);
       animation: bgGlitchCyan 3.2s infinite steps(2, start);
     }
 
     .glitch-layer.layer-red {
-      opacity: 0.45;
+      opacity: 0.4;
       mix-blend-mode: screen;
-      filter: saturate(0.2) contrast(1.4) drop-shadow(4px 0 #ff0055) brightness(0.8);
+      filter: saturate(0.2) contrast(1.4) drop-shadow(4px 0 #718096) brightness(0.75);
       animation: bgGlitchRed 3.8s infinite steps(2, start);
     }
 
@@ -124,8 +136,8 @@
         to bottom,
         rgba(255, 255, 255, 0) 0px,
         rgba(255, 255, 255, 0) 2px,
-        rgba(0, 0, 0, 0.35) 3px,
-        rgba(0, 0, 0, 0.35) 4px
+        rgba(0, 0, 0, 0.45) 3px,
+        rgba(0, 0, 0, 0.45) 4px
       );
       pointer-events: none;
       z-index: 2;
@@ -151,6 +163,7 @@
       76% { clip-path: inset(0 0 0 0); transform: translate(0); }
     }
 
+    /* Tipografía Screen 1: Acero Pulido + Verde Oscuro Profundo */
     .logo-container {
       position: absolute;
       top: clamp(12%, 18vh, 25%);
@@ -165,20 +178,23 @@
       font-family: 'Teko', sans-serif;
       font-size: clamp(3.5rem, 12vw, 7.5rem);
       line-height: 0.9;
-      letter-spacing: 3px;
-      background: linear-gradient(180deg, #ffffff 0%, #b8e2ff 45%, #2a94f3 65%, #104e9c 100%);
+      letter-spacing: 4px;
+      /* Gradiente de acero pulido y reflejo titanio con sutil verde oscuro */
+      background: linear-gradient(180deg, #f7fafc 0%, #cbd5e1 32%, #64748b 55%, #1e3a29 78%, #0d2317 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      filter: drop-shadow(0 0 25px rgba(42, 148, 243, 0.8));
+      filter: drop-shadow(0 0 20px rgba(43, 216, 120, 0.65)) drop-shadow(0 0 35px rgba(18, 56, 36, 0.9));
     }
 
     .logo-container .subtitle {
       font-size: clamp(0.75rem, 2.5vw, 1.3rem);
-      letter-spacing: clamp(2px, 0.6vw, 6px);
-      color: #9fe2ff;
+      letter-spacing: clamp(3px, 0.8vw, 8px);
+      /* Verde oscuro místico / acero oscuro */
+      color: #6da584;
+      text-shadow: 0 0 12px rgba(43, 216, 120, 0.45);
       text-transform: uppercase;
       font-weight: 700;
-      margin-top: 0.5rem;
+      margin-top: 0.6rem;
       word-break: break-word;
     }
 
@@ -194,17 +210,17 @@
     .progress-bar-bg {
       width: 100%;
       height: 7px;
-      background: rgba(255, 255, 255, 0.12);
+      background: rgba(18, 26, 22, 0.7);
       border-radius: 4px;
       overflow: hidden;
-      border: 1px solid rgba(0, 255, 255, 0.35);
+      border: 1px solid rgba(100, 130, 115, 0.4);
     }
 
     .progress-bar-fill {
       width: 0%;
       height: 100%;
-      background: linear-gradient(90deg, #00ffff, #0088ff);
-      box-shadow: 0 0 14px #00ffff;
+      background: linear-gradient(90deg, #1b4d33, #2bd878, #94a3b8);
+      box-shadow: 0 0 14px rgba(43, 216, 120, 0.6);
       transition: width 0.15s ease-out;
     }
 
@@ -213,7 +229,7 @@
       display: flex;
       justify-content: space-between;
       font-size: clamp(0.65rem, 1.8vw, 0.85rem);
-      color: rgba(255, 255, 255, 0.7);
+      color: #94a3b8;
     }
 
     .btn-start {
@@ -221,18 +237,18 @@
       position: relative;
       z-index: 10;
       padding: clamp(0.6rem, 1.8vh, 1rem) clamp(2rem, 5vw, 3.5rem);
-      background: linear-gradient(135deg, rgba(0, 255, 200, 0.15) 0%, rgba(0, 40, 80, 0.9) 100%);
-      color: #00ffff;
+      background: linear-gradient(135deg, rgba(20, 45, 30, 0.85) 0%, rgba(10, 18, 14, 0.95) 100%);
+      color: #bbf7d0;
       font-family: 'Orbitron', monospace;
       font-size: clamp(1rem, 2.5vw, 1.4rem);
       font-weight: 900;
       letter-spacing: 5px;
       text-transform: uppercase;
       cursor: pointer;
-      border: 1.5px solid #00ffff;
+      border: 1.5px solid #2bd878;
       outline: none;
       clip-path: polygon(14px 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%, 0 14px);
-      box-shadow: 0 0 25px rgba(0, 255, 255, 0.4), inset 0 0 15px rgba(0, 255, 255, 0.2);
+      box-shadow: 0 0 25px rgba(43, 216, 120, 0.35), inset 0 0 15px rgba(43, 216, 120, 0.15);
       transition: all 0.25s ease;
       animation: digitalGlitchPulse 3.5s infinite;
     }
@@ -243,31 +259,35 @@
       width: 8px;
       height: 8px;
     }
-    .btn-start::before { top: -2px; left: -2px; border-top: 2px solid #fff; border-left: 2px solid #fff; }
-    .btn-start::after { bottom: -2px; right: -2px; border-bottom: 2px solid #fff; border-right: 2px solid #fff; }
+    .btn-start::before { top: -2px; left: -2px; border-top: 2px solid #e2e8f0; border-left: 2px solid #e2e8f0; }
+    .btn-start::after { bottom: -2px; right: -2px; border-bottom: 2px solid #e2e8f0; border-right: 2px solid #e2e8f0; }
 
     .btn-start:hover {
-      background: linear-gradient(135deg, rgba(0, 255, 200, 0.35) 0%, rgba(0, 120, 220, 0.95) 100%);
+      background: linear-gradient(135deg, rgba(30, 75, 50, 0.9) 0%, rgba(15, 35, 25, 0.98) 100%);
       color: #ffffff;
       transform: scale(1.05);
-      box-shadow: 0 0 35px rgba(0, 255, 255, 0.85);
+      box-shadow: 0 0 35px rgba(43, 216, 120, 0.8);
+      border-color: #bbf7d0;
     }
 
     @keyframes digitalGlitchPulse {
-      0%, 88%, 100% { transform: translate(0); text-shadow: 0 0 8px #00ffff; }
-      90% { transform: translate(-3px, 1px); text-shadow: -2px 0 #ff0055, 2px 0 #00ffff; }
-      92% { transform: translate(3px, -1px); text-shadow: 2px 0 #ff0055, -2px 0 #00ffff; }
-      94% { transform: translate(0); text-shadow: 0 0 8px #00ffff; }
+      0%, 88%, 100% { transform: translate(0); text-shadow: 0 0 8px #2bd878; }
+      90% { transform: translate(-3px, 1px); text-shadow: -2px 0 #94a3b8, 2px 0 #2bd878; }
+      92% { transform: translate(3px, -1px); text-shadow: 2px 0 #94a3b8, -2px 0 #2bd878; }
+      94% { transform: translate(0); text-shadow: 0 0 8px #2bd878; }
     }
 
+    /* ========================================================
+       PANTALLA 2: LOBBY (DARK CHARCOAL & GUNMETAL TITANIUM)
+    ======================================================== */
     #screen-2 {
-      background: radial-gradient(circle at 50% 50%, rgba(20, 40, 80, 0.2) 0%, rgba(5, 10, 20, 0.85) 60%),
+      background: radial-gradient(circle at 50% 50%, rgba(12, 16, 14, 0.45) 0%, rgba(5, 7, 10, 0.92) 65%),
                   url('https://images.wallpapersden.com/image/download/doctor-doom-4k_a2xtZ2eUmZqaraWkpJRobWlmrWdma2Y.jpg');
       background-size: cover;
       background-position: center;
     }
 
-    /* Personaje Adaptable para Móvil y Desktop */
+    /* Personaje: Colores y energía intactos */
     .character-stand {
       position: absolute;
       bottom: 0;
@@ -296,18 +316,18 @@
     @keyframes floatDoom {
       0% {
         transform: translate(-50%, 0) rotate(0deg);
-        filter: drop-shadow(0 0 16px rgba(43, 216, 120, 0.5)) drop-shadow(0 15px 30px rgba(0, 0, 0, 0.9));
+        filter: drop-shadow(0 0 16px rgba(43, 216, 120, 0.55)) drop-shadow(0 15px 30px rgba(0, 0, 0, 0.95));
       }
       50% {
-        filter: drop-shadow(0 0 28px rgba(43, 255, 140, 0.85)) drop-shadow(0 20px 40px rgba(0, 0, 0, 0.95));
+        filter: drop-shadow(0 0 30px rgba(43, 255, 140, 0.85)) drop-shadow(0 20px 40px rgba(0, 0, 0, 0.98));
       }
       100% {
         transform: translate(-50%, -15px) rotate(0.3deg);
-        filter: drop-shadow(0 0 22px rgba(43, 216, 120, 0.65)) drop-shadow(0 25px 45px rgba(0, 0, 0, 0.9));
+        filter: drop-shadow(0 0 24px rgba(43, 216, 120, 0.7)) drop-shadow(0 25px 45px rgba(0, 0, 0, 0.95));
       }
     }
 
-    /* Top bar adaptable */
+    /* Top bar: Titanio oscuro y grafito */
     .top-bar {
       position: absolute;
       top: 0;
@@ -315,7 +335,8 @@
       width: 100%;
       min-height: 52px;
       padding-top: var(--safe-top);
-      background: linear-gradient(180deg, rgba(7, 15, 30, 0.96) 0%, rgba(7, 15, 30, 0.6) 80%, transparent 100%);
+      background: linear-gradient(180deg, rgba(8, 10, 14, 0.97) 0%, rgba(10, 13, 18, 0.85) 60%, transparent 100%);
+      border-bottom: 1px solid rgba(75, 85, 99, 0.25);
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -335,10 +356,10 @@
       position: relative;
       width: clamp(34px, 4vw, 46px);
       height: clamp(34px, 4vw, 46px);
-      border: 2px solid #ecd38c;
+      border: 1.5px solid #94a3b8;
       border-radius: 6px;
       overflow: hidden;
-      box-shadow: 0 0 8px rgba(0,0,0,0.6);
+      box-shadow: 0 0 10px rgba(0,0,0,0.8);
       flex-shrink: 0;
     }
 
@@ -351,7 +372,7 @@
     .user-info-text .username {
       font-size: clamp(0.85rem, 1.4vw, 1.05rem);
       font-weight: 700;
-      color: #fff;
+      color: #f1f5f9;
       display: flex;
       align-items: center;
       gap: 5px;
@@ -359,10 +380,11 @@
 
     .user-level-badge {
       font-size: 0.68rem;
-      background: #3972bb;
+      background: #2a3441;
+      border: 1px solid #475569;
       padding: 1px 5px;
       border-radius: 3px;
-      color: #fff;
+      color: #93c5fd;
       font-weight: 600;
     }
 
@@ -373,8 +395,8 @@
     }
 
     .resource-chip {
-      background: rgba(14, 25, 45, 0.85);
-      border: 1px solid rgba(82, 137, 206, 0.4);
+      background: rgba(18, 22, 28, 0.9);
+      border: 1px solid rgba(80, 95, 115, 0.45);
       padding: 3px 10px 3px 6px;
       border-radius: 12px;
       display: flex;
@@ -382,7 +404,8 @@
       gap: 6px;
       font-size: clamp(0.72rem, 1.1vw, 0.88rem);
       font-weight: 700;
-      color: #e5f1ff;
+      color: #e2e8f0;
+      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.6);
     }
 
     .resource-icon {
@@ -394,8 +417,8 @@
       font-size: 10px;
     }
 
-    .gold-icon { background: #e09f19; color: #3e2600; }
-    .diamond-icon { background: #00c3ff; color: #00364d; }
+    .gold-icon { background: #b48316; color: #1e1300; }
+    .diamond-icon { background: #0284c7; color: #082f49; }
 
     .system-icons {
       display: flex;
@@ -406,7 +429,7 @@
     .sys-btn {
       background: transparent;
       border: none;
-      color: #92b1db;
+      color: #94a3b8;
       font-size: clamp(0.75rem, 1vw, 0.9rem);
       font-weight: 700;
       display: flex;
@@ -419,25 +442,29 @@
     }
 
     .sys-btn:hover, .sys-btn:focus-visible {
-      color: #ffde6b;
-      background: rgba(255, 255, 255, 0.05);
+      color: #e2e8f0;
+      background: rgba(255, 255, 255, 0.06);
     }
 
+    /* Speech bubble estilo grafito oscuro con acento acero */
     .speech-bubble {
       position: absolute;
       top: clamp(65px, 14vh, 120px);
       left: 50%;
       transform: translateX(-50%);
-      background: rgba(230, 240, 255, 0.93);
-      color: #172433;
-      border-radius: 10px;
-      padding: 8px 14px;
+      background: rgba(15, 19, 26, 0.94);
+      color: #f1f5f9;
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      border-left: 3px solid #2bd878;
+      border-radius: 8px;
+      padding: 9px 15px;
       max-width: min(85vw, 320px);
       font-size: clamp(0.75rem, 1.1vw, 0.9rem);
-      font-weight: 700;
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
+      font-weight: 600;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.8), 0 0 15px rgba(43, 216, 120, 0.15);
       z-index: 5;
       text-align: center;
+      backdrop-filter: blur(8px);
     }
 
     @media (min-width: 900px) {
@@ -453,10 +480,11 @@
         top: 40%;
         border-width: 6px 8px 6px 0;
         border-style: solid;
-        border-color: transparent rgba(230, 240, 255, 0.93) transparent transparent;
+        border-color: transparent rgba(15, 19, 26, 0.94) transparent transparent;
       }
     }
 
+    /* Barra lateral izquierda: Acero/Gunmetal oscuro */
     .lobby-sidebar-left {
       position: absolute;
       left: max(12px, var(--safe-left));
@@ -469,11 +497,11 @@
     }
 
     .side-action-btn {
-      background: rgba(16, 27, 49, 0.85);
-      border: 1px solid rgba(82, 137, 206, 0.5);
+      background: rgba(16, 20, 26, 0.9);
+      border: 1px solid rgba(100, 116, 139, 0.35);
       border-radius: 8px;
       padding: 8px 10px;
-      color: #c9e0ff;
+      color: #cbd5e1;
       font-size: clamp(0.7rem, 0.9vw, 0.8rem);
       font-weight: 700;
       display: flex;
@@ -482,15 +510,17 @@
       gap: 3px;
       cursor: pointer;
       transition: all 0.2s;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
     }
 
     .side-action-btn:hover {
-      background: rgba(30, 60, 110, 0.95);
-      border-color: #ffd043;
+      background: rgba(28, 35, 46, 0.95);
+      border-color: #94a3b8;
       color: #fff;
       transform: translateX(3px);
     }
 
+    /* Bottom bar: Carbón profundo */
     .bottom-bar {
       position: absolute;
       bottom: 0;
@@ -498,7 +528,8 @@
       width: 100%;
       padding-bottom: var(--safe-bottom);
       min-height: 64px;
-      background: linear-gradient(0deg, rgba(5, 11, 23, 0.98) 0%, rgba(5, 11, 23, 0.7) 75%, transparent 100%);
+      background: linear-gradient(0deg, rgba(6, 8, 12, 0.98) 0%, rgba(9, 12, 17, 0.85) 75%, transparent 100%);
+      border-top: 1px solid rgba(75, 85, 99, 0.2);
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -520,7 +551,7 @@
     .bottom-nav-links::-webkit-scrollbar { display: none; }
 
     .nav-item {
-      color: #9ab4d6;
+      color: #8392a5;
       font-size: clamp(0.78rem, 1.1vw, 0.95rem);
       font-weight: 700;
       letter-spacing: 0.5px;
@@ -535,7 +566,7 @@
     }
 
     .nav-item:hover {
-      color: #ffd043;
+      color: #e2e8f0;
       transform: translateY(-2px);
       background: rgba(255, 255, 255, 0.05);
     }
@@ -548,11 +579,11 @@
 
     .classic-btn {
       position: relative;
-      background: linear-gradient(135deg, #ffe277 0%, #e0a31b 45%, #b37305 100%);
+      background: linear-gradient(135deg, #e2e8f0 0%, #94a3b8 40%, #475569 80%, #1e293b 100%);
       padding: clamp(6px, 1.2vh, 12px) clamp(16px, 3.5vw, 36px);
       border: none;
       clip-path: polygon(15% 0, 100% 0, 85% 100%, 0% 100%);
-      box-shadow: 0 0 25px rgba(235, 172, 33, 0.5);
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.8), 0 0 10px rgba(148, 163, 184, 0.35);
       cursor: pointer;
       transition: all 0.25s ease;
       display: flex;
@@ -565,38 +596,42 @@
       position: absolute;
       inset: 2px;
       clip-path: polygon(15% 0, 100% 0, 85% 100%, 0% 100%);
-      border: 1px solid rgba(255, 255, 255, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.6);
       pointer-events: none;
     }
 
     .classic-btn:hover {
       transform: scale(1.04);
-      filter: brightness(1.1);
-      box-shadow: 0 0 32px rgba(255, 196, 0, 0.8);
+      filter: brightness(1.15);
+      box-shadow: 0 0 25px rgba(226, 232, 240, 0.5);
     }
 
     .classic-btn .icon-mode {
       width: clamp(20px, 2.2vw, 28px);
       height: clamp(20px, 2.2vw, 28px);
-      background: #623e00;
+      background: #0f172a;
       border-radius: 4px;
       display: grid;
       place-content: center;
-      color: #ffd752;
+      color: #e2e8f0;
       font-size: clamp(10px, 1.1vw, 14px);
+      border: 1px solid #64748b;
     }
 
     .classic-btn .label {
       font-family: 'Teko', sans-serif;
       font-size: clamp(1.4rem, 2.5vw, 2.2rem);
       font-weight: 700;
-      color: #2e1700;
+      color: #0f172a;
       letter-spacing: 2px;
       line-height: 1;
     }
 
+    /* ========================================================
+       PANTALLA 3: ABOUT (DARK GRAPHITE, CHARCOAL & GUNMETAL)
+    ======================================================== */
     #screen-3 {
-      background: radial-gradient(circle at 60% 50%, rgba(10, 25, 55, 0.5) 0%, rgba(3, 7, 15, 0.95) 100%),
+      background: radial-gradient(circle at 60% 50%, rgba(15, 20, 26, 0.65) 0%, rgba(4, 6, 8, 0.98) 100%),
                   url('https://u.cubeupload.com/Eradicater/87e51937283878e8fd72.jpg');
       background-size: cover;
       background-position: center;
@@ -630,22 +665,24 @@
     .match-header h2 {
       font-family: 'Teko', sans-serif;
       font-size: clamp(2.5rem, 6vw, 4.5rem);
-      color: #ffd043;
-      letter-spacing: 1.5px;
+      /* Acero brillante con toque plateado */
+      color: #e2e8f0;
+      letter-spacing: 2px;
       line-height: 1;
+      text-shadow: 0 0 15px rgba(226, 232, 240, 0.25);
     }
 
     .match-header p {
       font-size: clamp(0.85rem, 1.4vw, 1.1rem);
-      color: #92b8ea;
+      color: #7d8c9e;
       margin-top: 4px;
     }
 
     .btn-back {
       align-self: flex-start;
-      background: rgba(18, 32, 59, 0.85);
-      border: 1px solid rgba(82, 137, 206, 0.5);
-      color: #c9e0ff;
+      background: rgba(16, 20, 26, 0.9);
+      border: 1px solid rgba(100, 116, 139, 0.4);
+      color: #cbd5e1;
       padding: 8px 18px;
       border-radius: 6px;
       font-size: clamp(0.8rem, 1.1vw, 0.95rem);
@@ -655,9 +692,9 @@
     }
 
     .btn-back:hover {
-      background: #1e3a68;
-      color: #ffd043;
-      border-color: #ffd043;
+      background: #273342;
+      color: #fff;
+      border-color: #94a3b8;
     }
 
     .links-column {
@@ -674,48 +711,64 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      background: linear-gradient(90deg, rgba(16, 29, 53, 0.88) 0%, rgba(22, 42, 79, 0.7) 100%);
-      border: 1px solid rgba(82, 137, 206, 0.35);
+      background: linear-gradient(90deg, rgba(14, 18, 24, 0.94) 0%, rgba(20, 26, 34, 0.82) 100%);
+      border: 1px solid rgba(80, 95, 115, 0.35);
+      border-left: 3px solid #64748b;
       border-radius: 8px;
       padding: clamp(10px, 1.5vh, 16px) clamp(12px, 2vw, 20px);
       text-decoration: none;
-      color: #fff;
+      color: #f1f5f9;
       cursor: pointer;
       transition: all 0.25s ease;
       gap: 10px;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
     }
 
     .link-card:hover {
       transform: translateX(-4px);
-      border-color: #ffd043;
-      background: linear-gradient(90deg, rgba(22, 43, 80, 0.95) 0%, rgba(35, 68, 128, 0.85) 100%);
-      box-shadow: 0 0 18px rgba(255, 208, 67, 0.3);
+      border-color: #94a3b8;
+      border-left-color: #2bd878;
+      background: linear-gradient(90deg, rgba(20, 26, 36, 0.98) 0%, rgba(28, 37, 49, 0.9) 100%);
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.7), 0 0 10px rgba(43, 216, 120, 0.2);
     }
 
     .link-card .title {
       font-size: clamp(0.95rem, 1.4vw, 1.25rem);
       font-weight: 700;
       letter-spacing: 0.5px;
+      color: #e2e8f0;
     }
 
     .link-card .desc {
       font-size: clamp(0.72rem, 1vw, 0.85rem);
-      color: #92b8ea;
+      color: #7b8c9e;
     }
 
     .link-card .btn-tag {
-      background: #ffd043;
-      color: #1e1300;
+      background: #334155;
+      color: #f1f5f9;
+      border: 1px solid #64748b;
       font-size: clamp(0.68rem, 0.9vw, 0.82rem);
       font-weight: 800;
       padding: 4px 10px;
       border-radius: 4px;
       text-transform: uppercase;
       white-space: nowrap;
+      transition: all 0.2s;
     }
 
+    .link-card:hover .btn-tag {
+      background: #2bd878;
+      color: #05140b;
+      border-color: #2bd878;
+      box-shadow: 0 0 10px rgba(43, 216, 120, 0.5);
+    }
+
+    /* ========================================================
+       PANTALLA 4: FRIENDS (SELECTOR DE HÉROES)
+    ======================================================== */
     #screen-4 {
-      background: linear-gradient(180deg, #091a32 0%, #060e1d 100%);
+      background: linear-gradient(180deg, #07090d 0%, #030508 100%);
       display: flex;
       flex-direction: column;
       padding: clamp(10px, 2vh, 20px) clamp(10px, 2vw, 24px);
@@ -739,9 +792,9 @@
     }
 
     .friends-back-btn {
-      background: rgba(14, 30, 58, 0.8);
-      border: 1px solid #3d6a9e;
-      color: #aed1ff;
+      background: rgba(14, 18, 24, 0.85);
+      border: 1px solid #475569;
+      color: #cbd5e1;
       border-radius: 6px;
       padding: 6px 12px;
       cursor: pointer;
@@ -754,16 +807,16 @@
     }
 
     .friends-back-btn:hover {
-      background: #1f4780;
-      color: #ffd043;
-      border-color: #ffd043;
+      background: #1e293b;
+      color: #fff;
+      border-color: #94a3b8;
     }
 
     .friends-title-text {
       font-family: 'Teko', sans-serif;
       font-size: clamp(1.6rem, 3vw, 2.5rem);
       letter-spacing: 2px;
-      color: #ffd043;
+      color: #e2e8f0;
       line-height: 1;
     }
 
@@ -773,12 +826,12 @@
     }
 
     .filter-pill {
-      background: rgba(13, 27, 50, 0.85);
-      border: 1px solid #2f5685;
+      background: rgba(15, 20, 27, 0.9);
+      border: 1px solid #334155;
       padding: 4px 10px;
       border-radius: 4px;
       font-size: clamp(0.68rem, 0.9vw, 0.8rem);
-      color: #8fb6e5;
+      color: #94a3b8;
     }
 
     .friends-main-area {
@@ -814,9 +867,9 @@
     }
 
     .role-btn {
-      background: rgba(13, 26, 48, 0.7);
-      border: 1px solid rgba(64, 114, 180, 0.35);
-      color: #8cb1df;
+      background: rgba(15, 19, 26, 0.8);
+      border: 1px solid rgba(71, 85, 105, 0.35);
+      color: #94a3b8;
       padding: 6px 12px;
       font-size: clamp(0.72rem, 0.9vw, 0.85rem);
       font-weight: 700;
@@ -828,10 +881,10 @@
     }
 
     .role-btn.active, .role-btn:hover {
-      background: linear-gradient(90deg, #1c4b8b 0%, #102e56 100%);
-      border-color: #00d4ff;
+      background: linear-gradient(90deg, #1e293b 0%, #0f172a 100%);
+      border-color: #94a3b8;
       color: #fff;
-      box-shadow: inset 0 0 10px rgba(0, 212, 255, 0.4);
+      box-shadow: inset 0 0 10px rgba(148, 163, 184, 0.2);
     }
 
     /* Grid de Héroes con scroll responsivo */
@@ -857,8 +910,8 @@
       position: relative;
       border-radius: 8px;
       overflow: hidden;
-      border: 1.5px solid rgba(75, 130, 200, 0.35);
-      background: #091322;
+      border: 1.5px solid rgba(75, 85, 99, 0.35);
+      background: #080c12;
       text-decoration: none;
       display: block;
       transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
@@ -868,8 +921,8 @@
 
     .hero-card:hover {
       transform: translateY(-4px) scale(1.02);
-      border-color: #00ffff;
-      box-shadow: 0 0 20px rgba(0, 255, 255, 0.45);
+      border-color: #2bd878;
+      box-shadow: 0 0 20px rgba(43, 216, 120, 0.4);
     }
 
     .hero-thumb {
@@ -890,7 +943,7 @@
       position: absolute;
       top: 0;
       left: 0;
-      background: linear-gradient(135deg, #12a647 0%, #0d7030 100%);
+      background: linear-gradient(135deg, #15803d 0%, #0d5326 100%);
       color: #fff;
       font-size: 0.65rem;
       font-weight: 800;
@@ -905,7 +958,7 @@
       bottom: 0;
       left: 0;
       width: 100%;
-      background: linear-gradient(180deg, transparent 0%, rgba(4, 9, 18, 0.95) 75%);
+      background: linear-gradient(180deg, transparent 0%, rgba(4, 6, 9, 0.95) 75%);
       padding: 6px 8px;
       display: flex;
       align-items: center;
@@ -916,19 +969,20 @@
     .hero-name-bar span {
       font-size: clamp(0.72rem, 1vw, 0.85rem);
       font-weight: 700;
-      color: #e5f1ff;
+      color: #e2e8f0;
       letter-spacing: 0.5px;
     }
 
     .hero-icon-class {
       width: 16px;
       height: 16px;
-      background: #00c3ff;
+      background: #334155;
+      border: 1px solid #64748b;
       border-radius: 3px;
       display: grid;
       place-content: center;
       font-size: 10px;
-      color: #031326;
+      color: #f1f5f9;
       font-weight: 900;
     }
 
@@ -943,7 +997,7 @@
       opacity: 0;
       transition: opacity 0.3s ease;
       z-index: 4;
-      background: rgba(3, 10, 20, 0.45);
+      background: rgba(4, 8, 12, 0.6);
       padding: 10px;
       text-align: center;
     }
@@ -956,25 +1010,28 @@
     .hero-hover-overlay .action-title {
       font-family: 'Orbitron', monospace;
       font-size: 0.8rem;
-      color: #00ffff;
+      color: #e2e8f0;
       font-weight: 800;
       letter-spacing: 1px;
     }
 
     .hero-hover-overlay .action-btn {
-      background: linear-gradient(135deg, #ffd043 0%, #d49514 100%);
-      color: #171000;
+      background: linear-gradient(135deg, #2bd878 0%, #15803d 100%);
+      color: #041208;
       font-family: 'Rajdhani', sans-serif;
       font-size: 0.75rem;
       font-weight: 800;
       padding: 4px 10px;
       border-radius: 4px;
       text-transform: uppercase;
-      box-shadow: 0 0 10px rgba(255, 208, 67, 0.6);
+      box-shadow: 0 0 12px rgba(43, 216, 120, 0.6);
     }
 
+    /* ========================================================
+       PANTALLA 5: REPRODUCTOR DIGITAL CYBERNETIC
+    ======================================================== */
     #screen-5 {
-      background: radial-gradient(circle at 50% 50%, rgba(10, 35, 60, 0.4) 0%, #040810 100%);
+      background: radial-gradient(circle at 50% 50%, rgba(18, 30, 24, 0.4) 0%, #030508 100%);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -985,11 +1042,11 @@
 
     .music-player-hud {
       width: min(92%, 580px);
-      background: rgba(7, 15, 30, 0.9);
-      border: 1px solid rgba(0, 255, 255, 0.35);
+      background: rgba(10, 14, 18, 0.94);
+      border: 1px solid rgba(100, 116, 139, 0.4);
       border-radius: 14px;
       padding: clamp(16px, 3vh, 28px) clamp(16px, 3vw, 32px);
-      box-shadow: 0 0 40px rgba(0, 255, 255, 0.25), inset 0 0 25px rgba(0, 255, 255, 0.08);
+      box-shadow: 0 0 40px rgba(0, 0, 0, 0.85), inset 0 0 25px rgba(255, 255, 255, 0.03);
       display: flex;
       flex-direction: column;
       gap: 16px;
@@ -1001,7 +1058,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+      border-bottom: 1px solid rgba(100, 116, 139, 0.25);
       padding-bottom: 10px;
       gap: 10px;
     }
@@ -1009,21 +1066,21 @@
     .music-title-group h3 {
       font-family: 'Orbitron', monospace;
       font-size: clamp(0.9rem, 2vw, 1.25rem);
-      color: #00ffff;
+      color: #e2e8f0;
       letter-spacing: 1.5px;
     }
 
     .music-title-group span {
       font-family: 'Space Mono', monospace;
       font-size: clamp(0.68rem, 1.2vw, 0.8rem);
-      color: #7ba2cf;
+      color: #8498af;
       display: block;
     }
 
     .music-close-btn {
-      background: rgba(0, 255, 255, 0.1);
-      border: 1px solid #00ffff;
-      color: #00ffff;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid #64748b;
+      color: #cbd5e1;
       font-size: clamp(0.75rem, 1vw, 0.88rem);
       padding: 4px 10px;
       border-radius: 4px;
@@ -1033,7 +1090,7 @@
     }
 
     .music-close-btn:hover {
-      background: #00ffff;
+      background: #e2e8f0;
       color: #000;
     }
 
@@ -1048,10 +1105,14 @@
 
     .v-bar {
       flex: 1;
-      background: linear-gradient(180deg, #00ffff 0%, #1565c0 100%);
+      background: linear-gradient(180deg, #94a3b8 0%, #1e293b 100%);
       border-radius: 2px;
       height: 15%;
       transition: height 0.15s ease;
+    }
+
+    .playing .v-bar {
+      background: linear-gradient(180deg, #2bd878 0%, #15452b 100%);
     }
 
     .playing .v-bar:nth-child(2n) { animation: soundWaves 0.9s infinite alternate; }
@@ -1074,7 +1135,7 @@
     .music-progress-bar {
       width: 100%;
       height: 6px;
-      background: rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.1);
       border-radius: 3px;
       cursor: pointer;
       position: relative;
@@ -1084,8 +1145,8 @@
     .music-progress-current {
       width: 0%;
       height: 100%;
-      background: linear-gradient(90deg, #00ffff, #0088ff);
-      box-shadow: 0 0 10px #00ffff;
+      background: linear-gradient(90deg, #64748b, #2bd878);
+      box-shadow: 0 0 10px rgba(43, 216, 120, 0.6);
     }
 
     .music-time-stamps {
@@ -1093,7 +1154,7 @@
       justify-content: space-between;
       font-family: 'Space Mono', monospace;
       font-size: clamp(0.68rem, 1vw, 0.78rem);
-      color: #7296c4;
+      color: #7d8f9f;
     }
 
     .music-controls-row {
@@ -1105,8 +1166,8 @@
 
     .music-ctrl-btn {
       background: transparent;
-      border: 1px solid rgba(0, 255, 255, 0.4);
-      color: #00ffff;
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      color: #cbd5e1;
       width: clamp(38px, 5vw, 46px);
       height: clamp(38px, 5vw, 46px);
       border-radius: 50%;
@@ -1118,19 +1179,19 @@
     }
 
     .music-ctrl-btn:hover {
-      background: rgba(0, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.1);
       transform: scale(1.08);
-      box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
     }
 
     .music-ctrl-btn.play-pause-master {
       width: clamp(48px, 6.5vw, 58px);
       height: clamp(48px, 6.5vw, 58px);
-      background: #00ffff;
-      color: #000;
+      background: #2bd878;
+      color: #041208;
       border: none;
       font-size: 1.25rem;
-      box-shadow: 0 0 20px rgba(0, 255, 255, 0.7);
+      box-shadow: 0 0 20px rgba(43, 216, 120, 0.6);
     }
 
     .music-ctrl-btn.play-pause-master:hover {
@@ -1141,6 +1202,7 @@
 </head>
 <body>
 
+  <!-- VIEWPORT ESCALABLE TOTAL SIN FRANJAS NEGRAS -->
   <main class="game-viewport">
 
     <!-- PANTALLA 1: SPLASH & CARGA -->
@@ -1172,6 +1234,7 @@
       </button>
     </section>
 
+    <!-- PANTALLA 2: LOBBY PRINCIPAL MLBB -->
     <section id="screen-2" class="screen">
       <div class="character-stand"></div>
 
@@ -1238,6 +1301,7 @@
       </footer>
     </section>
 
+    <!-- PANTALLA 3: LINKS Y ENLACES (ABOUT) -->
     <section id="screen-3" class="screen">
       <div class="screen-3-container">
         
@@ -1292,6 +1356,7 @@
       </div>
     </section>
 
+    <!-- PANTALLA 4: FRIENDS (SELECTOR DE HÉROES) -->
     <section id="screen-4" class="screen">
       
       <div class="friends-topbar">
@@ -1329,7 +1394,7 @@
             <img class="hero-thumb" src="https://wallpapercave.com/wp/wp13158615.jpg" alt="Eudora">
             <div class="hero-name-bar">
               <span>Lugo</span>
-              <div class="hero-icon-class">⚡</div>
+              <div class="hero-icon-class">⚔️</div>
             </div>
             <div class="hero-hover-overlay">
               <span class="action-title">@LUGO</span>
@@ -1340,10 +1405,11 @@
           <!-- HÉROE 2 -->
           <a href="https://tusitio.com/amigo2" target="_blank" rel="noopener noreferrer" class="hero-card">
             <span class="badge-corner">GRATIS</span>
-            <img class="hero-thumb" src="https://images.wallpapersden.com/image/download/zilong-mobile-legends-bang-bang_a2xqa2qUmZqaraWkpJRobWlmrWdma2Y.jpg" alt="Zilong">
+            <img class="hero-thumb" src="https://i.ibb.co/hRMDBjHM/image.jpg
+" alt="Zilong">
             <div class="hero-name-bar">
-              <span>Zilong</span>
-              <div class="hero-icon-class">⚔</div>
+              <span>Estela</span>
+              <div class="hero-icon-class">✨</div>
             </div>
             <div class="hero-hover-overlay">
               <span class="action-title">@ESTELA</span>
@@ -1354,10 +1420,11 @@
           <!-- HÉROE 3 -->
           <a href="https://tusitio.com/amigo3" target="_blank" rel="noopener noreferrer" class="hero-card">
             <span class="badge-corner">GRATIS</span>
-            <img class="hero-thumb" src="https://images.wallpapersden.com/image/download/layla-mobile-legends_a2pramyUmZqaraWkpJRobWlmrWdma2Y.jpg" alt="Layla">
+            <img class="hero-thumb" src="https://i.ibb.co/hJPMdGfb/IMG-20261002-050150.jpg
+" alt="Layla">
             <div class="hero-name-bar">
-              <span>Layla</span>
-              <div class="hero-icon-class">🎯</div>
+              <span>Mar</span>
+              <div class="hero-icon-class">🎀</div>
             </div>
             <div class="hero-hover-overlay">
               <span class="action-title">@MAR</span>
@@ -1368,10 +1435,10 @@
           <!-- HÉROE 4 -->
           <a href="https://tusitio.com/amigo4" target="_blank" rel="noopener noreferrer" class="hero-card">
             <span class="badge-corner">GRATIS</span>
-            <img class="hero-thumb" src="https://images.wallpapersden.com/image/download/alice-mobile-legends_a2pqbmeUmZqaraWkpJRobWlmrWdma2Y.jpg" alt="Alice">
+            <img class="hero-thumb" src="https://i.ibb.co/yBW7nPzp/IMG-20261002-050139.jpg" alt="Alice">
             <div class="hero-name-bar">
-              <span>Alice</span>
-              <div class="hero-icon-class">🦇</div>
+              <span>Gabi</span>
+              <div class="hero-icon-class">❌</div>
             </div>
             <div class="hero-hover-overlay">
               <span class="action-title">@GABI</span>
@@ -1379,16 +1446,14 @@
             </div>
           </a>
 
-          
-       
-
-         
+ 
 
         </div>
 
       </div>
     </section>
 
+    <!-- PANTALLA 5: CYBER AUDIO SYSTEM -->
     <section id="screen-5" class="screen">
       
       <div class="music-player-hud" id="hudContainer">
@@ -1433,6 +1498,7 @@
 
   </main>
 
+  <!-- ELEMENTO DE AUDIO -->
   <audio id="cyberAudio" preload="auto">
     <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
   </audio>
