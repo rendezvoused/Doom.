@@ -2,15 +2,14 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Mobile Legends Interface Doom</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Mobile Legends Interface - Responsive Fullscreen</title>
+  <!-- Fuentes gaming, futuristas y monoespaciadas -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700;800&family=Share+Tech+Mono&family=Teko:wght@600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=Rajdhani:wght@500;600;700;800&family=Teko:wght@600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  
   <style>
-    /* =========================================
-       RESET Y PANTALLA COMPLETA TOTAL
-    ========================================= */
     * {
       box-sizing: border-box;
       margin: 0;
@@ -19,23 +18,37 @@
       -webkit-tap-highlight-color: transparent;
     }
 
+    :root {
+      --cyan-glow: #00ffff;
+      --gold-accent: #ffd043;
+      --bg-dark: #03060c;
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+      --safe-left: env(safe-area-inset-left, 0px);
+      --safe-right: env(safe-area-inset-right, 0px);
+    }
+
     html, body {
       width: 100%;
       height: 100%;
-      background-color: #03050a;
+      height: 100dvh;
+      overflow: hidden;
+      background-color: var(--bg-dark);
       font-family: 'Rajdhani', sans-serif;
       color: #fff;
-      overflow: hidden;
     }
 
+    /* Contenedor que ocupa el 100% de la pantalla sin bandas negras */
     .game-viewport {
       position: relative;
       width: 100vw;
       height: 100vh;
-      background: #060911;
+      height: 100dvh;
+      background: #080d16;
       overflow: hidden;
     }
 
+    /* Pantallas con transiciones suaves */
     .screen {
       position: absolute;
       inset: 0;
@@ -43,109 +56,155 @@
       height: 100%;
       opacity: 0;
       pointer-events: none;
-      transition: opacity 0.4s ease;
+      transition: opacity 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.4s ease;
+      transform: scale(1.02);
       background-size: cover;
       background-position: center;
+      display: flex;
+      flex-direction: column;
     }
 
     .screen.active {
       opacity: 1;
       pointer-events: auto;
+      transform: scale(1);
     }
 
-    /* =========================================
-       PANTALLA 1: SPLASH GLITCH CON DESATURACIÓN
-    ========================================= */
     #screen-1 {
-      position: relative;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: flex-end;
-      padding-bottom: 50px;
+      padding-bottom: clamp(2rem, 8vh, 5rem);
+      padding-left: 1rem;
+      padding-right: 1rem;
       overflow: hidden;
     }
 
     .glitch-backdrop {
       position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      overflow: hidden;
+      background-color: #050a12;
+    }
+
+    .glitch-layer {
+      position: absolute;
       inset: -5%;
       width: 110%;
       height: 110%;
-      background: radial-gradient(circle at 50% 50%, rgba(10, 20, 30, 0.2) 0%, rgba(3, 6, 12, 0.9) 100%),
+      background: radial-gradient(circle at 50% 45%, rgba(20, 45, 80, 0.4) 0%, rgba(3, 6, 12, 0.94) 95%),
                   url('https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/af8ed861-a1e7-4979-9745-4a3618ed836c/dmn976s-1511ea17-4084-4659-84bb-8833b934b77a.png/v1/fill/w_1191,h_671,q_70,strp/doctor_doom_wallpaper_6_by_vib16_dmn976s-pre.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiIvZi9hZjhlZDg2MS1hMWU3LTQ5NzktOTc0NS00YTM2MThlZDgzNmMvZG1uOTc2cy0xNTExZWExNy00MDg0LTQ2NTktODRiYi04ODMzYjkzNGI3N2EucG5nIiwiaGVpZ2h0IjoiPD03MjEiLCJ3aWR0aCI6Ijw9MTI4MCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS53YXRlcm1hcmsiXSwid21rIjp7InBhdGgiOiIvd20vYWY4ZWQ4NjEtYTFlNy00OTc5LTk3NDUtNGEzNjE4ZWQ4MzZjL3ZpYjE2LTQucG5nIiwib3BhY2l0eSI6OTUsInByb3BvcnRpb25zIjowLjQ1LCJncmF2aXR5IjoiY2VudGVyIn19.DCILEcPCeuQ6JGK2Jaf3hyRgOJcGU67tBJtNBFcp2QU');
       background-size: cover;
       background-position: center;
-      filter: saturate(0.22) contrast(1.3) brightness(0.6);
-      animation: bgGlitch 4.5s infinite steps(2, start);
-      z-index: 1;
+      filter: saturate(0.2) contrast(1.2) brightness(0.7);
     }
 
-    .crt-overlay {
+    .glitch-layer.layer-cyan {
+      opacity: 0.55;
+      mix-blend-mode: screen;
+      filter: saturate(0.2) contrast(1.4) drop-shadow(-4px 0 #00ffff) brightness(0.8);
+      animation: bgGlitchCyan 3.2s infinite steps(2, start);
+    }
+
+    .glitch-layer.layer-red {
+      opacity: 0.45;
+      mix-blend-mode: screen;
+      filter: saturate(0.2) contrast(1.4) drop-shadow(4px 0 #ff0055) brightness(0.8);
+      animation: bgGlitchRed 3.8s infinite steps(2, start);
+    }
+
+    .glitch-scanlines {
       position: absolute;
       inset: 0;
-      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.45) 50%),
-                  linear-gradient(90deg, rgba(0, 255, 200, 0.03), rgba(255, 0, 80, 0.02), rgba(0, 150, 255, 0.03));
-      background-size: 100% 3px, 6px 100%;
+      background: repeating-linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0) 0px,
+        rgba(255, 255, 255, 0) 2px,
+        rgba(0, 0, 0, 0.35) 3px,
+        rgba(0, 0, 0, 0.35) 4px
+      );
       pointer-events: none;
       z-index: 2;
     }
 
-    @keyframes bgGlitch {
-      0%, 88%, 100% { transform: translate(0, 0); filter: saturate(0.22) contrast(1.3) brightness(0.6); }
-      89% { transform: translate(-4px, 2px); filter: saturate(0.1) contrast(1.6) brightness(0.85) drop-shadow(4px 0 #00ffff); }
-      91% { transform: translate(4px, -2px); filter: saturate(0.35) contrast(1.4) brightness(0.5) drop-shadow(-4px 0 #ff0055); }
-      93% { transform: translate(-2px, 0); }
+    @keyframes bgGlitchCyan {
+      0%, 100% { clip-path: inset(0 0 0 0); transform: translate(0); }
+      14% { clip-path: inset(18% 0 68% 0); transform: translate(-4px, 2px); }
+      16% { clip-path: inset(80% 0 6% 0); transform: translate(3px, -2px); }
+      24% { clip-path: inset(0 0 0 0); transform: translate(0); }
+      62% { clip-path: inset(42% 0 40% 0); transform: translate(-5px, 1px); }
+      64% { clip-path: inset(0 0 0 0); transform: translate(0); }
+      88% { clip-path: inset(70% 0 12% 0); transform: translate(4px, 1px); }
+      90% { clip-path: inset(0 0 0 0); transform: translate(0); }
+    }
+
+    @keyframes bgGlitchRed {
+      0%, 100% { clip-path: inset(0 0 0 0); transform: translate(0); }
+      19% { clip-path: inset(62% 0 22% 0); transform: translate(4px, -2px); }
+      21% { clip-path: inset(8% 0 78% 0); transform: translate(-3px, 2px); }
+      32% { clip-path: inset(0 0 0 0); transform: translate(0); }
+      74% { clip-path: inset(28% 0 52% 0); transform: translate(4px, 3px); }
+      76% { clip-path: inset(0 0 0 0); transform: translate(0); }
     }
 
     .logo-container {
       position: absolute;
-      top: 18%;
+      top: clamp(12%, 18vh, 25%);
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90%;
       text-align: center;
-      z-index: 5;
+      z-index: 3;
     }
 
     .logo-container .anniversary-number {
       font-family: 'Teko', sans-serif;
-      font-size: clamp(3.8rem, 8vw, 7.5rem);
-      line-height: 0.85;
-      letter-spacing: 4px;
-      color: #e5f6ff;
-      text-shadow: 0 0 20px rgba(0, 240, 255, 0.65), 0 0 45px rgba(0, 150, 255, 0.4);
+      font-size: clamp(3.5rem, 12vw, 7.5rem);
+      line-height: 0.9;
+      letter-spacing: 3px;
+      background: linear-gradient(180deg, #ffffff 0%, #b8e2ff 45%, #2a94f3 65%, #104e9c 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 0 25px rgba(42, 148, 243, 0.8));
     }
 
     .logo-container .subtitle {
-      font-family: 'Share Tech Mono', monospace;
-      font-size: clamp(0.75rem, 1.2vw, 1.1rem);
-      letter-spacing: 5px;
-      color: #7da5c9;
+      font-size: clamp(0.75rem, 2.5vw, 1.3rem);
+      letter-spacing: clamp(2px, 0.6vw, 6px);
+      color: #9fe2ff;
       text-transform: uppercase;
-      opacity: 0.85;
-      margin-top: 6px;
+      font-weight: 700;
+      margin-top: 0.5rem;
+      word-break: break-word;
     }
 
     .loading-box {
-      width: min(480px, 82%);
+      width: min(90%, 550px);
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 8px;
-      z-index: 5;
+      gap: 10px;
+      z-index: 3;
     }
 
     .progress-bar-bg {
       width: 100%;
-      height: 4px;
-      background: rgba(0, 240, 255, 0.12);
-      border-radius: 2px;
+      height: 7px;
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: 4px;
       overflow: hidden;
-      border: 1px solid rgba(0, 240, 255, 0.35);
+      border: 1px solid rgba(0, 255, 255, 0.35);
     }
 
     .progress-bar-fill {
       width: 0%;
       height: 100%;
-      background: linear-gradient(90deg, #0099ff, #00ffc4);
-      box-shadow: 0 0 10px #00ffc4;
+      background: linear-gradient(90deg, #00ffff, #0088ff);
+      box-shadow: 0 0 14px #00ffff;
       transition: width 0.15s ease-out;
     }
 
@@ -153,99 +212,117 @@
       width: 100%;
       display: flex;
       justify-content: space-between;
-      font-family: 'Share Tech Mono', monospace;
-      font-size: clamp(0.65rem, 0.9vw, 0.8rem);
-      color: rgba(180, 220, 240, 0.7);
+      font-size: clamp(0.65rem, 1.8vw, 0.85rem);
+      color: rgba(255, 255, 255, 0.7);
     }
 
     .btn-start {
       display: none;
       position: relative;
       z-index: 10;
-      padding: 10px 42px;
-      background: rgba(4, 16, 26, 0.9);
-      border: 1px solid #00f0ff;
-      clip-path: polygon(12% 0, 100% 0, 88% 100%, 0% 100%);
-      color: #00f0ff;
-      font-family: 'Share Tech Mono', monospace;
-      font-size: clamp(0.95rem, 1.8vw, 1.3rem);
-      font-weight: 700;
-      letter-spacing: 4px;
+      padding: clamp(0.6rem, 1.8vh, 1rem) clamp(2rem, 5vw, 3.5rem);
+      background: linear-gradient(135deg, rgba(0, 255, 200, 0.15) 0%, rgba(0, 40, 80, 0.9) 100%);
+      color: #00ffff;
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(1rem, 2.5vw, 1.4rem);
+      font-weight: 900;
+      letter-spacing: 5px;
+      text-transform: uppercase;
       cursor: pointer;
-      box-shadow: 0 0 25px rgba(0, 240, 255, 0.35);
-      transition: all 0.2s ease;
+      border: 1.5px solid #00ffff;
+      outline: none;
+      clip-path: polygon(14px 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%, 0 14px);
+      box-shadow: 0 0 25px rgba(0, 255, 255, 0.4), inset 0 0 15px rgba(0, 255, 255, 0.2);
+      transition: all 0.25s ease;
+      animation: digitalGlitchPulse 3.5s infinite;
     }
+
+    .btn-start::before, .btn-start::after {
+      content: "";
+      position: absolute;
+      width: 8px;
+      height: 8px;
+    }
+    .btn-start::before { top: -2px; left: -2px; border-top: 2px solid #fff; border-left: 2px solid #fff; }
+    .btn-start::after { bottom: -2px; right: -2px; border-bottom: 2px solid #fff; border-right: 2px solid #fff; }
 
     .btn-start:hover {
-      background: #00f0ff;
-      color: #04101a;
-      box-shadow: 0 0 40px rgba(0, 240, 255, 0.9);
+      background: linear-gradient(135deg, rgba(0, 255, 200, 0.35) 0%, rgba(0, 120, 220, 0.95) 100%);
+      color: #ffffff;
       transform: scale(1.05);
+      box-shadow: 0 0 35px rgba(0, 255, 255, 0.85);
     }
 
-    /* =========================================
-       PANTALLA 2: LOBBY
-    ========================================= */
+    @keyframes digitalGlitchPulse {
+      0%, 88%, 100% { transform: translate(0); text-shadow: 0 0 8px #00ffff; }
+      90% { transform: translate(-3px, 1px); text-shadow: -2px 0 #ff0055, 2px 0 #00ffff; }
+      92% { transform: translate(3px, -1px); text-shadow: 2px 0 #ff0055, -2px 0 #00ffff; }
+      94% { transform: translate(0); text-shadow: 0 0 8px #00ffff; }
+    }
+
     #screen-2 {
-      background: radial-gradient(circle at 50% 50%, rgba(20, 40, 80, 0.2) 0%, rgba(5, 10, 20, 0.7) 100%),
+      background: radial-gradient(circle at 50% 50%, rgba(20, 40, 80, 0.2) 0%, rgba(5, 10, 20, 0.85) 60%),
                   url('https://images.wallpapersden.com/image/download/doctor-doom-4k_a2xtZ2eUmZqaraWkpJRobWlmrWdma2Y.jpg');
       background-size: cover;
       background-position: center;
     }
 
+    /* Personaje Adaptable para Móvil y Desktop */
     .character-stand {
       position: absolute;
       bottom: 0;
       left: 50%;
       transform: translateX(-50%);
-      width: min(540px, 85vw);
-      height: 84vh;
+      width: min(85vw, 550px);
+      height: 82vh;
       background-image: url('https://i.postimg.cc/C5t84576/dr-doom-png-dr-doom-first-official-look-by-harisx99-dkioxko-414w-2x-png-token-ey-J0e-XAi-Oi-JKV1Qi-L.png');
       background-size: contain;
       background-repeat: no-repeat;
       background-position: bottom center;
       pointer-events: none;
       z-index: 2;
-      filter: drop-shadow(0 0 20px rgba(0, 255, 170, 0.45))
-              drop-shadow(0 0 35px rgba(0, 160, 255, 0.35))
-              drop-shadow(0 15px 30px rgba(0, 0, 0, 0.95));
-      animation: pngAuraPulse 3.5s infinite alternate, pngGlitch 6s infinite steps(1);
+      animation: floatDoom 4.5s ease-in-out infinite alternate;
+      will-change: transform, filter;
     }
 
-    .character-stand::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.12'/%3E%3C/svg%3E");
-      mix-blend-mode: overlay;
-      pointer-events: none;
-      opacity: 0.7;
+    @media (min-width: 900px) {
+      .character-stand {
+        left: 45%;
+        width: 45vw;
+        height: 88vh;
+      }
     }
 
-    @keyframes pngAuraPulse {
-      0% { filter: drop-shadow(0 0 15px rgba(0, 255, 170, 0.35)) drop-shadow(0 0 30px rgba(0, 160, 255, 0.25)); }
-      100% { filter: drop-shadow(0 0 28px rgba(0, 255, 170, 0.65)) drop-shadow(0 0 45px rgba(0, 200, 255, 0.45)); }
+    @keyframes floatDoom {
+      0% {
+        transform: translate(-50%, 0) rotate(0deg);
+        filter: drop-shadow(0 0 16px rgba(43, 216, 120, 0.5)) drop-shadow(0 15px 30px rgba(0, 0, 0, 0.9));
+      }
+      50% {
+        filter: drop-shadow(0 0 28px rgba(43, 255, 140, 0.85)) drop-shadow(0 20px 40px rgba(0, 0, 0, 0.95));
+      }
+      100% {
+        transform: translate(-50%, -15px) rotate(0.3deg);
+        filter: drop-shadow(0 0 22px rgba(43, 216, 120, 0.65)) drop-shadow(0 25px 45px rgba(0, 0, 0, 0.9));
+      }
     }
 
-    @keyframes pngGlitch {
-      0%, 94%, 100% { transform: translateX(-50%) translate(0, 0); }
-      95% { transform: translateX(-50%) translate(-3px, 1px); filter: drop-shadow(-4px 0 #ff0055) drop-shadow(4px 0 #00ffff); }
-      96% { transform: translateX(-50%) translate(3px, -2px); }
-      97% { transform: translateX(-50%) translate(0, 0); }
-    }
-
+    /* Top bar adaptable */
     .top-bar {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
-      height: 56px;
-      background: linear-gradient(180deg, rgba(7, 15, 30, 0.95) 0%, rgba(7, 15, 30, 0.4) 80%, transparent 100%);
+      min-height: 52px;
+      padding-top: var(--safe-top);
+      background: linear-gradient(180deg, rgba(7, 15, 30, 0.96) 0%, rgba(7, 15, 30, 0.6) 80%, transparent 100%);
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 0 20px;
+      padding-left: max(12px, var(--safe-left));
+      padding-right: max(12px, var(--safe-right));
       z-index: 10;
+      gap: 8px;
     }
 
     .user-profile {
@@ -256,11 +333,13 @@
 
     .avatar-wrapper {
       position: relative;
-      width: 36px;
-      height: 36px;
+      width: clamp(34px, 4vw, 46px);
+      height: clamp(34px, 4vw, 46px);
       border: 2px solid #ecd38c;
-      border-radius: 4px;
+      border-radius: 6px;
       overflow: hidden;
+      box-shadow: 0 0 8px rgba(0,0,0,0.6);
+      flex-shrink: 0;
     }
 
     .avatar-wrapper img {
@@ -270,7 +349,7 @@
     }
 
     .user-info-text .username {
-      font-size: 0.95rem;
+      font-size: clamp(0.85rem, 1.4vw, 1.05rem);
       font-weight: 700;
       color: #fff;
       display: flex;
@@ -279,38 +358,40 @@
     }
 
     .user-level-badge {
-      font-size: 0.65rem;
+      font-size: 0.68rem;
       background: #3972bb;
       padding: 1px 5px;
       border-radius: 3px;
+      color: #fff;
+      font-weight: 600;
     }
 
     .resources-group {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: clamp(6px, 1.2vw, 16px);
     }
 
     .resource-chip {
-      background: rgba(14, 25, 45, 0.8);
+      background: rgba(14, 25, 45, 0.85);
       border: 1px solid rgba(82, 137, 206, 0.4);
       padding: 3px 10px 3px 6px;
       border-radius: 12px;
       display: flex;
       align-items: center;
-      gap: 5px;
-      font-size: 0.8rem;
+      gap: 6px;
+      font-size: clamp(0.72rem, 1.1vw, 0.88rem);
       font-weight: 700;
       color: #e5f1ff;
     }
 
     .resource-icon {
-      width: 16px;
-      height: 16px;
+      width: 18px;
+      height: 18px;
       border-radius: 50%;
       display: grid;
       place-content: center;
-      font-size: 0.7rem;
+      font-size: 10px;
     }
 
     .gold-icon { background: #e09f19; color: #3e2600; }
@@ -319,42 +400,68 @@
     .system-icons {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: clamp(8px, 1vw, 14px);
     }
 
     .sys-btn {
       background: transparent;
       border: none;
       color: #92b1db;
-      font-size: 0.85rem;
+      font-size: clamp(0.75rem, 1vw, 0.9rem);
       font-weight: 700;
       display: flex;
       flex-direction: column;
       align-items: center;
       cursor: pointer;
+      padding: 4px 6px;
+      border-radius: 4px;
+      transition: color 0.2s, background 0.2s;
     }
 
-    .sys-btn:hover { color: #ffde6b; }
+    .sys-btn:hover, .sys-btn:focus-visible {
+      color: #ffde6b;
+      background: rgba(255, 255, 255, 0.05);
+    }
 
     .speech-bubble {
       position: absolute;
-      top: 15%;
-      left: 65%;
-      background: rgba(230, 240, 255, 0.92);
-      color: #273746;
-      border-radius: 12px;
-      padding: 10px 16px;
-      max-width: 250px;
-      font-size: 0.8rem;
-      font-weight: 600;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      top: clamp(65px, 14vh, 120px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(230, 240, 255, 0.93);
+      color: #172433;
+      border-radius: 10px;
+      padding: 8px 14px;
+      max-width: min(85vw, 320px);
+      font-size: clamp(0.75rem, 1.1vw, 0.9rem);
+      font-weight: 700;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
       z-index: 5;
+      text-align: center;
+    }
+
+    @media (min-width: 900px) {
+      .speech-bubble {
+        left: 65%;
+        transform: none;
+        text-align: left;
+      }
+      .speech-bubble::before {
+        content: "";
+        position: absolute;
+        left: -8px;
+        top: 40%;
+        border-width: 6px 8px 6px 0;
+        border-style: solid;
+        border-color: transparent rgba(230, 240, 255, 0.93) transparent transparent;
+      }
     }
 
     .lobby-sidebar-left {
       position: absolute;
-      left: 18px;
-      top: 25%;
+      left: max(12px, var(--safe-left));
+      top: 50%;
+      transform: translateY(-50%);
       display: flex;
       flex-direction: column;
       gap: 12px;
@@ -362,18 +469,26 @@
     }
 
     .side-action-btn {
-      background: rgba(16, 27, 49, 0.8);
+      background: rgba(16, 27, 49, 0.85);
       border: 1px solid rgba(82, 137, 206, 0.5);
       border-radius: 8px;
-      padding: 6px 10px;
+      padding: 8px 10px;
       color: #c9e0ff;
-      font-size: 0.75rem;
+      font-size: clamp(0.7rem, 0.9vw, 0.8rem);
       font-weight: 700;
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 3px;
       cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .side-action-btn:hover {
+      background: rgba(30, 60, 110, 0.95);
+      border-color: #ffd043;
+      color: #fff;
+      transform: translateX(3px);
     }
 
     .bottom-bar {
@@ -381,454 +496,149 @@
       bottom: 0;
       left: 0;
       width: 100%;
-      height: 64px;
-      background: linear-gradient(0deg, rgba(5, 11, 23, 0.95) 0%, rgba(5, 11, 23, 0.4) 75%, transparent 100%);
+      padding-bottom: var(--safe-bottom);
+      min-height: 64px;
+      background: linear-gradient(0deg, rgba(5, 11, 23, 0.98) 0%, rgba(5, 11, 23, 0.7) 75%, transparent 100%);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0 20px;
+      padding-left: max(14px, var(--safe-left));
+      padding-right: max(14px, var(--safe-right));
       z-index: 10;
+      gap: 10px;
+      flex-wrap: wrap;
     }
 
     .bottom-nav-links {
       display: flex;
       align-items: center;
-      gap: 20px;
+      gap: clamp(10px, 1.8vw, 24px);
+      overflow-x: auto;
+      padding: 4px 0;
+      scrollbar-width: none;
     }
+    .bottom-nav-links::-webkit-scrollbar { display: none; }
 
     .nav-item {
       color: #9ab4d6;
-      font-size: 0.9rem;
+      font-size: clamp(0.78rem, 1.1vw, 0.95rem);
       font-weight: 700;
       letter-spacing: 0.5px;
       cursor: pointer;
       display: flex;
       align-items: center;
       gap: 6px;
-      transition: color 0.2s;
+      white-space: nowrap;
+      transition: color 0.2s, transform 0.2s;
+      padding: 6px 8px;
+      border-radius: 6px;
     }
 
-    .nav-item:hover { color: #ffd043; }
+    .nav-item:hover {
+      color: #ffd043;
+      transform: translateY(-2px);
+      background: rgba(255, 255, 255, 0.05);
+    }
 
     .classic-btn-container {
       position: relative;
       cursor: pointer;
+      flex-shrink: 0;
     }
 
     .classic-btn {
       position: relative;
       background: linear-gradient(135deg, #ffe277 0%, #e0a31b 45%, #b37305 100%);
-      padding: 8px 36px 8px 24px;
+      padding: clamp(6px, 1.2vh, 12px) clamp(16px, 3.5vw, 36px);
       border: none;
       clip-path: polygon(15% 0, 100% 0, 85% 100%, 0% 100%);
-      box-shadow: 0 0 20px rgba(235, 172, 33, 0.5);
+      box-shadow: 0 0 25px rgba(235, 172, 33, 0.5);
       cursor: pointer;
+      transition: all 0.25s ease;
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
+    }
+
+    .classic-btn::after {
+      content: '';
+      position: absolute;
+      inset: 2px;
+      clip-path: polygon(15% 0, 100% 0, 85% 100%, 0% 100%);
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      pointer-events: none;
+    }
+
+    .classic-btn:hover {
+      transform: scale(1.04);
+      filter: brightness(1.1);
+      box-shadow: 0 0 32px rgba(255, 196, 0, 0.8);
     }
 
     .classic-btn .icon-mode {
-      width: 20px;
-      height: 20px;
+      width: clamp(20px, 2.2vw, 28px);
+      height: clamp(20px, 2.2vw, 28px);
       background: #623e00;
       border-radius: 4px;
       display: grid;
       place-content: center;
       color: #ffd752;
-      font-size: 0.85rem;
+      font-size: clamp(10px, 1.1vw, 14px);
     }
 
     .classic-btn .label {
       font-family: 'Teko', sans-serif;
-      font-size: 1.6rem;
+      font-size: clamp(1.4rem, 2.5vw, 2.2rem);
       font-weight: 700;
       color: #2e1700;
       letter-spacing: 2px;
       line-height: 1;
     }
 
-    /* =========================================
-       MODAL: FULLSCREEN OVERLAY
-    ========================================= */
-    .game-modal {
-      position: absolute;
-      inset: 0;
-      background: rgba(3, 7, 14, 0.88);
-      backdrop-filter: blur(10px);
-      z-index: 99;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.3s ease;
-    }
-
-    .game-modal.active {
-      opacity: 1;
-      pointer-events: auto;
-    }
-
-    /* =========================================
-       MODAL 1: PREPARATION -> MUSIC (ESTILO HISTORIA/PERDIÇÃO)
-    ========================================= */
-    .story-frame {
-      width: min(380px, 92vw);
-      height: min(640px, 86vh);
-      border-radius: 16px;
-      position: relative;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      padding: 16px;
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.9), 0 0 25px rgba(0, 240, 255, 0.15);
-      background: #000;
-    }
-
-    .story-bg {
-      position: absolute;
-      inset: 0;
-      background: url('https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=1000&auto=format&fit=crop') center/cover no-repeat;
-      filter: grayscale(100%) brightness(0.5);
-      z-index: 1;
-    }
-
-    .story-inner {
-      position: relative;
-      z-index: 2;
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-      justify-content: space-between;
-    }
-
-    .progress-bar-container {
-      width: 100%;
-      height: 3px;
-      background: rgba(255, 255, 255, 0.3);
-      border-radius: 3px;
-      overflow: hidden;
-      margin-bottom: 12px;
-    }
-
-    .story-progress-bar {
-      width: 0%;
-      height: 100%;
-      background: #fff;
-    }
-
-    .story-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .story-author {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .story-author img {
-      width: 34px;
-      height: 34px;
-      border-radius: 50%;
-      object-fit: cover;
-    }
-
-    .story-author-name {
-      font-size: 0.85rem;
-      font-weight: 700;
-    }
-
-    .story-close-btn {
-      background: none;
-      border: none;
-      color: #fff;
-      font-size: 1.6rem;
-      cursor: pointer;
-      line-height: 1;
-    }
-
-    .music-player-widget {
-      align-self: center;
-      width: 220px;
-      height: 220px;
-      position: relative;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.8);
-      display: flex;
-      align-items: flex-end;
-      margin: auto 0;
-      border: 1px solid rgba(255,255,255,0.15);
-    }
-
-    .music-artwork {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      filter: grayscale(100%);
-    }
-
-    .music-overlay {
-      position: relative;
-      z-index: 2;
-      width: 100%;
-      background: linear-gradient(to top, rgba(0,0,0,0.92), transparent);
-      padding: 12px;
-      text-align: center;
-    }
-
-    .song-title {
-      font-size: 0.95rem;
-      font-weight: 700;
-    }
-
-    .song-artist {
-      font-size: 0.75rem;
-      color: #ccc;
-      margin-bottom: 6px;
-    }
-
-    .play-pause-btn {
-      background: white;
-      color: black;
-      border: none;
-      border-radius: 50%;
-      width: 32px;
-      height: 32px;
-      font-size: 0.9rem;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin: 0 auto;
-      cursor: pointer;
-    }
-
-    .story-footer {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .story-input {
-      flex-grow: 1;
-      background: transparent;
-      border: 1px solid rgba(255, 255, 255, 0.6);
-      padding: 8px 14px;
-      border-radius: 20px;
-      color: #fff;
-      font-size: 0.8rem;
-      outline: none;
-    }
-
-    /* =========================================
-       MODAL 2: HEROES -> FRIENDS (SELECCIÓN MLBB)
-    ========================================= */
-    .heroes-modal-box {
-      width: min(920px, 96vw);
-      height: min(580px, 90vh);
-      background: linear-gradient(180deg, #091a32 0%, #061120 100%);
-      border: 1px solid rgba(82, 137, 206, 0.4);
-      display: flex;
-      flex-direction: column;
-      box-shadow: 0 0 35px rgba(0, 0, 0, 0.95), 0 0 15px rgba(0, 160, 255, 0.2);
-    }
-
-    .heroes-top-bar {
-      height: 48px;
-      background: rgba(5, 14, 28, 0.95);
-      border-bottom: 1px solid rgba(82, 137, 206, 0.3);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 16px;
-    }
-
-    .heroes-title-row {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .heroes-back-btn {
-      background: none;
-      border: none;
-      color: #ecd38c;
-      font-size: 1.4rem;
-      cursor: pointer;
-    }
-
-    .heroes-title-row h3 {
-      font-family: 'Teko', sans-serif;
-      font-size: 1.8rem;
-      color: #fff;
-      letter-spacing: 2px;
-      line-height: 1;
-    }
-
-    .heroes-filters {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .filter-select {
-      background: #0c1c34;
-      border: 1px solid rgba(82, 137, 206, 0.5);
-      color: #8fb6e5;
-      font-size: 0.75rem;
-      padding: 3px 8px;
-      border-radius: 2px;
-      outline: none;
-    }
-
-    .heroes-body-layout {
-      flex: 1;
-      display: grid;
-      grid-template-columns: 130px 1fr;
-      overflow: hidden;
-    }
-
-    .roles-sidebar {
-      background: rgba(4, 10, 22, 0.85);
-      border-right: 1px solid rgba(82, 137, 206, 0.25);
-      display: flex;
-      flex-direction: column;
-    }
-
-    .role-btn {
-      background: transparent;
-      border: none;
-      color: #7b9cc4;
-      padding: 10px 14px;
-      font-size: 0.85rem;
-      font-weight: 700;
-      text-align: left;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .role-btn.active {
-      background: linear-gradient(90deg, #18529d 0%, rgba(24, 82, 157, 0.1) 100%);
-      color: #fff;
-      border-left: 3px solid #00f0ff;
-    }
-
-    .heroes-grid-container {
-      padding: 16px;
-      overflow-y: auto;
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(115px, 1fr));
-      gap: 14px;
-    }
-
-    .hero-card {
-      position: relative;
-      aspect-ratio: 3/4;
-      border-radius: 4px;
-      overflow: hidden;
-      border: 1px solid rgba(82, 137, 206, 0.35);
-      background: #050c18;
-      cursor: pointer;
-      text-decoration: none;
-      color: #fff;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
-      transition: transform 0.2s, border-color 0.2s;
-    }
-
-    .hero-card:hover {
-      transform: translateY(-4px);
-      border-color: #00f0ff;
-      box-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
-    }
-
-    .hero-card img {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .badge-gratis {
-      position: absolute;
-      top: 6px;
-      left: -22px;
-      background: #00bb55;
-      color: #fff;
-      font-size: 0.55rem;
-      font-weight: 800;
-      padding: 2px 22px;
-      transform: rotate(-45deg);
-      box-shadow: 0 2px 5px rgba(0,0,0,0.5);
-      letter-spacing: 0.5px;
-    }
-
-    .hero-bottom-info {
-      position: relative;
-      z-index: 2;
-      background: linear-gradient(to top, #020813 0%, rgba(2, 8, 19, 0.7) 70%, transparent 100%);
-      padding: 6px 8px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .hero-name {
-      font-size: 0.8rem;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-    }
-
-    .hero-icon-class {
-      font-size: 0.65rem;
-      color: #00ffc4;
-    }
-
-    /* =========================================
-       PANTALLA 3: ABOUT / ENLACES
-    ========================================= */
     #screen-3 {
-      background: radial-gradient(circle at 60% 50%, rgba(10, 25, 55, 0.4) 0%, rgba(3, 7, 15, 0.9) 100%),
+      background: radial-gradient(circle at 60% 50%, rgba(10, 25, 55, 0.5) 0%, rgba(3, 7, 15, 0.95) 100%),
                   url('https://u.cubeupload.com/Eradicater/87e51937283878e8fd72.jpg');
       background-size: cover;
       background-position: center;
+      overflow-y: auto;
     }
 
     .screen-3-container {
       width: 100%;
-      height: 100%;
-      display: flex;
-      justify-content: space-between;
-      padding: 35px;
-    }
-
-    .hero-view-panel {
-      width: 45%;
+      min-height: 100%;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      padding: clamp(16px, 3vh, 36px) clamp(16px, 4vw, 48px);
+      gap: 20px;
+    }
+
+    @media (min-width: 820px) {
+      .screen-3-container {
+        flex-direction: row;
+        align-items: stretch;
+      }
+    }
+
+    .hero-view-panel {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 16px;
     }
 
     .match-header h2 {
       font-family: 'Teko', sans-serif;
-      font-size: clamp(2.8rem, 5vw, 4.2rem);
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
       color: #ffd043;
+      letter-spacing: 1.5px;
       line-height: 1;
     }
 
     .match-header p {
-      font-size: 0.95rem;
+      font-size: clamp(0.85rem, 1.4vw, 1.1rem);
       color: #92b8ea;
+      margin-top: 4px;
     }
 
     .btn-back {
@@ -836,127 +646,496 @@
       background: rgba(18, 32, 59, 0.85);
       border: 1px solid rgba(82, 137, 206, 0.5);
       color: #c9e0ff;
-      padding: 6px 20px;
-      border-radius: 4px;
-      font-size: 0.95rem;
+      padding: 8px 18px;
+      border-radius: 6px;
+      font-size: clamp(0.8rem, 1.1vw, 0.95rem);
       font-weight: 700;
       cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-back:hover {
+      background: #1e3a68;
+      color: #ffd043;
+      border-color: #ffd043;
     }
 
     .links-column {
-      width: 48%;
+      flex: 1;
+      max-width: 600px;
       display: flex;
       flex-direction: column;
       gap: 12px;
       overflow-y: auto;
+      padding-right: 4px;
     }
 
     .link-card {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      background: linear-gradient(90deg, rgba(16, 29, 53, 0.85) 0%, rgba(22, 42, 79, 0.6) 100%);
+      background: linear-gradient(90deg, rgba(16, 29, 53, 0.88) 0%, rgba(22, 42, 79, 0.7) 100%);
       border: 1px solid rgba(82, 137, 206, 0.35);
-      border-radius: 6px;
-      padding: 12px 18px;
+      border-radius: 8px;
+      padding: clamp(10px, 1.5vh, 16px) clamp(12px, 2vw, 20px);
       text-decoration: none;
       color: #fff;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      gap: 10px;
     }
 
-    .link-card .title { font-size: 1rem; font-weight: 700; }
-    .link-card .desc { font-size: 0.8rem; color: #92b8ea; }
+    .link-card:hover {
+      transform: translateX(-4px);
+      border-color: #ffd043;
+      background: linear-gradient(90deg, rgba(22, 43, 80, 0.95) 0%, rgba(35, 68, 128, 0.85) 100%);
+      box-shadow: 0 0 18px rgba(255, 208, 67, 0.3);
+    }
+
+    .link-card .title {
+      font-size: clamp(0.95rem, 1.4vw, 1.25rem);
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .link-card .desc {
+      font-size: clamp(0.72rem, 1vw, 0.85rem);
+      color: #92b8ea;
+    }
+
     .link-card .btn-tag {
       background: #ffd043;
       color: #1e1300;
-      font-size: 0.8rem;
+      font-size: clamp(0.68rem, 0.9vw, 0.82rem);
       font-weight: 800;
-      padding: 3px 10px;
+      padding: 4px 10px;
       border-radius: 4px;
+      text-transform: uppercase;
+      white-space: nowrap;
     }
 
-    /* =========================================================
-       MODO MÓVIL EXACTO Y COMPACTO (< 768px / PORTRAIT)
-       ========================================================= */
-    @media (max-width: 768px), (orientation: portrait) {
-      #screen-1 { padding-bottom: 25px; }
-      .logo-container { top: 12%; }
-      .logo-container .anniversary-number { font-size: 3.4rem; }
-      .logo-container .subtitle { font-size: 0.72rem; letter-spacing: 3px; }
-      .loading-box { width: 78%; }
-      .btn-start { padding: 8px 30px; font-size: 0.95rem; }
+    #screen-4 {
+      background: linear-gradient(180deg, #091a32 0%, #060e1d 100%);
+      display: flex;
+      flex-direction: column;
+      padding: clamp(10px, 2vh, 20px) clamp(10px, 2vw, 24px);
+      overflow: hidden;
+    }
 
-      /* Personaje reducido a 42vh para que no tape la UI */
-      .character-stand {
-        bottom: 48px;
-        width: 75vw;
-        height: 42vh;
-        background-size: contain;
-        background-position: center bottom;
+    .friends-topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 40px;
+      margin-bottom: 12px;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .friends-left-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .friends-back-btn {
+      background: rgba(14, 30, 58, 0.8);
+      border: 1px solid #3d6a9e;
+      color: #aed1ff;
+      border-radius: 6px;
+      padding: 6px 12px;
+      cursor: pointer;
+      font-size: clamp(0.75rem, 1vw, 0.85rem);
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .friends-back-btn:hover {
+      background: #1f4780;
+      color: #ffd043;
+      border-color: #ffd043;
+    }
+
+    .friends-title-text {
+      font-family: 'Teko', sans-serif;
+      font-size: clamp(1.6rem, 3vw, 2.5rem);
+      letter-spacing: 2px;
+      color: #ffd043;
+      line-height: 1;
+    }
+
+    .friends-filters {
+      display: flex;
+      gap: 8px;
+    }
+
+    .filter-pill {
+      background: rgba(13, 27, 50, 0.85);
+      border: 1px solid #2f5685;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: clamp(0.68rem, 0.9vw, 0.8rem);
+      color: #8fb6e5;
+    }
+
+    .friends-main-area {
+      display: flex;
+      flex: 1;
+      gap: 12px;
+      overflow: hidden;
+      flex-direction: column;
+    }
+
+    @media (min-width: 768px) {
+      .friends-main-area {
+        flex-direction: row;
       }
+    }
 
-      .top-bar { height: 42px; padding: 0 10px; }
-      .avatar-wrapper { width: 28px; height: 28px; }
-      .user-info-text .username { font-size: 0.8rem; }
-      .resource-chip { font-size: 0.68rem; padding: 2px 6px; }
+    .roles-sidebar {
+      display: flex;
+      flex-direction: row;
+      overflow-x: auto;
+      gap: 6px;
+      flex-shrink: 0;
+      scrollbar-width: none;
+    }
+    .roles-sidebar::-webkit-scrollbar { display: none; }
 
-      .system-icons, .lobby-sidebar-left { display: none; }
-
-      .speech-bubble {
-        top: 48px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 82%;
-        font-size: 0.72rem;
-        padding: 5px 10px;
-        text-align: center;
-        background: rgba(230, 240, 255, 0.85);
-      }
-
-      .bottom-bar {
-        height: 52px;
-        padding: 0 12px 6px 12px;
-        justify-content: space-between;
-      }
-
-      .bottom-nav-links { gap: 10px; }
-      .nav-item { font-size: 0.7rem; }
-
-      .classic-btn {
-        padding: 6px 12px;
-        clip-path: none;
-        border-radius: 4px;
-      }
-      .classic-btn .icon-mode { width: 16px; height: 16px; font-size: 0.7rem; }
-      .classic-btn .label { font-size: 1.1rem; }
-
-      /* Modal de Héroes en Móvil */
-      .heroes-modal-box {
-        width: 96vw;
-        height: 84vh;
-      }
-      .heroes-body-layout {
-        grid-template-columns: 85px 1fr;
-      }
-      .role-btn {
-        padding: 8px 8px;
-        font-size: 0.72rem;
-      }
-      .heroes-grid-container {
-        padding: 8px;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 8px;
-      }
-
-      .screen-3-container {
+    @media (min-width: 768px) {
+      .roles-sidebar {
         flex-direction: column;
-        padding: 16px 12px;
-        gap: 12px;
+        width: 120px;
+        overflow-y: auto;
       }
-      .match-header h2 { font-size: 1.8rem; }
-      .links-column { width: 100%; }
-      .link-card { padding: 8px 12px; }
-      .link-card .title { font-size: 0.85rem; }
-      .link-card .desc { font-size: 0.7rem; }
+    }
+
+    .role-btn {
+      background: rgba(13, 26, 48, 0.7);
+      border: 1px solid rgba(64, 114, 180, 0.35);
+      color: #8cb1df;
+      padding: 6px 12px;
+      font-size: clamp(0.72rem, 0.9vw, 0.85rem);
+      font-weight: 700;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .role-btn.active, .role-btn:hover {
+      background: linear-gradient(90deg, #1c4b8b 0%, #102e56 100%);
+      border-color: #00d4ff;
+      color: #fff;
+      box-shadow: inset 0 0 10px rgba(0, 212, 255, 0.4);
+    }
+
+    /* Grid de Héroes con scroll responsivo */
+    .heroes-grid {
+      flex: 1;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 10px;
+      overflow-y: auto;
+      padding-right: 4px;
+      align-content: start;
+    }
+
+    @media (min-width: 1024px) {
+      .heroes-grid {
+        grid-template-columns: repeat(5, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+        overflow-y: hidden;
+      }
+    }
+
+    .hero-card {
+      position: relative;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1.5px solid rgba(75, 130, 200, 0.35);
+      background: #091322;
+      text-decoration: none;
+      display: block;
+      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+      cursor: pointer;
+      aspect-ratio: 3 / 4;
+    }
+
+    .hero-card:hover {
+      transform: translateY(-4px) scale(1.02);
+      border-color: #00ffff;
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.45);
+    }
+
+    .hero-thumb {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: filter 0.3s ease, transform 0.3s ease;
+    }
+
+    .hero-card:hover .hero-thumb,
+    .hero-card:focus-visible .hero-thumb {
+      filter: blur(4px) brightness(0.65);
+      transform: scale(1.08);
+    }
+
+    .badge-corner {
+      position: absolute;
+      top: 0;
+      left: 0;
+      background: linear-gradient(135deg, #12a647 0%, #0d7030 100%);
+      color: #fff;
+      font-size: 0.65rem;
+      font-weight: 800;
+      padding: 2px 10px 2px 5px;
+      clip-path: polygon(0 0, 100% 0, 75% 100%, 0% 100%);
+      z-index: 3;
+      letter-spacing: 0.5px;
+    }
+
+    .hero-name-bar {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: linear-gradient(180deg, transparent 0%, rgba(4, 9, 18, 0.95) 75%);
+      padding: 6px 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 3;
+    }
+
+    .hero-name-bar span {
+      font-size: clamp(0.72rem, 1vw, 0.85rem);
+      font-weight: 700;
+      color: #e5f1ff;
+      letter-spacing: 0.5px;
+    }
+
+    .hero-icon-class {
+      width: 16px;
+      height: 16px;
+      background: #00c3ff;
+      border-radius: 3px;
+      display: grid;
+      place-content: center;
+      font-size: 10px;
+      color: #031326;
+      font-weight: 900;
+    }
+
+    .hero-hover-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: 4;
+      background: rgba(3, 10, 20, 0.45);
+      padding: 10px;
+      text-align: center;
+    }
+
+    .hero-card:hover .hero-hover-overlay,
+    .hero-card:focus-visible .hero-hover-overlay {
+      opacity: 1;
+    }
+
+    .hero-hover-overlay .action-title {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.8rem;
+      color: #00ffff;
+      font-weight: 800;
+      letter-spacing: 1px;
+    }
+
+    .hero-hover-overlay .action-btn {
+      background: linear-gradient(135deg, #ffd043 0%, #d49514 100%);
+      color: #171000;
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      box-shadow: 0 0 10px rgba(255, 208, 67, 0.6);
+    }
+
+    #screen-5 {
+      background: radial-gradient(circle at 50% 50%, rgba(10, 35, 60, 0.4) 0%, #040810 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: clamp(16px, 4vw, 32px);
+      position: relative;
+    }
+
+    .music-player-hud {
+      width: min(92%, 580px);
+      background: rgba(7, 15, 30, 0.9);
+      border: 1px solid rgba(0, 255, 255, 0.35);
+      border-radius: 14px;
+      padding: clamp(16px, 3vh, 28px) clamp(16px, 3vw, 32px);
+      box-shadow: 0 0 40px rgba(0, 255, 255, 0.25), inset 0 0 25px rgba(0, 255, 255, 0.08);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      backdrop-filter: blur(14px);
+      position: relative;
+    }
+
+    .music-hud-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+      padding-bottom: 10px;
+      gap: 10px;
+    }
+
+    .music-title-group h3 {
+      font-family: 'Orbitron', monospace;
+      font-size: clamp(0.9rem, 2vw, 1.25rem);
+      color: #00ffff;
+      letter-spacing: 1.5px;
+    }
+
+    .music-title-group span {
+      font-family: 'Space Mono', monospace;
+      font-size: clamp(0.68rem, 1.2vw, 0.8rem);
+      color: #7ba2cf;
+      display: block;
+    }
+
+    .music-close-btn {
+      background: rgba(0, 255, 255, 0.1);
+      border: 1px solid #00ffff;
+      color: #00ffff;
+      font-size: clamp(0.75rem, 1vw, 0.88rem);
+      padding: 4px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+
+    .music-close-btn:hover {
+      background: #00ffff;
+      color: #000;
+    }
+
+    .cyber-visualizer {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      height: 65px;
+      gap: 3px;
+      padding: 6px 0;
+    }
+
+    .v-bar {
+      flex: 1;
+      background: linear-gradient(180deg, #00ffff 0%, #1565c0 100%);
+      border-radius: 2px;
+      height: 15%;
+      transition: height 0.15s ease;
+    }
+
+    .playing .v-bar:nth-child(2n) { animation: soundWaves 0.9s infinite alternate; }
+    .playing .v-bar:nth-child(3n) { animation: soundWaves 0.7s infinite alternate 0.2s; }
+    .playing .v-bar:nth-child(5n) { animation: soundWaves 1.1s infinite alternate 0.4s; }
+    .playing .v-bar:nth-child(7n) { animation: soundWaves 0.6s infinite alternate 0.1s; }
+
+    @keyframes soundWaves {
+      0% { height: 15%; }
+      50% { height: 95%; }
+      100% { height: 35%; }
+    }
+
+    .music-progress-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .music-progress-bar {
+      width: 100%;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 3px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .music-progress-current {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, #00ffff, #0088ff);
+      box-shadow: 0 0 10px #00ffff;
+    }
+
+    .music-time-stamps {
+      display: flex;
+      justify-content: space-between;
+      font-family: 'Space Mono', monospace;
+      font-size: clamp(0.68rem, 1vw, 0.78rem);
+      color: #7296c4;
+    }
+
+    .music-controls-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(14px, 3vw, 24px);
+    }
+
+    .music-ctrl-btn {
+      background: transparent;
+      border: 1px solid rgba(0, 255, 255, 0.4);
+      color: #00ffff;
+      width: clamp(38px, 5vw, 46px);
+      height: clamp(38px, 5vw, 46px);
+      border-radius: 50%;
+      display: grid;
+      place-content: center;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: all 0.2s;
+    }
+
+    .music-ctrl-btn:hover {
+      background: rgba(0, 255, 255, 0.2);
+      transform: scale(1.08);
+      box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+    }
+
+    .music-ctrl-btn.play-pause-master {
+      width: clamp(48px, 6.5vw, 58px);
+      height: clamp(48px, 6.5vw, 58px);
+      background: #00ffff;
+      color: #000;
+      border: none;
+      font-size: 1.25rem;
+      box-shadow: 0 0 20px rgba(0, 255, 255, 0.7);
+    }
+
+    .music-ctrl-btn.play-pause-master:hover {
+      background: #ffffff;
+      transform: scale(1.1);
     }
   </style>
 </head>
@@ -964,12 +1143,14 @@
 
   <main class="game-viewport">
 
-    <!-- ==============================================
-         PANTALLA 1: SPLASH & CARGA
-    ============================================== -->
+    <!-- PANTALLA 1: SPLASH & CARGA -->
     <section id="screen-1" class="screen active">
-      <div class="glitch-backdrop"></div>
-      <div class="crt-overlay"></div>
+      <div class="glitch-backdrop">
+        <div class="glitch-layer"></div>
+        <div class="glitch-layer layer-cyan"></div>
+        <div class="glitch-layer layer-red"></div>
+        <div class="glitch-scanlines"></div>
+      </div>
 
       <div class="logo-container">
         <div class="anniversary-number">אֲבַדוֹן</div>
@@ -981,7 +1162,7 @@
           <div class="progress-bar-fill" id="progress-fill"></div>
         </div>
         <div class="loading-info">
-          <span>SYSTEM READY // ACCEPT TERMS</span>
+          <span>I have read and agree to the Terms and Privacy Policy</span>
           <span id="loading-percentage">0%</span>
         </div>
       </div>
@@ -991,16 +1172,13 @@
       </button>
     </section>
 
-    <!-- ==============================================
-         PANTALLA 2: LOBBY PRINCIPAL
-    ============================================== -->
     <section id="screen-2" class="screen">
       <div class="character-stand"></div>
 
       <header class="top-bar">
         <div class="user-profile">
           <div class="avatar-wrapper">
-            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200&auto=format&fit=crop" alt="Avatar">
+            <img src="https://i.pinimg.com/736x/ca/7b/6e/ca7b6e1cff7e339cb559d1d5de042056.jpg" alt="Avatar">
           </div>
           <div class="user-info-text">
             <div class="username">
@@ -1021,10 +1199,10 @@
         </div>
 
         <div class="system-icons">
-          <button class="sys-btn">🏆 MPL</button>
-          <button class="sys-btn" onclick="openModal('modal-heroes-friends')">👥 Chat</button>
-          <button class="sys-btn">✉️ Mail</button>
-          <button class="sys-btn">⚙ Settings</button>
+          <button class="sys-btn" title="Ranking">🏆 MPL</button>
+          <button class="sys-btn" title="Amigos" onclick="goToScreen(4)">👥 Chat</button>
+          <button class="sys-btn" title="Correo">✉️ Mail</button>
+          <button class="sys-btn" title="Configuración">⚙ Settings</button>
         </div>
       </header>
 
@@ -1033,16 +1211,20 @@
       </div>
 
       <aside class="lobby-sidebar-left">
-        <button class="side-action-btn"><span>⚖</span><span>Shop</span></button>
-        <button class="side-action-btn"><span>🚩</span><span>Events</span></button>
+        <button class="side-action-btn">
+          <span>⚖️</span>
+          <span>Shop</span>
+        </button>
+        <button class="side-action-btn">
+          <span>🚩</span>
+          <span>Events</span>
+        </button>
       </aside>
 
       <footer class="bottom-bar">
         <nav class="bottom-nav-links">
-          <!-- PREPARATION -> ABRE LA VENTANA DE MÚSICA HISTORIA -->
-          <div class="nav-item" onclick="openModal('modal-music-story')">🛡️ Preparation</div>
-          <!-- HEROES -> ABRE LA VENTANA DE SELECCIÓN DE HÉROES / FRIENDS -->
-          <div class="nav-item" onclick="openModal('modal-heroes-friends')">⚔️ Heroes</div>
+          <div class="nav-item">🛡️ Preparation</div>
+          <div class="nav-item" onclick="goToScreen(4)">⚔ Heroes</div>
           <div class="nav-item">🎨 Collection</div>
           <div class="nav-item">🎒 Inventory</div>
         </nav>
@@ -1054,175 +1236,15 @@
           </button>
         </div>
       </footer>
-
-      <!-- ==============================================
-           MODAL 1: PREPARATION -> VENTANA DE MÚSICA ESTILO HISTORIA
-      ============================================== -->
-      <div class="game-modal" id="modal-music-story">
-        <div class="story-frame">
-          <div class="story-bg"></div>
-
-          <div class="story-inner">
-            <div>
-              <div class="progress-bar-container">
-                <div class="story-progress-bar" id="storyProgressBar"></div>
-              </div>
-              
-              <div class="story-header">
-                <div class="story-author">
-                  <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200&auto=format&fit=crop" alt="salvi_caa">
-                  <span class="story-author-name">salvi_caa · 6 min</span>
-                </div>
-                <button class="story-close-btn" onclick="closeModal('modal-music-story')">&times;</button>
-              </div>
-            </div>
-
-            <!-- Sticker Central con Perdição L7NNON -->
-            <div class="music-player-widget">
-              <img class="music-artwork" src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=500&auto=format&fit=crop" alt="Perdição">
-              <div class="music-overlay">
-                <div class="song-title">Perdição</div>
-                <div class="song-artist">L7NNON</div>
-                <button class="play-pause-btn" id="modalPlayBtn">❚❚</button>
-              </div>
-            </div>
-
-            <div class="story-footer">
-              <input type="text" class="story-input" placeholder="Enviar mensagem...">
-              <span>❤️</span>
-              <span>✈️</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ==============================================
-           MODAL 2: HEROES -> VENTANA DE SELECCIÓN DE HÉROES / FRIENDS
-      ============================================== -->
-      <div class="game-modal" id="modal-heroes-friends">
-        <div class="heroes-modal-box">
-          
-          <div class="heroes-top-bar">
-            <div class="heroes-title-row">
-              <button class="heroes-back-btn" onclick="closeModal('modal-heroes-friends')">←</button>
-              <h3>HÉROES</h3>
-            </div>
-            <div class="heroes-filters">
-              <select class="filter-select"><option>Todas las Líneas</option></select>
-              <select class="filter-select"><option>Por defecto</option></select>
-              <span style="color: #ffd043; cursor:pointer;" onclick="closeModal('modal-heroes-friends')">&times;</span>
-            </div>
-          </div>
-
-          <div class="heroes-body-layout">
-            <!-- Roles laterales -->
-            <div class="roles-sidebar">
-              <button class="role-btn active">Todos</button>
-              <button class="role-btn">Tanque</button>
-              <button class="role-btn">Combatiente</button>
-              <button class="role-btn">Asesino</button>
-              <button class="role-btn">Mago</button>
-              <button class="role-btn">Tirador</button>
-              <button class="role-btn">Apoyo</button>
-            </div>
-
-            <!-- Cuadrícula de héroes con sus enlaces -->
-            <div class="heroes-grid-container">
-              
-              <!-- Eudora -->
-              <a href="https://tusitio.com/amigo1" target="_blank" class="hero-card">
-                <span class="badge-gratis">GRATIS</span>
-                <img src="https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?q=80&w=400&auto=format&fit=crop" alt="Eudora">
-                <div class="hero-bottom-info">
-                  <span class="hero-name">Eudora</span>
-                  <span class="hero-icon-class">◆</span>
-                </div>
-              </a>
-
-              <!-- Zilong -->
-              <a href="https://tusitio.com/amigo2" target="_blank" class="hero-card">
-                <span class="badge-gratis">GRATIS</span>
-                <img src="https://images.unsplash.com/photo-1563089145-599997674d42?q=80&w=400&auto=format&fit=crop" alt="Zilong">
-                <div class="hero-bottom-info">
-                  <span class="hero-name">Zilong</span>
-                  <span class="hero-icon-class">◆</span>
-                </div>
-              </a>
-
-              <!-- Layla -->
-              <a href="https://tusitio.com/amigo3" target="_blank" class="hero-card">
-                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=400&auto=format&fit=crop" alt="Layla">
-                <div class="hero-bottom-info">
-                  <span class="hero-name">Layla</span>
-                  <span class="hero-icon-class">◆</span>
-                </div>
-              </a>
-
-              <!-- Alice -->
-              <a href="https://tusitio.com/amigo4" target="_blank" class="hero-card">
-                <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=400&auto=format&fit=crop" alt="Alice">
-                <div class="hero-bottom-info">
-                  <span class="hero-name">Alice</span>
-                  <span class="hero-icon-class">◆</span>
-                </div>
-              </a>
-
-              <!-- Miya -->
-              <a href="https://tusitio.com/amigo5" target="_blank" class="hero-card">
-                <span class="badge-gratis">GRATIS</span>
-                <img src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=400&auto=format&fit=crop" alt="Miya">
-                <div class="hero-bottom-info">
-                  <span class="hero-name">Miya</span>
-                  <span class="hero-icon-class">◆</span>
-                </div>
-              </a>
-
-              <!-- Balmond -->
-              <a href="https://tusitio.com/amigo6" target="_blank" class="hero-card">
-                <span class="badge-gratis">GRATIS</span>
-                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=400&auto=format&fit=crop" alt="Balmond">
-                <div class="hero-bottom-info">
-                  <span class="hero-name">Balmond</span>
-                  <span class="hero-icon-class">◆</span>
-                </div>
-              </a>
-
-              <!-- Saber -->
-              <a href="https://tusitio.com/amigo7" target="_blank" class="hero-card">
-                <span class="badge-gratis">GRATIS</span>
-                <img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=400&auto=format&fit=crop" alt="Saber">
-                <div class="hero-bottom-info">
-                  <span class="hero-name">Saber</span>
-                  <span class="hero-icon-class">◆</span>
-                </div>
-              </a>
-
-              <!-- Alucard -->
-              <a href="https://tusitio.com/amigo8" target="_blank" class="hero-card">
-                <span class="badge-gratis">GRATIS</span>
-                <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=400&auto=format&fit=crop" alt="Alucard">
-                <div class="hero-bottom-info">
-                  <span class="hero-name">Alucard</span>
-                  <span class="hero-icon-class">◆</span>
-                </div>
-              </a>
-
-            </div>
-          </div>
-
-        </div>
-      </div>
     </section>
 
-    <!-- ==============================================
-         PANTALLA 3: LINKS / ABOUT
-    ============================================== -->
     <section id="screen-3" class="screen">
       <div class="screen-3-container">
+        
         <div class="hero-view-panel">
           <div class="match-header">
-            <h2>ABOUT</h2>
-            <p>Selecciona un enlace o canal de destino</p>
+            <h2>About</h2>
+            <p>Selecciona destino</p>
           </div>
           <button class="btn-back" onclick="goToScreen(2)">
             ← Lobby
@@ -1230,23 +1252,26 @@
         </div>
 
         <div class="links-column">
-          <a href="https://tusitio.com/enlace1" target="_blank" class="link-card">
+          <!-- LINK 1: FRIENDS (PANTALLA 4) -->
+          <div class="link-card" onclick="goToScreen(4)">
             <div>
-              <div class="title">Canal de Discord / Comunidad</div>
-              <div class="desc">Únete a nuestra sala principal de juego</div>
-            </div>
-            <span class="btn-tag">Entrar</span>
-          </a>
-
-          <a href="https://tusitio.com/enlace2" target="_blank" class="link-card">
-            <div>
-              <div class="title">Guías y Builds de Layla</div>
-              <div class="desc">Equipamiento, emblemas y mejores estrategias</div>
+              <div class="title">ᚫᛗᛁᚷᛟᛋ</div>
+              <div class="desc">Friends</div>
             </div>
             <span class="btn-tag">Ver</span>
-          </a>
+          </div>
 
-          <a href="https://tusitio.com/enlace3" target="_blank" class="link-card">
+          <!-- LINK 2: MÚSICA (PANTALLA 5) -->
+          <div class="link-card" onclick="goToScreen(5)">
+            <div>
+              <div class="title">ᛗᚢᛋᛁᚲᚨ</div>
+              <div class="desc">Music / Cyber Audio Player</div>
+            </div>
+            <span class="btn-tag">Ver</span>
+          </div>
+
+          <!-- LINK 3: EXTERNO -->
+          <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" class="link-card">
             <div>
               <div class="title">Canal de YouTube / Streams</div>
               <div class="desc">Transmisiones en vivo y partidas clasificatorias</div>
@@ -1254,7 +1279,8 @@
             <span class="btn-tag">Visitar</span>
           </a>
 
-          <a href="https://tusitio.com/enlace4" target="_blank" class="link-card">
+          <!-- LINK 4: EXTERNO -->
+          <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="link-card">
             <div>
               <div class="title">Perfil de Instagram / X</div>
               <div class="desc">Novedades y contenido diario</div>
@@ -1262,25 +1288,236 @@
             <span class="btn-tag">Seguir</span>
           </a>
         </div>
+
       </div>
+    </section>
+
+    <section id="screen-4" class="screen">
+      
+      <div class="friends-topbar">
+        <div class="friends-left-title">
+          <button class="friends-back-btn" onclick="goToScreen(3)">
+            ← VOLVER
+          </button>
+          <div class="friends-title-text"> // FRIENDS</div>
+        </div>
+
+        <div class="friends-filters">
+          <div class="filter-pill">Todas las Líneas ▼</div>
+          <div class="filter-pill">Por defecto ▼</div>
+        </div>
+      </div>
+
+      <div class="friends-main-area">
+        
+        <aside class="roles-sidebar">
+          <div class="role-btn active">Todos</div>
+          <div class="role-btn">Tanque</div>
+          <div class="role-btn">Combatiente</div>
+          <div class="role-btn">Asesino</div>
+          <div class="role-btn">Mago</div>
+          <div class="role-btn">Tirador</div>
+          <div class="role-btn">Apoyo</div>
+        </aside>
+
+        <!-- Cuadrícula de Cartas -->
+        <div class="heroes-grid">
+          
+          <!-- HÉROE 1 -->
+          <a href="https://xat.me/iLuguinhoo" target="_blank" rel="noopener noreferrer" class="hero-card">
+            <span class="badge-corner">GRATIS</span>
+            <img class="hero-thumb" src="https://wallpapercave.com/wp/wp13158615.jpg" alt="Eudora">
+            <div class="hero-name-bar">
+              <span>Lugo</span>
+              <div class="hero-icon-class">⚡</div>
+            </div>
+            <div class="hero-hover-overlay">
+              <span class="action-title">@LUGO</span>
+              <span class="action-btn">VISITAR PERFIL</span>
+            </div>
+          </a>
+
+          <!-- HÉROE 2 -->
+          <a href="https://tusitio.com/amigo2" target="_blank" rel="noopener noreferrer" class="hero-card">
+            <span class="badge-corner">GRATIS</span>
+            <img class="hero-thumb" src="https://images.wallpapersden.com/image/download/zilong-mobile-legends-bang-bang_a2xqa2qUmZqaraWkpJRobWlmrWdma2Y.jpg" alt="Zilong">
+            <div class="hero-name-bar">
+              <span>Zilong</span>
+              <div class="hero-icon-class">⚔</div>
+            </div>
+            <div class="hero-hover-overlay">
+              <span class="action-title">@ESTELA</span>
+              <span class="action-btn">VISITAR PERFIL</span>
+            </div>
+          </a>
+
+          <!-- HÉROE 3 -->
+          <a href="https://tusitio.com/amigo3" target="_blank" rel="noopener noreferrer" class="hero-card">
+            <span class="badge-corner">GRATIS</span>
+            <img class="hero-thumb" src="https://images.wallpapersden.com/image/download/layla-mobile-legends_a2pramyUmZqaraWkpJRobWlmrWdma2Y.jpg" alt="Layla">
+            <div class="hero-name-bar">
+              <span>Layla</span>
+              <div class="hero-icon-class">🎯</div>
+            </div>
+            <div class="hero-hover-overlay">
+              <span class="action-title">@MAR</span>
+              <span class="action-btn">VISITAR PERFIL</span>
+            </div>
+          </a>
+
+          <!-- HÉROE 4 -->
+          <a href="https://tusitio.com/amigo4" target="_blank" rel="noopener noreferrer" class="hero-card">
+            <span class="badge-corner">GRATIS</span>
+            <img class="hero-thumb" src="https://images.wallpapersden.com/image/download/alice-mobile-legends_a2pqbmeUmZqaraWkpJRobWlmrWdma2Y.jpg" alt="Alice">
+            <div class="hero-name-bar">
+              <span>Alice</span>
+              <div class="hero-icon-class">🦇</div>
+            </div>
+            <div class="hero-hover-overlay">
+              <span class="action-title">@GABI</span>
+              <span class="action-btn">VISITAR PERFIL</span>
+            </div>
+          </a>
+
+          <!-- HÉROE 5 -->
+          <a href="https://tusitio.com/amigo5" target="_blank" rel="noopener noreferrer" class="hero-card">
+            <span class="badge-corner">GRATIS</span>
+            <img class="hero-thumb" src="https://images.wallpapersden.com/image/download/miya-mobile-legends_a2tqaWiUmZqaraWkpJRobWlmrWdma2Y.jpg" alt="Miya">
+            <div class="hero-name-bar">
+              <span>Miya</span>
+              <div class="hero-icon-class">🏹</div>
+            </div>
+            <div class="hero-hover-overlay">
+              <span class="action-title">@MIYA</span>
+              <span class="action-btn">VISITAR PERFIL</span>
+            </div>
+          </a>
+
+          <!-- HÉROE 6 -->
+          <a href="https://tusitio.com/amigo6" target="_blank" rel="noopener noreferrer" class="hero-card">
+            <span class="badge-corner">GRATIS</span>
+            <img class="hero-thumb" src="https://images.wallpapersden.com/image/download/balmond-mobile-legends_a2pqb2mUmZqaraWkpJRobWlmrWdma2Y.jpg" alt="Balmond">
+            <div class="hero-name-bar">
+              <span>Balmond</span>
+              <div class="hero-icon-class">🪓</div>
+            </div>
+            <div class="hero-hover-overlay">
+              <span class="action-title">@BALMOND</span>
+              <span class="action-btn">VISITAR PERFIL</span>
+            </div>
+          </a>
+
+          <!-- HÉROE 7 -->
+          <a href="https://tusitio.com/amigo7" target="_blank" rel="noopener noreferrer" class="hero-card">
+            <span class="badge-corner">GRATIS</span>
+            <img class="hero-thumb" src="https://images.wallpapersden.com/image/download/saber-mobile-legends_a2pqb2qUmZqaraWkpJRobWlmrWdma2Y.jpg" alt="Saber">
+            <div class="hero-name-bar">
+              <span>Saber</span>
+              <div class="hero-icon-class">🗡</div>
+            </div>
+            <div class="hero-hover-overlay">
+              <span class="action-title">@SABER</span>
+              <span class="action-btn">VISITAR PERFIL</span>
+            </div>
+          </a>
+
+          <!-- HÉROE 8 -->
+          <a href="https://tusitio.com/amigo8" target="_blank" rel="noopener noreferrer" class="hero-card">
+            <span class="badge-corner">GRATIS</span>
+            <img class="hero-thumb" src="https://images.wallpapersden.com/image/download/alucard-mobile-legends_a2psaWaUmZqaraWkpJRobWlmrWdma2Y.jpg" alt="Alucard">
+            <div class="hero-name-bar">
+              <span>Alucard</span>
+              <div class="hero-icon-class">⚔</div>
+            </div>
+            <div class="hero-hover-overlay">
+              <span class="action-title">@ALUCARD</span>
+              <span class="action-btn">VISITAR PERFIL</span>
+            </div>
+          </a>
+
+          <!-- HÉROE 9 -->
+          <a href="https://tusitio.com/amigo9" target="_blank" rel="noopener noreferrer" class="hero-card">
+            <span class="badge-corner">GRATIS</span>
+            <img class="hero-thumb" src="https://images.wallpapersden.com/image/download/bruno-mobile-legends_a2pqbmaUmZqaraWkpJRobWlmrWdma2Y.jpg" alt="Bruno">
+            <div class="hero-name-bar">
+              <span>Bruno</span>
+              <div class="hero-icon-class">⚽</div>
+            </div>
+            <div class="hero-hover-overlay">
+              <span class="action-title">@BRUNO</span>
+              <span class="action-btn">VISITAR PERFIL</span>
+            </div>
+          </a>
+
+          <!-- HÉROE 10 -->
+          <a href="https://tusitio.com/amigo10" target="_blank" rel="noopener noreferrer" class="hero-card">
+            <span class="badge-corner">GRATIS</span>
+            <img class="hero-thumb" src="https://images.wallpapersden.com/image/download/alpha-mobile-legends_a2pqb2eUmZqaraWkpJRobWlmrWdma2Y.jpg" alt="Alpha">
+            <div class="hero-name-bar">
+              <span>Alpha</span>
+              <div class="hero-icon-class">🤖</div>
+            </div>
+            <div class="hero-hover-overlay">
+              <span class="action-title">@ALPHA</span>
+              <span class="action-btn">VISITAR PERFIL</span>
+            </div>
+          </a>
+
+        </div>
+
+      </div>
+    </section>
+
+    <section id="screen-5" class="screen">
+      
+      <div class="music-player-hud" id="hudContainer">
+        
+        <div class="music-hud-header">
+          <div class="music-title-group">
+            <h3>CYBERNETIC AUDIO SYSTEM</h3>
+            <span id="musicTrackName">LATVERIA HYMN // DOOM THEME</span>
+          </div>
+          <button class="music-close-btn" onclick="goToScreen(3)">✕ CERRAR</button>
+        </div>
+
+        <div class="cyber-visualizer" id="equalizerBars">
+          <div class="v-bar"></div><div class="v-bar"></div><div class="v-bar"></div>
+          <div class="v-bar"></div><div class="v-bar"></div><div class="v-bar"></div>
+          <div class="v-bar"></div><div class="v-bar"></div><div class="v-bar"></div>
+          <div class="v-bar"></div><div class="v-bar"></div><div class="v-bar"></div>
+          <div class="v-bar"></div><div class="v-bar"></div><div class="v-bar"></div>
+          <div class="v-bar"></div><div class="v-bar"></div><div class="v-bar"></div>
+          <div class="v-bar"></div><div class="v-bar"></div><div class="v-bar"></div>
+        </div>
+
+        <div class="music-progress-wrapper">
+          <div class="music-progress-bar" id="musicProgressBar">
+            <div class="music-progress-current" id="musicProgressFill"></div>
+          </div>
+          <div class="music-time-stamps">
+            <span id="currentTimeDisplay">00:00</span>
+            <span id="totalDurationDisplay">--:--</span>
+          </div>
+        </div>
+
+        <div class="music-controls-row">
+          <button class="music-ctrl-btn" title="Anterior" onclick="restartAudio()">⏮</button>
+          <button class="music-ctrl-btn play-pause-master" id="masterPlayBtn" onclick="togglePlayMusic()">▶</button>
+          <button class="music-ctrl-btn" title="Reiniciar" onclick="restartAudio()">⏭</button>
+        </div>
+
+      </div>
+
     </section>
 
   </main>
 
-  <!-- ELEMENTO DE AUDIO DROPBOX (?raw=1) -->
-  <audio id="bgMusic" preload="auto">
+  <audio id="cyberAudio" preload="auto">
     <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
   </audio>
 
-  <!-- ==============================================
-       LÓGICA JS
-  ============================================== -->
   <script>
-    const audio = document.getElementById('bgMusic');
-    const modalPlayBtn = document.getElementById('modalPlayBtn');
-    const storyProgressBar = document.getElementById('storyProgressBar');
-
-    // Carga de Pantalla 1
+    // 1. Simulación fluida de carga en Pantalla 1
     window.addEventListener('DOMContentLoaded', () => {
       const fill = document.getElementById('progress-fill');
       const text = document.getElementById('loading-percentage');
@@ -1289,7 +1526,7 @@
       
       let progress = 0;
       const interval = setInterval(() => {
-        progress += Math.floor(Math.random() * 5) + 2;
+        progress += Math.floor(Math.random() * 6) + 2;
         if (progress >= 100) {
           progress = 100;
           clearInterval(interval);
@@ -1298,54 +1535,86 @@
         }
         fill.style.width = progress + '%';
         text.innerText = progress + '%';
-      }, 50);
+      }, 45);
     });
 
-    // Control de pantallas
+    // 2. Control de pantallas sin recargas
     function goToScreen(screenNumber) {
       document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
       const target = document.getElementById(`screen-${screenNumber}`);
-      if (target) target.classList.add('active');
+      if (target) {
+        target.classList.add('active');
+      }
 
-      if (screenNumber === 2 && audio.paused) {
-        audio.play().catch(err => console.log('Audio en espera:', err));
-        modalPlayBtn.innerText = '❚❚';
+      if (screenNumber === 5) {
+        playAudio();
       }
     }
 
-    // Control de Modales
-    function openModal(id) {
-      const modal = document.getElementById(id);
-      if (modal) modal.classList.add('active');
+    // 3. Audio Player Cybernetic
+    const audio = document.getElementById('cyberAudio');
+    const masterPlayBtn = document.getElementById('masterPlayBtn');
+    const hudContainer = document.getElementById('hudContainer');
+    const progressFill = document.getElementById('musicProgressFill');
+    const progressBar = document.getElementById('musicProgressBar');
+    const currentTimeDisplay = document.getElementById('currentTimeDisplay');
+    const totalDurationDisplay = document.getElementById('totalDurationDisplay');
+
+    function formatTime(seconds) {
+      if (isNaN(seconds)) return "00:00";
+      const mins = Math.floor(seconds / 60);
+      const secs = Math.floor(seconds % 60);
+      return `${mins < 10 ? '0' : ''}${mins}:${secs < 10 ? '0' : ''}${secs}`;
     }
 
-    function closeModal(id) {
-      const modal = document.getElementById(id);
-      if (modal) modal.classList.remove('active');
-    }
-
-    document.querySelectorAll('.game-modal').forEach(modal => {
-      modal.addEventListener('click', (e) => {
-        if (e.target === modal) modal.classList.remove('active');
+    function playAudio() {
+      audio.play().then(() => {
+        masterPlayBtn.innerText = '❚❚';
+        hudContainer.classList.add('playing');
+      }).catch(err => {
+        console.warn("Audio esperando interacción del usuario:", err);
       });
-    });
+    }
 
-    // Control de Audio
-    modalPlayBtn.addEventListener('click', () => {
+    function pauseAudio() {
+      audio.pause();
+      masterPlayBtn.innerText = '▶';
+      hudContainer.classList.remove('playing');
+    }
+
+    function togglePlayMusic() {
       if (audio.paused) {
-        audio.play();
-        modalPlayBtn.innerText = '❚❚';
+        playAudio();
       } else {
-        audio.pause();
-        modalPlayBtn.innerText = '▶';
+        pauseAudio();
       }
-    });
+    }
+
+    function restartAudio() {
+      audio.currentTime = 0;
+      playAudio();
+    }
 
     audio.addEventListener('timeupdate', () => {
       if (audio.duration) {
         const percent = (audio.currentTime / audio.duration) * 100;
-        storyProgressBar.style.width = percent + '%';
+        progressFill.style.width = percent + '%';
+        currentTimeDisplay.innerText = formatTime(audio.currentTime);
+        totalDurationDisplay.innerText = formatTime(audio.duration);
       }
+    });
+
+    progressBar.addEventListener('click', (e) => {
+      const rect = progressBar.getBoundingClientRect();
+      const pos = (e.clientX - rect.left) / rect.width;
+      if (audio.duration) {
+        audio.currentTime = pos * audio.duration;
+      }
+    });
+
+    audio.addEventListener('ended', () => {
+      pauseAudio();
+      progressFill.style.width = '0%';
     });
   </script>
 </body>
